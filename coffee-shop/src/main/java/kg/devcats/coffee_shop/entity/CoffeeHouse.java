@@ -20,6 +20,7 @@ public class CoffeeHouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "city")
@@ -31,18 +32,18 @@ public class CoffeeHouse {
 
     @Column(name = "sold_coffee")
     @NotNull
-    @JsonProperty("coffee")
+    @JsonProperty("sold-coffee")
     private Integer soldCoffee;
 
 
     @Column(name = "sold_merch")
     @NotNull
-    @JsonProperty("merch")
+    @JsonProperty("sold-merch")
     private Integer soldMerch;
 
     @Column(name = "total_sold")
     @NotNull
-    @JsonProperty("total")
+    @JsonProperty("total-sold")
     private Integer totalSold;
 
     public CoffeeHouse() {}
@@ -55,35 +56,46 @@ public class CoffeeHouse {
         this.id = id;
     }
 
-    public @NotNull @NotBlank @Size(min = 1, max = 64) String getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(@NotNull @NotBlank @Size(min = 1, max = 64) String city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public @NotNull Integer getSoldCoffee() {
+    public Integer getSoldCoffee() {
         return soldCoffee;
     }
 
-    public void setSoldCoffee(@NotNull Integer soldCoffee) {
+    public void setSoldCoffee(Integer soldCoffee) {
         this.soldCoffee = soldCoffee;
     }
 
-    public @NotNull Integer getSoldMerch() {
+    public Integer getSoldMerch() {
         return soldMerch;
     }
 
-    public void setSoldMerch(@NotNull Integer soldMerch) {
+    public void setSoldMerch(Integer soldMerch) {
         this.soldMerch = soldMerch;
     }
 
-    public @NotNull Integer getTotalSold() {
+    public Integer getTotalSold() {
         return totalSold;
     }
 
-    public void setTotalSold(@NotNull Integer totalSold) {
+    public void setTotalSold(Integer totalSold) {
         this.totalSold = totalSold;
+    }
+
+    @Override
+    public String toString() {
+        return "CoffeeHouse{" +
+                "id=" + id +
+                ", city='" + city + '\'' +
+                ", soldCoffee=" + soldCoffee +
+                ", soldMerch=" + soldMerch +
+                ", totalSold=" + totalSold +
+                '}';
     }
 }

@@ -1,23 +1,14 @@
 package kg.devcats.coffee_shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
 @Entity
-@Table(name = "coffee" , uniqueConstraints =  { @UniqueConstraint(columnNames = {"cof_name"})})
+@Table(name = "coffee", uniqueConstraints =
+        {@UniqueConstraint(name = "uniquesNames", columnNames = {"cof_name"})})
 public class Coffee {
 
     @Id
@@ -26,7 +17,7 @@ public class Coffee {
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "cof_name", unique = true)
+    @Column(name = "cof_name")
     @NotNull
     @NotBlank
     @Size(min = 2, max = 32)
@@ -35,39 +26,57 @@ public class Coffee {
 
     @Column(name = "price")
     @NotNull
-    @NotBlank
-    @Size(min = 2, max = 10)
     @JsonProperty("price")
     private double price;
 
-    @Column(name = "sales")
+    @Column(name = "sold")
     @NotNull
-    @JsonProperty("sales")
-    private int sales;
+    @JsonProperty("sold")
+    private int sold;
 
-    @Column(name = "total_sales")
+    @Column(name = "total_sold")
     @NotNull
-    @JsonProperty("total_sales")
+    @JsonProperty("total-sold")
     private int total;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "sup_id", nullable = false)
+    @JsonProperty("supplier")
     private Supplier supplier;
 
     @NotNull
-    @OneToOne(mappedBy = "coffee")
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    @JsonProperty("warehouse-id")
     private Warehouse warehouse;
 
     public Coffee() {}
 
-    public Supplier getSupplier() {
-        return supplier;
+    public int getSold() {
+        return sold;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public void setSold(int sold) {
+        this.sold = sold;
     }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public String getName() {
         return name;
@@ -85,13 +94,6 @@ public class Coffee {
         this.price = price;
     }
 
-    public int getSales() {
-        return sales;
-    }
-
-    public void setSales(int sales) {
-        this.sales = sales;
-    }
 
     public int getTotal() {
         return total;
@@ -101,11 +103,24 @@ public class Coffee {
         this.total = total;
     }
 
-    public Long getId() {
-        return id;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    @Override
+    public String toString() {
+        return "Coffee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                ", total=" + total +
+                ", supplier=" + supplier +
+                ", warehouse=" + warehouse +
+                '}';
     }
 }

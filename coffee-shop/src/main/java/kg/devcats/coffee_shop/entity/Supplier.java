@@ -2,15 +2,7 @@ package kg.devcats.coffee_shop.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,6 +16,7 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "name")
@@ -49,8 +42,7 @@ public class Supplier {
 
     @Column(name = "zip")
     @NotNull
-    @NotBlank
-    @JsonProperty("zip_code")
+    @JsonProperty("zip-code")
     private Integer zip;
 
     @Column(name = "state")
@@ -62,14 +54,21 @@ public class Supplier {
 
     @NotNull
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonProperty("coffee-list")
     private List<Coffee> coffeeList;
 
     @NotNull
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonProperty("merch-list")
     private List<Merch> merchList;
 
     @NotNull
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "supplier_warehouse",
+            joinColumns = { @JoinColumn(name = "supplier_id") },
+            inverseJoinColumns = { @JoinColumn(name = "warehouse_id") }
+    )
     private List<Warehouse> warehouseList;
 
     public Supplier() {}
@@ -120,5 +119,56 @@ public class Supplier {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Coffee> getCoffeeList() {
+        return coffeeList;
+    }
+
+    public void setCoffeeList(List<Coffee> coffeeList) {
+        this.coffeeList = coffeeList;
+    }
+
+    public void addCoffee(Coffee coffee) {
+        this.coffeeList.add(coffee);
+    }
+
+    public List<Merch> getMerchList() {
+        return merchList;
+    }
+
+    public void setMerchList(List<Merch> merchList) {
+        this.merchList = merchList;
+    }
+
+    public void addMerch(Merch merch) {
+        this.merchList.add(merch);
+    }
+
+    public List<Warehouse> getWarehouseList() {
+        return warehouseList;
+    }
+
+    public void setWarehouseList(List<Warehouse> warehouseList) {
+        this.warehouseList = warehouseList;
+    }
+
+    public void addWarehouse(Warehouse warehouse) {
+        this.warehouseList.add(warehouse);
+    }
+
+    @Override
+    public String toString() {
+        return "Supplier{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", zip=" + zip +
+                ", state='" + state + '\'' +
+                ", coffeeList=" + coffeeList +
+                ", merchList=" + merchList +
+                ", warehouseList=" + warehouseList +
+                '}';
     }
 }

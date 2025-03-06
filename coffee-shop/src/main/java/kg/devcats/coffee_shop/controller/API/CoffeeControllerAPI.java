@@ -1,101 +1,109 @@
 package kg.devcats.coffee_shop.controller.API;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import kg.devcats.coffee_shop.entity.Coffee;
+import kg.devcats.coffee_shop.mapper.CoffeeMapper;
+import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
+import kg.devcats.coffee_shop.payload.coffee.request.CoffeeUpdateRequest;
+import kg.devcats.coffee_shop.payload.coffee.response.CoffeeResponse;
+import kg.devcats.coffee_shop.service.CoffeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/coffee")
 public class CoffeeControllerAPI {
     private static final Logger log = LoggerFactory.getLogger(CoffeeControllerAPI.class);
 
+    private final CoffeeService coffeeService;
+    private final CoffeeMapper mapper;
+
+    public CoffeeControllerAPI(CoffeeService coffeeService, CoffeeMapper mapper) {
+        this.coffeeService = coffeeService;
+        this.mapper = mapper;
+    }
 
     @GetMapping
-    public ResponseEntity<List<DeveloperResponse>> getDeveloper(
-            @RequestParam(required = false) UUID id) {
+    public ResponseEntity<List<CoffeeResponse>> getCoffees(
+            @RequestParam(required = false) Long id) {
         try {
-            List<DeveloperResponse> responses = new ArrayList<DeveloperResponse>();
+            List<CoffeeResponse> responses = new ArrayList<CoffeeResponse>();
 
             if (id == null)
-                responses.addAll(developerServiceAPI.findAll());
-            else
-                responses.addAll(developerServiceAPI.findById(id));
-
+                responses.addAll(mapper.toResponses(coffeeService.findAll()));
+            else{
+                Optional<Coffee> coffee = coffeeService.findById(id);
+                if(coffee.isPresent()){
+                    responses.add(mapper.toResponse(coffee.get()));
+                }
+            }
             if (responses.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
+            log.error("getCoffees|CoffeeControllerAPI: " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @PostMapping
-    public ResponseEntity<String> createDeveloper(
-            @Valid @RequestBody DeveloperRequest developerRequest,
-            @RequestParam @NotNull MultipartFile photo
+    public ResponseEntity<String> createCoffee(
+            @Valid @RequestBody CoffeeRequest request
     ) {
         try{
-            if(developerServiceAPI.createDeveloper(developerRequest, photo)){
-                return new ResponseEntity<>("Developer created", HttpStatus.CREATED);
+            if(coffeeService.save(request)){
+                return new ResponseEntity<>("Coffee created", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>("Failed to create developer", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Failed to create Coffee", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to create developer, Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("createCoffee|CoffeeControllerAPI: " + e.getMessage());
+            return new ResponseEntity<>("Failed to create Coffee, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
     @PutMapping
-    public ResponseEntity<String> updateDeveloper(
-            @Valid @RequestBody DeveloperRequest developerRequest,
-            @RequestParam @NotNull @NotBlank UUID id) {
-        Optional<DeveloperRequest> _request = developerServiceAPI.findByIdDeveloper(id);
+    public ResponseEntity<String> updateCoffee(
+            @Valid @RequestBody CoffeeUpdateRequest request,
+            @RequestParam Long id) {
+        try{
+            Optional<Coffee> coffee = coffeeService.findById(id);
 
-        if(_request.isPresent()) {
+            if(coffee.isPresent()) {
 
-            developerServiceAPI.updateDeveloper(id, developerRequest);
-            return new ResponseEntity<>("Developer was updated successfully.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Cannot find Developer with idDeveloper = " + id, HttpStatus.NOT_FOUND);
+                coffeeService.update(id, request);
+                return new ResponseEntity<>("Coffee was updated successfully.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Cannot find Coffee", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("updateCoffee|CoffeeControllerAPI: " + e.getMessage());
+            return new ResponseEntity<>("Cannot update Coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteDeveloper(
-            @RequestParam @NotNull UUID id) {
+    public ResponseEntity<String> deleteCoffee(
+            @RequestParam Long id) {
         try {
-            if (developerServiceAPI.deleteDeveloperById(id)) {
-                return new ResponseEntity<>("Developer was deleted successfully.", HttpStatus.OK);
+            if (coffeeService.deleteByIdCoffee(id)) {
+                return new ResponseEntity<>("Coffee was deleted successfully.", HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("Cannot find Developer with id=" + id, HttpStatus.OK);
+            return new ResponseEntity<>("Cannot find Coffee", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>("Cannot delete developer.", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("deleteCoffee|CoffeeControllerAPI: " + e.getMessage());
+            return new ResponseEntity<>("Cannot delete Coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }

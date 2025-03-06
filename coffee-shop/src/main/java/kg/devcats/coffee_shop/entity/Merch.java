@@ -23,6 +23,7 @@ public class Merch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
+    @JsonProperty("id")
     private Long itemId;
 
     @Column(name = "item_name")
@@ -39,12 +40,13 @@ public class Merch {
 
     @NotNull
     @Column(name = "time")
-    @JsonProperty("last_change")
+    @JsonProperty("last-change")
     private Timestamp time;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "sup_id", nullable = false)
+    @JsonProperty("supplier")
     private Supplier supplier;
 
     public Merch() {}
@@ -87,5 +89,16 @@ public class Merch {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    @Override
+    public String toString() {
+        return "Merch{" +
+                "itemId=" + itemId +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", time=" + time +
+                ", supplier=" + supplier +
+                '}';
     }
 }
