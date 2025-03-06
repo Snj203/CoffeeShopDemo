@@ -10,13 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "coffee")
+@Table(name = "coffee" , uniqueConstraints =  { @UniqueConstraint(columnNames = {"cof_name"})})
 public class Coffee {
 
     @Id
@@ -25,7 +26,7 @@ public class Coffee {
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "cof_name")
+    @Column(name = "cof_name", unique = true)
     @NotNull
     @NotBlank
     @Size(min = 2, max = 32)
