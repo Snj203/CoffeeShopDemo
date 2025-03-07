@@ -19,19 +19,7 @@ public class CoffeeResponse{
     @JsonProperty("supplier")
     private Long supplierId;
 
-    @JsonProperty("warehouse")
-    private Long warehouseId;
-
     public CoffeeResponse(){}
-
-    public CoffeeResponse(String name, double price, int sold, int total, Long supplierId, Long warehouseId) {
-        this.name = name;
-        this.price = price;
-        this.sold = sold;
-        this.total = total;
-        this.supplierId = supplierId;
-        this.warehouseId = warehouseId;
-    }
 
     public String getName() {
         return name;
@@ -71,13 +59,5 @@ public class CoffeeResponse{
 
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
-    }
-
-    public Long getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
     }
 }

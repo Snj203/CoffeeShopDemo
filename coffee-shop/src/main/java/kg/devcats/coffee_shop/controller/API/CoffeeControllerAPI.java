@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.mapper.CoffeeMapper;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
-import kg.devcats.coffee_shop.payload.coffee.request.CoffeeUpdateRequest;
 import kg.devcats.coffee_shop.payload.coffee.response.CoffeeResponse;
 import kg.devcats.coffee_shop.service.CoffeeService;
 import org.slf4j.Logger;
@@ -32,7 +31,7 @@ public class CoffeeControllerAPI {
 
     @GetMapping
     public ResponseEntity<List<CoffeeResponse>> getCoffees(
-            @RequestParam(required = false) Long id) {
+            @RequestParam(required = false) String id) {
         try {
             List<CoffeeResponse> responses = new ArrayList<CoffeeResponse>();
 
@@ -72,8 +71,8 @@ public class CoffeeControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCoffee(
-            @Valid @RequestBody CoffeeUpdateRequest request,
-            @RequestParam Long id) {
+            @Valid @RequestBody CoffeeRequest request,
+            @RequestParam String id) {
         try{
             Optional<Coffee> coffee = coffeeService.findById(id);
 
@@ -93,7 +92,7 @@ public class CoffeeControllerAPI {
 
     @DeleteMapping
     public ResponseEntity<String> deleteCoffee(
-            @RequestParam Long id) {
+            @RequestParam String id) {
         try {
             if (coffeeService.deleteByIdCoffee(id)) {
                 return new ResponseEntity<>("Coffee was deleted successfully.", HttpStatus.OK);

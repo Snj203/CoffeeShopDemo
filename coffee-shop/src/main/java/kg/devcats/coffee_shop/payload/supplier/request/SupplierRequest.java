@@ -35,22 +35,8 @@ public record SupplierRequest(
         @NotBlank
         @Size(min = 1, max = 64)
         @JsonProperty("state")
-        String state,
+        String state
 
-        @NotNull
-        @NotEmpty
-        @JsonProperty("coffees")
-        List<Long> coffeeList,
-
-        @NotNull
-        @NotEmpty
-        @JsonProperty("merches")
-        List<Long> merchList,
-
-        @NotNull
-        @NotEmpty
-        @JsonProperty("warehouses")
-        List<Long> warehouseList
 
 ) {
 }

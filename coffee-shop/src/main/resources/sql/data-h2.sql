@@ -1,17 +1,3 @@
--- Warehouse Insert --------------------------------------------------------------------------
-
-INSERT INTO warehouse (wh_id, wh_name, wh_quantity, wh_time)
-SELECT 1,'Alpha',40,CURRENT_TIMESTAMP
-WHERE NOT EXISTS (SELECT FROM warehouse WHERE wh_id = 1);
-
-INSERT INTO warehouse (wh_id, wh_name, wh_quantity, wh_time)
-SELECT 2,'Beta',55,CURRENT_TIMESTAMP
-WHERE NOT EXISTS (SELECT FROM warehouse WHERE wh_id = 2);
-
-INSERT INTO warehouse (wh_id, wh_name, wh_quantity, wh_time)
-SELECT 3,'Gamma',32,CURRENT_TIMESTAMP
-WHERE NOT EXISTS (SELECT FROM warehouse WHERE wh_id = 3);
-
 -- State Insert --------------------------------------------------------------------------
 INSERT INTO state (st_name,st_prefix)
 SELECT 'IL',1000
@@ -52,44 +38,26 @@ INSERT INTO supplier (sup_id,sup_city,sup_name,sup_state,sup_street,sup_zip)
 SELECT 3,'Geneva','The High Ground','GE','100 Coffee Lane','93966'
     WHERE NOT EXISTS (SELECT FROM supplier WHERE sup_id = 3);
 
--- Connection Supplier-Warehouse Table Insert --------------------------------------------------------------------------
-
-INSERT INTO warehouse_supplier (supplier_id, warehouse_id)
-SELECT 1, 1
-    WHERE NOT EXISTS(SELECT FROM warehouse_supplier WHERE supplier_id = 1 AND warehouse_id = 1);
-
-INSERT INTO warehouse_supplier (supplier_id, warehouse_id)
-SELECT 2, 2
-    WHERE NOT EXISTS(SELECT FROM warehouse_supplier WHERE supplier_id = 2 AND warehouse_id = 2);
-
-INSERT INTO warehouse_supplier (supplier_id, warehouse_id)
-SELECT 3, 3
-    WHERE NOT EXISTS(SELECT FROM warehouse_supplier WHERE supplier_id = 3 AND warehouse_id = 3);
-
-INSERT INTO warehouse_supplier (supplier_id, warehouse_id)
-SELECT 1, 3
-    WHERE NOT EXISTS(SELECT FROM warehouse_supplier WHERE supplier_id = 1 AND warehouse_id = 3);
-
 -- Coffee Table Insert --------------------------------------------------------------------------
 
-INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id, cof_warehouse_id)
-SELECT 'Colombian', 7.99, 50, 1150, 1, 1
+INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
+SELECT 'Colombian', 7.99, 50, 1150, 1
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'Colombian');
 
-INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id, cof_warehouse_id)
-SELECT 'Colombian_Decaf', 8.99, 60, 450, 1, 3
+INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
+SELECT 'Colombian_Decaf', 8.99, 60, 450, 1
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'Colombian_Decaf');
 
-INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id, cof_warehouse_id)
-SELECT 'French_Roast', 8.99, 35, 660, 2, 2
+INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
+SELECT 'French_Roast', 8.99, 35, 660, 2
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'French_Roast');
 
-INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id, cof_warehouse_id)
-SELECT  'French_Roast_Decaf', 9.99, 10, 200, 2, 2
+INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
+SELECT  'French_Roast_Decaf', 9.99, 10, 200, 2
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'French_Roast_Decaf');
 
-INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id, cof_warehouse_id)
-SELECT  'Espresso', 9.99, 120, 2530, 3, 3
+INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
+SELECT  'Espresso', 9.99, 120, 2530, 3
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'Espresso');
 
 -- Coffee House Table Insert --------------------------------------------------------------------------
@@ -123,3 +91,25 @@ SELECT 3, 'Towel', 125, CURRENT_TIMESTAMP, 2
 INSERT INTO merch_inventory(mer_item_id,mer_item_name,mer_quantity,mer_time,mer_sup_id)
 SELECT 4, 'Napkin', 765, CURRENT_TIMESTAMP, 3
     WHERE NOT EXISTS(SELECT FROM merch_inventory WHERE mer_item_id = 4);
+
+-- Coffee Inventory Insert --------------------------------------------------------------------------
+
+INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
+SELECT 1,1,'Colombian',1,402,CURRENT_TIMESTAMP
+    WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 1);
+
+INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
+SELECT 2,1,'Colombian_Decaf',1,302,CURRENT_TIMESTAMP
+    WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 2);
+
+INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
+SELECT 3,2,'French_Roast',2,112,CURRENT_TIMESTAMP
+    WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 3);
+
+INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
+SELECT 4,2,'French_Roast_Decaf',2,56,CURRENT_TIMESTAMP
+    WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 4);
+
+INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
+SELECT 5,3,'Espresso',3,345,CURRENT_TIMESTAMP
+    WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 5);

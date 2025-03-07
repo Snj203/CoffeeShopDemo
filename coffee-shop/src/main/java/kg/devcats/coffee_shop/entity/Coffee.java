@@ -39,15 +39,7 @@ public class Coffee {
     @JsonProperty("supplier")
     private Supplier supplier;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "cof_warehouse_id", nullable = false)
-    @JsonProperty("warehouse-id")
-    private Warehouse warehouse;
-
     public Coffee() {}
-
-
 
     public int getSold() {
         return sold;
@@ -55,14 +47,6 @@ public class Coffee {
 
     public void setSold(int sold) {
         this.sold = sold;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
     }
 
     public String getName() {
@@ -106,7 +90,6 @@ public class Coffee {
                 ", sold=" + sold +
                 ", total=" + total +
                 ", supplier=" + supplier +
-                ", warehouse=" + warehouse +
                 '}';
     }
 }

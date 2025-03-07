@@ -21,14 +21,6 @@ public class CoffeeHouseResponse {
 
     public CoffeeHouseResponse() {}
 
-    public CoffeeHouseResponse(Long id, String city, Integer soldCoffee, Integer soldMerch, Integer totalSold) {
-        this.id = id;
-        this.city = city;
-        this.soldCoffee = soldCoffee;
-        this.soldMerch = soldMerch;
-        this.totalSold = totalSold;
-    }
-
     public Long getId() {
         return id;
     }

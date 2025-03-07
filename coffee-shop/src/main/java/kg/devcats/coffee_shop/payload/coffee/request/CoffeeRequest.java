@@ -18,10 +18,7 @@ public record CoffeeRequest(
 
         @NotNull
         @JsonProperty("supplier")
-        Long supplierId,
+        Long supplierId
 
-        @NotNull
-        @JsonProperty("warehouse")
-        Long warehouseId
 ){
 }

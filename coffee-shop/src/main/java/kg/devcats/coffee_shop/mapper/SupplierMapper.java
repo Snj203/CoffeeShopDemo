@@ -12,7 +12,15 @@ public class SupplierMapper {
 
 
     public SupplierResponse toResponse(Supplier supplier) {
-        return null;
+        SupplierResponse response = new SupplierResponse();
+        response.setId(supplier.getId());
+        response.setName(supplier.getName());
+        response.setZip(supplier.getZip());
+        response.setStreet(supplier.getStreet());
+        response.setCity(supplier.getCity().getName());
+        response.setState(supplier.getState().getName());
+
+        return response;
     }
 
     public List<SupplierResponse> toResponses(List<Supplier> supplierList){

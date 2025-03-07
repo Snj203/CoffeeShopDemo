@@ -3,8 +3,6 @@ package kg.devcats.coffee_shop.controller.API;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.mapper.SupplierMapper;
-import kg.devcats.coffee_shop.payload.supplier.request.SupplierAddWarehouseRequest;
-import kg.devcats.coffee_shop.payload.supplier.request.SupplierInitRequest;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequest;
 import kg.devcats.coffee_shop.payload.supplier.response.SupplierResponse;
 import kg.devcats.coffee_shop.service.SupplierService;
@@ -68,54 +66,6 @@ public class SupplierControllerAPI {
         } catch (Exception e) {
             log.error("createSupplier|SuppliersControllerAPI: " + e.getMessage());
             return new ResponseEntity<>("Failed to create Supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/init")
-    public ResponseEntity<String> initSupplier(
-            @Valid @RequestBody SupplierInitRequest request
-    ) {
-        try{
-            if(supplierService.createWithNoRelations(request)){
-                return new ResponseEntity<>("Supplier created", HttpStatus.CREATED);
-            } else {
-                return new ResponseEntity<>("Failed to create Supplier", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            log.error("initSupplier|SuppliersControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to create Supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/addWarehouse")
-    public ResponseEntity<String> addWarehouse(
-            @RequestBody @Valid SupplierAddWarehouseRequest request
-    ) {
-        try{
-            if(supplierService.addWarehouse(request)){
-                return new ResponseEntity<>("Warehouse added", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Failed to add Warehouse", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            log.error("addWareHouse|SuppliersControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to add Warehouse, Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/removeWarehouse")
-    public ResponseEntity<String> removeWarehouse(
-            @RequestBody @Valid SupplierAddWarehouseRequest request
-    ) {
-        try{
-            if(supplierService.removeWarehouse(request)){
-                return new ResponseEntity<>("Warehouse removed", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Failed to remove Warehouse", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (Exception e) {
-            log.error("removeWarehouse|SuppliersControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to remove Warehouse, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

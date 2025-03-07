@@ -53,20 +53,6 @@ public class Supplier {
     @JsonProperty("state")
     private State state;
 
-    @NotNull
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonProperty("coffee-list")
-    private List<Coffee> coffeeList;
-
-    @NotNull
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonProperty("merch-list")
-    private List<Merch> merchList;
-
-    @NotNull
-    @ManyToMany(mappedBy = "supplierList")
-    private List<Warehouse> warehouseList;
-
     public Supplier() {}
 
     public Long getId() {
@@ -117,29 +103,6 @@ public class Supplier {
         this.state = state;
     }
 
-    public List<Coffee> getCoffeeList() {
-        return coffeeList;
-    }
-
-    public void setCoffeeList(List<Coffee> coffeeList) {
-        this.coffeeList = coffeeList;
-    }
-
-    public List<Merch> getMerchList() {
-        return merchList;
-    }
-
-    public void setMerchList(List<Merch> merchList) {
-        this.merchList = merchList;
-    }
-
-    public List<Warehouse> getWarehouseList() {
-        return warehouseList;
-    }
-
-    public void setWarehouseList(List<Warehouse> warehouseList) {
-        this.warehouseList = warehouseList;
-    }
 
     @Override
     public String toString() {
@@ -150,9 +113,6 @@ public class Supplier {
                 ", zip=" + zip +
                 ", city=" + city +
                 ", state=" + state +
-                ", coffeeList=" + coffeeList +
-                ", merchList=" + merchList +
-                ", warehouseList=" + warehouseList +
                 '}';
     }
 }
