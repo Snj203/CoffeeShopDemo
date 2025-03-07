@@ -7,16 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "coffee", uniqueConstraints =
-        {@UniqueConstraint(name = "uniquesNames", columnNames = {"cof_name"})})
+@Table(name = "coffee")
 public class Coffee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @JsonProperty("id")
-    private Long id;
-
     @Column(name = "cof_name")
     @NotNull
     @NotBlank
@@ -24,34 +18,36 @@ public class Coffee {
     @JsonProperty("name")
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "cof_price")
     @NotNull
     @JsonProperty("price")
     private double price;
 
-    @Column(name = "sold")
+    @Column(name = "cof_sold")
     @NotNull
     @JsonProperty("sold")
     private int sold;
 
-    @Column(name = "total_sold")
+    @Column(name = "cof_total_sold")
     @NotNull
     @JsonProperty("total-sold")
     private int total;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "sup_id", nullable = false)
+    @JoinColumn(name = "cof_sup_id", nullable = false)
     @JsonProperty("supplier")
     private Supplier supplier;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "warehouse_id", nullable = false)
+    @JoinColumn(name = "cof_warehouse_id", nullable = false)
     @JsonProperty("warehouse-id")
     private Warehouse warehouse;
 
     public Coffee() {}
+
+
 
     public int getSold() {
         return sold;
@@ -68,15 +64,6 @@ public class Coffee {
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public String getName() {
         return name;
@@ -114,7 +101,6 @@ public class Coffee {
     @Override
     public String toString() {
         return "Coffee{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", sold=" + sold +

@@ -1,16 +1,10 @@
-package kg.devcats.coffee_shop.repository.jpa;
+package kg.devcats.coffee_shop.repository;
 
-import kg.devcats.coffee_shop.entity.Coffee;
-import kg.devcats.coffee_shop.entity.Merch;
-import kg.devcats.coffee_shop.entity.Supplier;
-import kg.devcats.coffee_shop.entity.Warehouse;
+import kg.devcats.coffee_shop.entity.*;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierAddWarehouseRequest;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierInitRequest;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequest;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.MerchServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.SupplierServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.WarehouseServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.*;
 import kg.devcats.coffee_shop.service.SupplierService;
 import org.springframework.stereotype.Repository;
 
@@ -25,12 +19,16 @@ public class SupplierRepository implements SupplierService {
     private final CoffeeServiceJPA coffeeServiceJPA;
     private final MerchServiceJPA merchServiceJPA;
     private final WarehouseServiceJPA warehouseServiceJPA;
+    private final CityServiceJPA cityServiceJPA;
+    private final StateServiceJPA stateServiceJPA;
 
-    public SupplierRepository(SupplierServiceJPA supplierServiceJPA, CoffeeServiceJPA coffeeServiceJPA, MerchServiceJPA merchServiceJPA, WarehouseServiceJPA warehouseServiceJPA) {
+    public SupplierRepository(SupplierServiceJPA supplierServiceJPA, CoffeeServiceJPA coffeeServiceJPA, MerchServiceJPA merchServiceJPA, WarehouseServiceJPA warehouseServiceJPA, CityServiceJPA cityServiceJPA, StateServiceJPA stateServiceJPA) {
         this.supplierServiceJPA = supplierServiceJPA;
         this.coffeeServiceJPA = coffeeServiceJPA;
         this.merchServiceJPA = merchServiceJPA;
         this.warehouseServiceJPA = warehouseServiceJPA;
+        this.cityServiceJPA = cityServiceJPA;
+        this.stateServiceJPA = stateServiceJPA;
     }
 
     @Override
@@ -38,9 +36,15 @@ public class SupplierRepository implements SupplierService {
         Supplier supplier = new Supplier();
         supplier.setName(request.name());
         supplier.setStreet(request.street());
-        supplier.setCity(request.city());
         supplier.setZip(request.zip());
-        supplier.setState(request.state());
+
+        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        Optional<State> optionalState = stateServiceJPA.findById(request.state());
+        if(!optionalCity.isPresent() || !optionalState.isPresent()) {
+            return false;
+        }
+        supplier.setCity(optionalCity.get());
+        supplier.setState(optionalState.get());
         supplier.setCoffeeList(Collections.emptyList());
         supplier.setMerchList(Collections.emptyList());
         supplier.setWarehouseList(Collections.emptyList());
@@ -129,9 +133,15 @@ public class SupplierRepository implements SupplierService {
     private boolean saveSupplier(Supplier supplier, SupplierRequest request) {
         supplier.setName(request.name());
         supplier.setStreet(request.street());
-        supplier.setCity(request.city());
         supplier.setZip(request.zip());
-        supplier.setState(request.state());
+
+        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        Optional<State> optionalState = stateServiceJPA.findById(request.state());
+        if(!optionalCity.isPresent() || !optionalState.isPresent()) {
+            return false;
+        }
+        supplier.setCity(optionalCity.get());
+        supplier.setState(optionalState.get());
         supplier.setWarehouseList(getWarehouseList(request.warehouseList()));
         supplier.setCoffeeList(getCoffeeList(request.coffeeList()));
         supplier.setMerchList(getMerchList(request.merchList()));

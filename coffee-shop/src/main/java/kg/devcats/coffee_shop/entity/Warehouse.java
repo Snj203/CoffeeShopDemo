@@ -14,32 +14,37 @@ public class Warehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "wh_id")
     @JsonProperty("id")
     private Long id;
 
     @NotNull
     @Size(min = 1, max = 50)
+    @Column(name = "wh_name")
     @JsonProperty("name")
     private String name;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonProperty("coffee-list")
+    @JsonProperty("wh_coffee-list")
     private List<Coffee> coffeeList;
 
     @NotNull
-    @ManyToMany(mappedBy = "warehouseList")
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "warehouse_supplier",
+        joinColumns = { @JoinColumn(name = "warehouse_id") },
+        inverseJoinColumns = { @JoinColumn(name = "supplier_id") }
+    )
     @JsonProperty("supplier-list")
     private List<Supplier> supplierList;
 
-
     @NotNull
-    @Column(name = "quantity")
+    @Column(name = "wh_quantity")
     @JsonProperty("quantity")
     private int quantity;
 
     @NotNull
-    @Column(name = "time")
+    @Column(name = "wh_time")
     @JsonProperty("last-change")
     private Timestamp time;
 

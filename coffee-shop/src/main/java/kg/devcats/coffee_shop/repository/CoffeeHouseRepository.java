@@ -1,8 +1,10 @@
-package kg.devcats.coffee_shop.repository.jpa;
+package kg.devcats.coffee_shop.repository;
 
+import kg.devcats.coffee_shop.entity.City;
 import kg.devcats.coffee_shop.entity.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequest;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.CityServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.CoffeeHouseServiceJPA;
 import kg.devcats.coffee_shop.service.CoffeeHouseService;
 import org.springframework.stereotype.Repository;
 
@@ -12,20 +14,31 @@ import java.util.Optional;
 @Repository
 public class CoffeeHouseRepository implements CoffeeHouseService {
     private final CoffeeHouseServiceJPA coffeeHouseServiceJPA;
+    private final CityServiceJPA cityServiceJPA;
 
-    public CoffeeHouseRepository(CoffeeHouseServiceJPA coffeeHouseServiceJPA) {
+    public CoffeeHouseRepository(CoffeeHouseServiceJPA coffeeHouseServiceJPA, CityServiceJPA cityServiceJPA) {
         this.coffeeHouseServiceJPA = coffeeHouseServiceJPA;
+        this.cityServiceJPA = cityServiceJPA;
     }
 
 
     @Override
     public boolean save(CoffeeHouseRequest request) {
         CoffeeHouse coffee = new CoffeeHouse();
-        coffee.setCity(request.city());
+
+        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        if (!optionalCity.isPresent()) {
+            return false;
+        }
+        City city = optionalCity.get();
+        coffee.setCity(city);
         coffee.setSoldCoffee(0);
         coffee.setSoldMerch(0);
         coffee.setTotalSold(0);
-        coffeeHouseServiceJPA.save(coffee);
+        CoffeeHouse savedCoffee = coffeeHouseServiceJPA.save(coffee);
+        savedCoffee.setId(city.getState().getPrefix());
+        coffeeHouseServiceJPA.save(savedCoffee);
+
         return true;
     }
 
@@ -58,8 +71,12 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
         if(!optionalCoffeeHouse.isPresent()) {
             return false;
         }
+        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        if (!optionalCity.isPresent()) {
+            return false;
+        }
         CoffeeHouse coffee = optionalCoffeeHouse.get();
-        coffee.setCity(request.city());
+        coffee.setCity(optionalCity.get());
         coffeeHouseServiceJPA.save(coffee);
         return true;
     }

@@ -1,13 +1,13 @@
-package kg.devcats.coffee_shop.repository.jpa;
+package kg.devcats.coffee_shop.repository;
 
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.entity.Warehouse;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeUpdateRequest;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.SupplierServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.interfaces.WarehouseServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.jpa.WarehouseServiceJPA;
 import kg.devcats.coffee_shop.service.CoffeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

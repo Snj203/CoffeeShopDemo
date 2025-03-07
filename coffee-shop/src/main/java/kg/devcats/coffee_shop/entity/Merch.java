@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,35 +16,35 @@ import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "merch")
+@Table(name = "merch_inventory")
 public class Merch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "mer_item_id")
     @JsonProperty("id")
     private Long itemId;
 
-    @Column(name = "item_name")
+    @Column(name = "mer_item_name")
     @NotNull
     @NotBlank
     @Size(min = 2, max = 64)
     @JsonProperty("name")
     private String name;
 
-    @Column(name = "quantity")
+    @Column(name = "mer_quantity")
     @NotNull
     @JsonProperty("amount")
     private Integer quantity;
 
     @NotNull
-    @Column(name = "time")
+    @Column(name = "mer_time")
     @JsonProperty("last-change")
     private Timestamp time;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "sup_id", nullable = false)
+    @JoinColumn(name = "mer_sup_id", nullable = false)
     @JsonProperty("supplier")
     private Supplier supplier;
 

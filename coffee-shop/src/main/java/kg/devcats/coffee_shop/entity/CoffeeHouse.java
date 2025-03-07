@@ -1,17 +1,9 @@
 package kg.devcats.coffee_shop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -19,29 +11,28 @@ import jakarta.validation.constraints.Size;
 public class CoffeeHouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ch_id")
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "city")
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 64)
-    @JsonProperty("city")
-    private String city;
-
-    @Column(name = "sold_coffee")
+    @Column(name = "ch_sold_coffee")
     @NotNull
     @JsonProperty("sold-coffee")
     private Integer soldCoffee;
 
+    @ManyToOne
+    @JoinColumn(name = "ch_city")
+    @NotNull
+    @NotEmpty
+    @JsonProperty("city")
+    private City city;
 
-    @Column(name = "sold_merch")
+    @Column(name = "ch_sold_merch")
     @NotNull
     @JsonProperty("sold-merch")
     private Integer soldMerch;
 
-    @Column(name = "total_sold")
+    @Column(name = "ch_total_sold")
     @NotNull
     @JsonProperty("total-sold")
     private Integer totalSold;
@@ -56,11 +47,11 @@ public class CoffeeHouse {
         this.id = id;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

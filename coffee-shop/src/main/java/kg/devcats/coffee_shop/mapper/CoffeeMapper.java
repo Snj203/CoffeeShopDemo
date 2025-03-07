@@ -11,7 +11,14 @@ import java.util.List;
 public class CoffeeMapper {
 
     public CoffeeResponse toResponse(Coffee coffee) {
-        return null;
+        CoffeeResponse coffeeResponse = new CoffeeResponse();
+        coffeeResponse.setName(coffee.getName());
+        coffeeResponse.setPrice(coffee.getPrice());
+        coffeeResponse.setWarehouseId(coffee.getWarehouse().getId());
+        coffeeResponse.setSupplierId(coffee.getSupplier().getId());
+        coffeeResponse.setSold(coffee.getSold());
+        coffeeResponse.setTotal(coffee.getTotal());
+
     }
 
     public List<CoffeeResponse> toResponses(List<Coffee> coffeeList){

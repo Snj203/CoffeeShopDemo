@@ -4,6 +4,7 @@ package kg.devcats.coffee_shop.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -15,42 +16,42 @@ public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "sup_id")
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "sup_name")
     @NotNull
     @NotBlank
     @Size(min = 2, max = 32)
     @JsonProperty("name")
     private String name;
 
-    @Column(name = "street")
+    @Column(name = "sup_street")
     @NotNull
     @NotBlank
     @Size(min = 1, max = 64)
     @JsonProperty("street")
     private String street;
 
-    @Column(name = "city")
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 64)
-    @JsonProperty("city")
-    private String city;
-
-    @Column(name = "zip")
+    @Column(name = "sup_zip")
     @NotNull
     @JsonProperty("zip-code")
     private Integer zip;
 
-    @Column(name = "state")
+    @ManyToOne
+    @JoinColumn(name = "sup_city")
     @NotNull
-    @NotBlank
-    @Size(min = 1, max = 64)
+    @NotEmpty
+    @JsonProperty("city")
+    private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "sup_state")
+    @NotNull
+    @NotEmpty
     @JsonProperty("state")
-    private String state;
+    private State state;
 
     @NotNull
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -63,12 +64,7 @@ public class Supplier {
     private List<Merch> merchList;
 
     @NotNull
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "supplier_warehouse",
-            joinColumns = { @JoinColumn(name = "supplier_id") },
-            inverseJoinColumns = { @JoinColumn(name = "warehouse_id") }
-    )
+    @ManyToMany(mappedBy = "supplierList")
     private List<Warehouse> warehouseList;
 
     public Supplier() {}
@@ -97,14 +93,6 @@ public class Supplier {
         this.street = street;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public Integer getZip() {
         return zip;
     }
@@ -113,11 +101,19 @@ public class Supplier {
         this.zip = zip;
     }
 
-    public String getState() {
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -129,20 +125,12 @@ public class Supplier {
         this.coffeeList = coffeeList;
     }
 
-    public void addCoffee(Coffee coffee) {
-        this.coffeeList.add(coffee);
-    }
-
     public List<Merch> getMerchList() {
         return merchList;
     }
 
     public void setMerchList(List<Merch> merchList) {
         this.merchList = merchList;
-    }
-
-    public void addMerch(Merch merch) {
-        this.merchList.add(merch);
     }
 
     public List<Warehouse> getWarehouseList() {
@@ -153,19 +141,15 @@ public class Supplier {
         this.warehouseList = warehouseList;
     }
 
-    public void addWarehouse(Warehouse warehouse) {
-        this.warehouseList.add(warehouse);
-    }
-
     @Override
     public String toString() {
         return "Supplier{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
                 ", zip=" + zip +
-                ", state='" + state + '\'' +
+                ", city=" + city +
+                ", state=" + state +
                 ", coffeeList=" + coffeeList +
                 ", merchList=" + merchList +
                 ", warehouseList=" + warehouseList +
