@@ -3,6 +3,7 @@ package kg.devcats.coffee_shop.repository;
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.entity.CofInventory;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
 import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
@@ -71,20 +72,15 @@ public class CofInventoryRepository implements CofInventoryService {
     }
 
     @Override
-    public boolean update(Long id, CofInventoryRequest request) {
-        Optional<CofInventory> optionalWarehouse = cofInventoryService.findById(id);
-        Optional<Supplier> supplier = supplierService.findById(request.supplierId());
-        Optional<Coffee> coffee = coffeeService.findById(request.coffeeName());
-        if(!coffee.isPresent() || !supplier.isPresent() || !optionalWarehouse.isPresent()) {
+    public boolean update(Long id, CofInventoryReplenishRequest request) {
+        Optional<CofInventory> optionalCofInventory = cofInventoryService.findById(id);
+        if(!optionalCofInventory.isPresent()) {
             return false;
         }
 
-        CofInventory cofInventory = new CofInventory();
-        cofInventory.setQuantity(request.quantity());
-        cofInventory.setWarehouseId(request.warehouseId());
+        CofInventory cofInventory = optionalCofInventory.get();
+        cofInventory.setQuantity(request.quantity() + cofInventory.getQuantity());
         cofInventory.setTime(Timestamp.valueOf(LocalDateTime.now()));
-        cofInventory.setSupplier(supplier.get());
-        cofInventory.setCoffee(coffee.get());
 
         cofInventoryService.save(cofInventory);
         return true;

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.mapper.CoffeeMapper;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
+import kg.devcats.coffee_shop.payload.coffee.request.CoffeeUpdateRequest;
 import kg.devcats.coffee_shop.payload.coffee.response.CoffeeResponse;
 import kg.devcats.coffee_shop.service.CoffeeService;
 import org.slf4j.Logger;
@@ -71,7 +72,7 @@ public class CoffeeControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCoffee(
-            @Valid @RequestBody CoffeeRequest request,
+            @Valid @RequestBody CoffeeUpdateRequest request,
             @RequestParam String id) {
         try{
             Optional<Coffee> coffee = coffeeService.findById(id);

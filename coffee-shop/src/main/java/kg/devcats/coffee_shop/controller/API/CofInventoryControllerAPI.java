@@ -3,6 +3,7 @@ package kg.devcats.coffee_shop.controller.API;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.CofInventory;
 import kg.devcats.coffee_shop.mapper.CofInventoryMapper;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.response.CofInventoryResponse;
 import kg.devcats.coffee_shop.service.CofInventoryService;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cofInventory")
+@RequestMapping("/api/cof-inventory")
 public class CofInventoryControllerAPI {
     private static final Logger log = LoggerFactory.getLogger(CofInventoryControllerAPI.class);
 
@@ -70,8 +71,8 @@ public class CofInventoryControllerAPI {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateCofInventory(
-            @Valid @RequestBody CofInventoryRequest request,
+    public ResponseEntity<String> replenishCofInventory(
+            @Valid @RequestBody CofInventoryReplenishRequest request,
             @RequestParam Long id) {
         try{
             Optional<CofInventory> cofInventory = cofInventoryService.findById(id);
@@ -84,7 +85,7 @@ public class CofInventoryControllerAPI {
                 return new ResponseEntity<>("Cannot find CofInventory", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            log.error("updateCofInventory|CofInventoryControllerAPI: " + e.getMessage());
+            log.error("replenishCofInventory|CofInventoryControllerAPI: " + e.getMessage());
             return new ResponseEntity<>("Failed to update CofInventory, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

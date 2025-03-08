@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 
 public record CoffeeHouseRequest(
     @NotNull
-    @NotBlank
     @Size(min = 1, max = 64)
     @JsonProperty("city")
     String city

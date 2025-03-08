@@ -3,6 +3,7 @@ package kg.devcats.coffee_shop.repository;
 import kg.devcats.coffee_shop.entity.Merch;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequest;
+import kg.devcats.coffee_shop.payload.merch.request.MerchUpdateRequest;
 import kg.devcats.coffee_shop.repository.jpa.MerchServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
 import kg.devcats.coffee_shop.service.MerchService;
@@ -68,10 +69,9 @@ public class MerchRepository implements MerchService {
     }
 
     @Override
-    public boolean update(Long id, MerchRequest request) {
-        Optional<Supplier> optionalSupplier = supplierService.findById(request.supplierId());
+    public boolean update(Long id, MerchUpdateRequest request) {
         Optional<Merch> optionalMerch = merchService.findById(id);
-        if (!optionalMerch.isPresent() || !optionalSupplier.isPresent()) {
+        if (!optionalMerch.isPresent()) {
             return false;
         }
 
@@ -79,8 +79,6 @@ public class MerchRepository implements MerchService {
         merch.setName(request.itemName());
         merch.setQuantity(0);
         merch.setTime(Timestamp.valueOf(LocalDateTime.now()));
-        merch.setSupplier(optionalSupplier.get());
-
         merchService.save(merch);
 
         return true;

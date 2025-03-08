@@ -13,7 +13,6 @@ public class City {
     @Id
     @Column(name = "city_name")
     @NotNull
-    @NotBlank
     @Size(min = 2, max = 32)
     @JsonProperty("name")
     private String name;
@@ -21,7 +20,6 @@ public class City {
     @ManyToOne
     @JoinColumn(name = "city_state")
     @NotNull
-    @NotEmpty
     @JsonProperty("state")
     private State state;
 

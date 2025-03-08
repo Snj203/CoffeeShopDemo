@@ -1,6 +1,7 @@
 package kg.devcats.coffee_shop.service;
 
 import kg.devcats.coffee_shop.entity.CofInventory;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface CofInventoryService {
     Optional<CofInventory> findById(Long id);
     List<CofInventory> findAll();
     boolean deleteById(Long id);
-    boolean update(Long id, CofInventoryRequest request);
+    boolean update(Long id, CofInventoryReplenishRequest request);
 }

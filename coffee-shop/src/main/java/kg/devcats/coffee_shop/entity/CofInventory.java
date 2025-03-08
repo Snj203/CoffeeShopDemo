@@ -21,7 +21,7 @@ public class CofInventory {
     private Long warehouseId;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ci_coffee_name")
     @JsonProperty("coffee-name")
     private Coffee coffee;

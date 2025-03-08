@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/coffe-house")
+@RequestMapping("/api/coffee-house")
 public class CoffeeHouseControllerAPI {
     private static final Logger log = LoggerFactory.getLogger(CoffeeHouseControllerAPI.class);
 

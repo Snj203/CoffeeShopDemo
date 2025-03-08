@@ -30,14 +30,14 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
         if (!optionalCity.isPresent()) {
             return false;
         }
+
         City city = optionalCity.get();
         coffee.setCity(city);
         coffee.setSoldCoffee(0);
         coffee.setSoldMerch(0);
         coffee.setTotalSold(0);
-        CoffeeHouse savedCoffee = coffeeHouseServiceJPA.save(coffee);
-        savedCoffee.setId(city.getState().getPrefix());
-        coffeeHouseServiceJPA.save(savedCoffee);
+        coffee.setPrefixState(city.getState().getPrefix());
+        coffeeHouseServiceJPA.save(coffee);
 
         return true;
     }
@@ -77,6 +77,7 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
         }
         CoffeeHouse coffee = optionalCoffeeHouse.get();
         coffee.setCity(optionalCity.get());
+        coffee.setPrefixState(coffee.getCity().getState().getPrefix());
         coffeeHouseServiceJPA.save(coffee);
         return true;
     }

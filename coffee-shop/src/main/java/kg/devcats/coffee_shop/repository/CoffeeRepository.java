@@ -1,8 +1,11 @@
 package kg.devcats.coffee_shop.repository;
 
+import kg.devcats.coffee_shop.entity.CofInventory;
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
+import kg.devcats.coffee_shop.payload.coffee.request.CoffeeUpdateRequest;
+import kg.devcats.coffee_shop.repository.jpa.CofInventoryServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
 import kg.devcats.coffee_shop.service.CoffeeService;
@@ -19,10 +22,12 @@ public class CoffeeRepository implements CoffeeService {
     private static final Logger log = LoggerFactory.getLogger(CoffeeRepository.class);
     private final CoffeeServiceJPA coffeeServiceJPA;
     private final SupplierServiceJPA supplierServiceJPA;
+    private final CofInventoryServiceJPA cofInventoryServiceJPA;
 
-    public CoffeeRepository(CoffeeServiceJPA coffeeServiceJPA, SupplierServiceJPA supplierServiceJPA) {
+    public CoffeeRepository(CoffeeServiceJPA coffeeServiceJPA, SupplierServiceJPA supplierServiceJPA, CofInventoryServiceJPA cofInventoryServiceJPA) {
         this.coffeeServiceJPA = coffeeServiceJPA;
         this.supplierServiceJPA = supplierServiceJPA;
+        this.cofInventoryServiceJPA = cofInventoryServiceJPA;
     }
 
     @Override
@@ -65,19 +70,19 @@ public class CoffeeRepository implements CoffeeService {
             }
             return true;
         } catch (Exception e) {
+            log.error(e.getMessage());
             return false;
         }
     }
 
     @Override
-    public boolean update(String id, CoffeeRequest request) {
+    public boolean update(String id, CoffeeUpdateRequest request) {
         Optional<Coffee> optionalCoffee= coffeeServiceJPA.findById(id);
         Optional<Supplier> optionalSupplier = supplierServiceJPA.findById(request.supplierId());
         if(!optionalCoffee.isPresent() || !optionalSupplier.isPresent()) {
             return false;
         }
         Coffee coffee = optionalCoffee.get();
-        coffee.setName(request.name());
         coffee.setPrice(request.price());
         coffee.setSupplier(optionalSupplier.get());
         coffeeServiceJPA.save(coffee);

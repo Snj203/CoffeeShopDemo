@@ -2,6 +2,7 @@ package kg.devcats.coffee_shop.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +24,6 @@ public class CoffeeHouse {
     @ManyToOne
     @JoinColumn(name = "ch_city")
     @NotNull
-    @NotEmpty
     @JsonProperty("city")
     private City city;
 
@@ -37,7 +37,20 @@ public class CoffeeHouse {
     @JsonProperty("total-sold")
     private Integer totalSold;
 
+    @Column(name = "ch_state_prefix")
+    @NotNull
+    @JsonProperty("state-prefix")
+    private Long prefixState;
+
     public CoffeeHouse() {}
+
+    public Long getPrefixState() {
+        return prefixState;
+    }
+
+    public void setPrefixState(Long prefixState) {
+        this.prefixState = prefixState;
+    }
 
     public Long getId() {
         return id;

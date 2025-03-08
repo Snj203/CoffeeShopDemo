@@ -20,7 +20,12 @@ public class StateRepository implements StateService {
 
     @Override
     public boolean save(StateRequest request) {
-        return false;
+        State state = new State();
+        state.setName(request.name());
+        state.setPrefix(request.prefix());
+        stateService.save(state);
+
+        return true;
     }
 
     @Override
@@ -38,7 +43,6 @@ public class StateRepository implements StateService {
         if(!stateService.findById(id).isPresent()) {
             return false;
         }
-
         stateService.deleteById(id);
         return true;
     }
