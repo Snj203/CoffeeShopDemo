@@ -21,7 +21,7 @@ public class CoffeeHouse {
     @JsonProperty("sold-coffee")
     private Integer soldCoffee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ch_city")
     @NotNull
     @JsonProperty("city")

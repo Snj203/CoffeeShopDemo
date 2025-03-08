@@ -19,7 +19,18 @@ public class CoffeeResponse{
     @JsonProperty("supplier")
     private Long supplierId;
 
+    @JsonProperty("photo")
+    private String photo;
+
     public CoffeeResponse(){}
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getName() {
         return name;

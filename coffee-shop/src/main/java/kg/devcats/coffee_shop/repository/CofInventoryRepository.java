@@ -5,6 +5,7 @@ import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.entity.CofInventory;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;
 import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.CofInventoryServiceJPA;
@@ -60,29 +61,67 @@ public class CofInventoryRepository implements CofInventoryService {
 
     @Override
     public boolean deleteById(Long id) {
-        try {
-            Optional<CofInventory> cofInventory = cofInventoryService.findById(id);
-            if(cofInventory.isPresent()) {
-                cofInventoryService.deleteById(id);
-            }
+        Optional<CofInventory> cofInventory = cofInventoryService.findById(id);
+        if(cofInventory.isPresent()) {
+            cofInventoryService.deleteById(id);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     @Override
-    public boolean update(Long id, CofInventoryReplenishRequest request) {
+    public boolean replenish(Long id, CofInventoryReplenishRequest request) {
         Optional<CofInventory> optionalCofInventory = cofInventoryService.findById(id);
         if(!optionalCofInventory.isPresent()) {
             return false;
         }
 
         CofInventory cofInventory = optionalCofInventory.get();
-        cofInventory.setQuantity(request.quantity() + cofInventory.getQuantity());
+        cofInventory.setQuantity(request.getQuantity() + cofInventory.getQuantity());
         cofInventory.setTime(Timestamp.valueOf(LocalDateTime.now()));
 
         cofInventoryService.save(cofInventory);
         return true;
     }
+
+    @Override
+    public boolean update(Long id, CofInventoryUpdateRequest request) {
+        Optional<CofInventory> optionalCofInventory = cofInventoryService.findById(id);
+        Optional<Coffee> optionalCoffee = coffeeService.findById(request.getCoffeeName());
+        Optional<Supplier> optionalSupplier = supplierService.findById(request.getSupplierId());
+        if(!optionalCofInventory.isPresent() || !optionalCoffee.isPresent() || !optionalSupplier.isPresent()) {
+            return false;
+        }
+
+        CofInventory cofInventory = optionalCofInventory.get();
+        cofInventory.setCoffee(optionalCoffee.get());
+        cofInventory.setSupplier(optionalSupplier.get());
+        cofInventory.setWarehouseId(request.getWarehouseId());
+        cofInventory.setQuantity(request.getQuantity());
+        cofInventory.setTime(Timestamp.valueOf(LocalDateTime.now()));
+
+        cofInventoryService.save(cofInventory);
+        return true;
+    }
+
+    @Override
+    public boolean save(CofInventoryUpdateRequest request) {
+        Optional<Supplier> supplier = supplierService.findById(request.getSupplierId());
+        Optional<Coffee> coffee = coffeeService.findById(request.getCoffeeName());
+        if(!coffee.isPresent() || !supplier.isPresent()) {
+            return false;
+        }
+
+        CofInventory cofInventory = new CofInventory();
+        cofInventory.setQuantity(0);
+        cofInventory.setWarehouseId(request.getWarehouseId());
+        cofInventory.setTime(Timestamp.valueOf(LocalDateTime.now()));
+        cofInventory.setSupplier(supplier.get());
+        cofInventory.setCoffee(coffee.get());
+
+        cofInventoryService.save(cofInventory);
+
+        return true;
+    }
+
 }

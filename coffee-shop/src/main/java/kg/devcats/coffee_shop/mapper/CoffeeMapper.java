@@ -17,6 +17,7 @@ public class CoffeeMapper {
         coffeeResponse.setSupplierId(coffee.getSupplier().getId());
         coffeeResponse.setSold(coffee.getSold());
         coffeeResponse.setTotal(coffee.getTotal());
+        coffeeResponse.setPhoto(coffee.getPhoto());
 
         return coffeeResponse;
     }

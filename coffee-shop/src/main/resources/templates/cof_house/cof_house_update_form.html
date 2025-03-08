@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Coffee House</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<h1>Update Coffee House</h1>
+<form th:action="@{/coffee-house/update/{idCoffeeHouse}(idCoffeeHouse=${idCoffeeHouse})}" th:object="${coffeeHouseRequestMVC}" method="post" >
+    <div class="form-group">
+        <label for="city">City Name:</label>
+        <input type="text" id="city" th:field="*{city}" required/>
+        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City Name Error</span>
+    </div>
+    <div class="form-group">
+        <label for="soldCoffee">Sold Coffee:</label>
+        <input type="number" id="soldCoffee" th:field="*{soldCoffee}" required/>
+        <span th:if="${#fields.hasErrors('soldCoffee')}" th:errors="*{soldCoffee}">Sold Coffee Error</span>
+    </div>
+    <div class="form-group">
+        <label for="soldMerch">Sold Merch:</label>
+        <input type="number" id="soldMerch" th:field="*{soldMerch}" required/>
+        <span th:if="${#fields.hasErrors('soldMerch')}" th:errors="*{soldMerch}">Sold Merch Error</span>
+    </div>
+    <div class="form-group">
+        <label for="totalSold">Total Sold:</label>
+        <input type="number" id="totalSold" th:field="*{totalSold}" required/>
+        <span th:if="${#fields.hasErrors('totalSold')}" th:errors="*{totalSold}">Total Sold Error</span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>

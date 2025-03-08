@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Merch</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<h1>Delete Merch</h1>
+
+<div class="warning-container">
+  <div class="warning-text">
+    Attention! If you delete any element with relations
+    it will also affect all elements!
+    Any Child elements will be deleted!!!
+  </div>
+  <form th:action="@{/merch/delete}" method="post">
+    <div class="form-group">
+      <label for="idMerch">Merch Id:</label>
+      <input type="text" id="idMerch" name="idMerch" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+
+
+</body>
+</html>

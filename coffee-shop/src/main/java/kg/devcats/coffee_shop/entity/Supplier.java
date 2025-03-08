@@ -40,13 +40,13 @@ public class Supplier {
     @JsonProperty("zip-code")
     private Integer zip;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sup_city")
     @NotNull
     @JsonProperty("city")
     private City city;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sup_state")
     @NotNull
     @JsonProperty("state")
@@ -65,6 +65,7 @@ public class Supplier {
     public Supplier() {
         coffees = new ArrayList<>();
         inventories = new ArrayList<>();
+        merches = new ArrayList<>();
     }
 
     public Long getId() {

@@ -2,10 +2,11 @@ package kg.devcats.coffee_shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "city")
@@ -17,13 +18,21 @@ public class City {
     @JsonProperty("name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_state")
     @NotNull
     @JsonProperty("state")
     private State state;
 
-    public City() {}
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Supplier> suppliers;
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CoffeeHouse> coffeeHouses;
+
+    public City() {
+        this.suppliers = new ArrayList<>();
+    }
 
     public State getState() {
         return state;

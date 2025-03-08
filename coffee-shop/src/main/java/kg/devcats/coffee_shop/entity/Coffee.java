@@ -36,8 +36,12 @@ public class Coffee {
     @JsonProperty("total-sold")
     private int total;
 
+    @Column(name = "cof_photo", nullable = true)
+    @JsonProperty("photo")
+    private String photo;
+
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cof_sup_id", nullable = false)
     @JsonProperty("supplier")
     private Supplier supplier;
@@ -90,6 +94,22 @@ public class Coffee {
         this.supplier = supplier;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public List<CofInventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(List<CofInventory> inventories) {
+        this.inventories = inventories;
+    }
+
     @Override
     public String toString() {
         return "Coffee{" +
@@ -98,6 +118,7 @@ public class Coffee {
                 ", sold=" + sold +
                 ", total=" + total +
                 ", supplier=" + supplier +
+                ", photo=" + photo +
                 '}';
     }
 }
