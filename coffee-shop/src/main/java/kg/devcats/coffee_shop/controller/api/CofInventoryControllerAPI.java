@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.controller.api;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.CofInventory;
+import kg.devcats.coffee_shop.entity.postgres.CofInventory;
 import kg.devcats.coffee_shop.mapper.CofInventoryMapper;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;

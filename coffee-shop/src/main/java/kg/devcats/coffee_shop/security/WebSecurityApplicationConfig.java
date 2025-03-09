@@ -56,7 +56,7 @@ public class WebSecurityApplicationConfig {
         http.authorizeHttpRequests(request -> request
 
 
-                        .requestMatchers("/","/registration","/not-enough-permissions","/css/**", "/images/**").permitAll()
+                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**", "/coffee/buy").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 

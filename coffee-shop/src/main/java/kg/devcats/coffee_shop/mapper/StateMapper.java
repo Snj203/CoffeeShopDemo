@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.mapper;
 
-import kg.devcats.coffee_shop.entity.State;
+import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.state.response.StateResponse;
 import org.springframework.stereotype.Component;
 

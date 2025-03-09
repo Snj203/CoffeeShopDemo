@@ -1,7 +1,14 @@
-package kg.devcats.coffee_shop.entity;
+package kg.devcats.coffee_shop.entity.postgres;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -112,7 +119,7 @@ public class Coffee {
 
     @Override
     public String toString() {
-        return "Coffee{" +
+        return "coffee{" +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", sold=" + sold +

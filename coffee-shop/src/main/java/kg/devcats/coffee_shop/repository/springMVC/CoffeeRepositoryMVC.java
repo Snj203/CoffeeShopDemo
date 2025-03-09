@@ -1,13 +1,13 @@
 package kg.devcats.coffee_shop.repository.springMVC;
 
-import kg.devcats.coffee_shop.entity.Coffee;
-import kg.devcats.coffee_shop.entity.CoffeeHouse;
-import kg.devcats.coffee_shop.entity.Supplier;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
+import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeBuyRequest;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeHouseServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.mvc.CoffeeServiceMVC;
 import org.springframework.beans.factory.annotation.Value;

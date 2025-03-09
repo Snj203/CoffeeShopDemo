@@ -24,21 +24,21 @@ INSERT INTO city (city_name,city_state)
 SELECT 'Geneva','GE'
     WHERE NOT EXISTS (SELECT FROM city WHERE city_name = 'Geneva');
 
--- Supplier Insert --------------------------------------------------------------------------
+-- supplier Insert --------------------------------------------------------------------------
 
 INSERT INTO supplier (sup_id,sup_city,sup_name,sup_state,sup_street,sup_zip)
 SELECT 40000,'Chicago','Acme,Inc.','IL','99 Market Street','95199'
     WHERE NOT EXISTS (SELECT FROM supplier WHERE sup_id = 40000);
 
 INSERT INTO supplier (sup_id,sup_city,sup_name,sup_state,sup_street,sup_zip)
-SELECT 40002,'Stuttgart','Superior Coffee','ST','1 Party Place','95460'
+SELECT 40002,'Stuttgart','Superior coffee','ST','1 Party Place','95460'
     WHERE NOT EXISTS (SELECT FROM supplier WHERE sup_id = 40002);
 
 INSERT INTO supplier (sup_id,sup_city,sup_name,sup_state,sup_street,sup_zip)
-SELECT 40001,'Geneva','The High Ground','GE','100 Coffee Lane','93966'
+SELECT 40001,'Geneva','The High Ground','GE','100 coffee Lane','93966'
     WHERE NOT EXISTS (SELECT FROM supplier WHERE sup_id = 40001);
 
--- Coffee Table Insert --------------------------------------------------------------------------
+-- coffee Table Insert --------------------------------------------------------------------------
 
 INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
 SELECT 'Colombian', 7.99, 50, 1150, 40000
@@ -60,7 +60,7 @@ INSERT INTO coffee(cof_name, cof_price, cof_sold, cof_total_sold, cof_sup_id)
 SELECT  'Espresso', 9.99, 120, 2530, 40001
     WHERE NOT EXISTS(SELECT FROM coffee WHERE cof_name = 'Espresso');
 
--- Coffee House Table Insert --------------------------------------------------------------------------
+-- coffee House Table Insert --------------------------------------------------------------------------
 
 INSERT INTO coffee_house(ch_id, ch_city, ch_sold_coffee, ch_sold_merch, ch_total_sold, ch_state_prefix)
 SELECT 40003, 'Chicago', 1589, 1125, 2724, 500
@@ -74,7 +74,7 @@ INSERT INTO coffee_house(ch_id, ch_city, ch_sold_coffee, ch_sold_merch, ch_total
 SELECT 40001, 'Stuttgart', 1266, 795, 2061, 300
     WHERE NOT EXISTS(SELECT FROM coffee_house WHERE ch_id = 40001);
 
---  Merch Table Insert --------------------------------------------------------------------------
+--  merch Table Insert --------------------------------------------------------------------------
 
 INSERT INTO merch_inventory(mer_item_id,mer_item_name,mer_quantity,mer_time,mer_sup_id)
 SELECT 40000, 'Cup_Large', 235, NOW(), 40000
@@ -92,7 +92,7 @@ INSERT INTO merch_inventory(mer_item_id,mer_item_name,mer_quantity,mer_time,mer_
 SELECT 40000, 'Napkin', 765, NOW(), 40001
     WHERE NOT EXISTS(SELECT FROM merch_inventory WHERE mer_item_id = 40000);
 
--- Coffee Inventory Insert --------------------------------------------------------------------------
+-- coffee Inventory Insert --------------------------------------------------------------------------
 
 INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
 SELECT 40000,40000,'Colombian',40000,402,NOW()
@@ -113,54 +113,3 @@ SELECT 40000,40002,'French_Roast_Decaf',40002,56,NOW()
 INSERT INTO cof_inventory (ci_id, ci_warehouse_id, ci_coffee_name,ci_sup_id, ci_quantity, ci_time)
 SELECT 40005,40001,'Espresso',40001,345,NOW()
     WHERE NOT EXISTS (SELECT FROM cof_inventory WHERE ci_id = 40005);
-
--- Users Table Insert --------------------------------------------------------------------------
-INSERT INTO users (username, password, enabled)
-SELECT 'agai', '$2a$14$aD/89GEqrTVyN.JWm1PW0OcjACrNO/qs0JspHnNO3zLAF7AkeUpp.', true
-    WHERE NOT EXISTS(SELECT FROM users WHERE username = 'agai');
-
-INSERT INTO users (username, password, enabled)
-SELECT 'sanjar', '$2a$10$VGtKxeBB2jpv7tBg9z185O/4UYJNJPR1zbx59yGe1gCSYMBLrKu3K', true
-    WHERE NOT EXISTS(SELECT FROM users WHERE username = 'sanjar');
-
-INSERT INTO users (username, password, enabled)
-SELECT 'default-user', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true
-    WHERE NOT EXISTS(SELECT FROM users WHERE username = 'default-user');
-
-INSERT INTO users (username, password, enabled)
-SELECT 'default-viewer', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true
-    WHERE NOT EXISTS(SELECT FROM users WHERE username = 'default-viewer');
-
--- Authorities Table Insert --------------------------------------------------------------------------
-INSERT INTO authorities (username, authority)
-SELECT 'sanjar', 'ROLE_USER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'sanjar' AND authority = 'ROLE_USER');
-
-INSERT INTO authorities (username, authority)
-SELECT 'sanjar', 'ROLE_ADMIN'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'sanjar' AND authority = 'ROLE_ADMIN');
-
-INSERT INTO authorities (username, authority)
-SELECT 'sanjar', 'ROLE_VIEWER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'sanjar' AND authority = 'ROLE_VIEWER');
-
-INSERT INTO authorities (username, authority)
-SELECT 'agai', 'ROLE_USER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'agai' AND authority = 'ROLE_USER');
-
-INSERT INTO authorities (username, authority)
-SELECT 'agai', 'ROLE_ADMIN'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'agai' AND authority = 'ROLE_ADMIN');
-
-INSERT INTO authorities (username, authority)
-SELECT 'agai', 'ROLE_VIEWER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'agai' AND authority = 'ROLE_VIEWER');
-
-INSERT INTO authorities (username, authority)
-SELECT 'default-user', 'ROLE_USER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'default-user' AND authority = 'ROLE_USER');
-
-INSERT INTO authorities (username, authority)
-SELECT 'default-viewer', 'ROLE_VIEWER'
-    WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'default-viewer' AND authority = 'ROLE_VIEWER');
-    

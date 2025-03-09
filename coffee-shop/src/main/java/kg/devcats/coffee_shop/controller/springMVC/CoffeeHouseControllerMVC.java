@@ -1,9 +1,9 @@
 package kg.devcats.coffee_shop.controller.springMVC;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.CoffeeHouse;
+import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
 import kg.devcats.coffee_shop.service.mvc.CoffeeHouseServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

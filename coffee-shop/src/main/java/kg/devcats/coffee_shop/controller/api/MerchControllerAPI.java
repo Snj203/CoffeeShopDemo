@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.controller.api;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.Merch;
+import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.mapper.MerchMapper;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchUpdateRequest;
@@ -61,13 +61,13 @@ public class MerchControllerAPI {
     ) {
         try{
             if(merchService.save(request)){
-                return new ResponseEntity<>("Merch created", HttpStatus.CREATED);
+                return new ResponseEntity<>("merch created", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>("Failed to create Merch", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Failed to create merch", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("createMerch|MerchControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to create Merch, Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to create merch, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -81,13 +81,13 @@ public class MerchControllerAPI {
             if(merch.isPresent()) {
 
                 merchService.update(id, request);
-                return new ResponseEntity<>("Merch was updated successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("merch was updated successfully.", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Cannot find Merch", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Cannot find merch", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             log.error("updateMerch|MerchControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Cannot update Merch.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cannot update merch.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -97,14 +97,14 @@ public class MerchControllerAPI {
             @RequestParam Long id) {
         try {
             if (merchService.deleteById(id)) {
-                return new ResponseEntity<>("Merch was deleted successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("merch was deleted successfully.", HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("Cannot find Merch", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Cannot find merch", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
             log.error("deleteMerch|MerchControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Cannot delete Merch.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cannot delete merch.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }

@@ -1,9 +1,9 @@
 package kg.devcats.coffee_shop.repository.api;
 
-import kg.devcats.coffee_shop.entity.State;
+import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.state.request.StateRequest;
 import kg.devcats.coffee_shop.payload.state.request.StateRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.StateServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
 import kg.devcats.coffee_shop.service.StateService;
 import org.springframework.stereotype.Repository;
 

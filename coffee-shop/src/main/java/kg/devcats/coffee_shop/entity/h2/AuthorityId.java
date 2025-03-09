@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.entity.security;
+package kg.devcats.coffee_shop.entity.h2;
 
 import java.io.Serializable;
 import java.util.Objects;

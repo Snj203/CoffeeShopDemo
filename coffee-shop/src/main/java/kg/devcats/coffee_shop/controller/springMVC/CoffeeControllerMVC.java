@@ -2,10 +2,10 @@ package kg.devcats.coffee_shop.controller.springMVC;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeBuyRequest;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.mvc.CoffeeServiceMVC;
 import org.apache.tomcat.util.http.fileupload.IOUtils;

@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.service.api;
 
-import kg.devcats.coffee_shop.entity.CoffeeHouse;
+import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequest;
 
 import java.util.List;

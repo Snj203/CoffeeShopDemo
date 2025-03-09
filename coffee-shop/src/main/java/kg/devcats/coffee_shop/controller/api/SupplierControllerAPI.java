@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.controller.api;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.Supplier;
+import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.mapper.SupplierMapper;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequest;
 import kg.devcats.coffee_shop.payload.supplier.response.SupplierResponse;
@@ -59,13 +59,13 @@ public class SupplierControllerAPI {
     ) {
         try{
             if(supplierService.save(request)){
-                return new ResponseEntity<>("Supplier created", HttpStatus.CREATED);
+                return new ResponseEntity<>("supplier created", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>("Failed to create Supplier", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Failed to create supplier", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("createSupplier|SuppliersControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to create Supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to create supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -79,13 +79,13 @@ public class SupplierControllerAPI {
             if(supplier.isPresent()) {
 
                 supplierService.update(id, request);
-                return new ResponseEntity<>("Supplier was updated successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("supplier was updated successfully.", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Cannot find Supplier", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Cannot find supplier", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             log.error("updateSupplier|SuppliersControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to update Supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to update supplier, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -95,14 +95,14 @@ public class SupplierControllerAPI {
             @RequestParam Long id) {
         try {
             if (supplierService.deleteById(id)) {
-                return new ResponseEntity<>("Supplier was deleted successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("supplier was deleted successfully.", HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("Cannot find Supplier", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Cannot find supplier", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
             log.error("deleteDeveloper|CoffeeControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Cannot delete Supplier.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cannot delete supplier.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }

@@ -1,10 +1,10 @@
 package kg.devcats.coffee_shop.repository.api;
 
-import kg.devcats.coffee_shop.entity.Coffee;
-import kg.devcats.coffee_shop.entity.Supplier;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.api.CoffeeService;
 import org.slf4j.Logger;

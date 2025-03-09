@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.service.api;
 
-import kg.devcats.coffee_shop.entity.Merch;
+import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchUpdateRequest;
 

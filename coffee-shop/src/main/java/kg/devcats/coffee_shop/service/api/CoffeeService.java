@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.service.api;
 
-import kg.devcats.coffee_shop.entity.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
 import org.springframework.web.multipart.MultipartFile;
 

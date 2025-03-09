@@ -1,15 +1,12 @@
 package kg.devcats.coffee_shop.repository.springMVC;
 
-import kg.devcats.coffee_shop.entity.CofInventory;
-import kg.devcats.coffee_shop.entity.Merch;
-import kg.devcats.coffee_shop.entity.Supplier;
+import kg.devcats.coffee_shop.entity.postgres.Merch;
+import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.merch.request.MerchReplenishRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.MerchServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.MerchServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
 import kg.devcats.coffee_shop.service.mvc.MerchServiceMVC;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;

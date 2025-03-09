@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.service;
 
-import kg.devcats.coffee_shop.entity.City;
+import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.payload.city.request.CityRequest;
 import kg.devcats.coffee_shop.payload.city.request.CityRequestMVC;
 

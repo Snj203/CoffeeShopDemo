@@ -1,9 +1,9 @@
 package kg.devcats.coffee_shop.controller.springMVC;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.City;
+import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.payload.city.request.CityRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.CityServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
 import kg.devcats.coffee_shop.service.CityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

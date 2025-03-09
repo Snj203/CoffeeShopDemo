@@ -1,10 +1,10 @@
 package kg.devcats.coffee_shop.controller.springMVC;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.Merch;
+import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.payload.merch.request.MerchReplenishRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.MerchServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.MerchServiceJPA;
 import kg.devcats.coffee_shop.service.mvc.MerchServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

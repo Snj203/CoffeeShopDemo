@@ -1,14 +1,14 @@
 package kg.devcats.coffee_shop.repository;
 
-import kg.devcats.coffee_shop.entity.Coffee;
-import kg.devcats.coffee_shop.entity.Supplier;
-import kg.devcats.coffee_shop.entity.CofInventory;
+import kg.devcats.coffee_shop.entity.postgres.CofInventory;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.CofInventoryServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CofInventoryServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
 import kg.devcats.coffee_shop.service.CofInventoryService;
 import org.springframework.stereotype.Repository;
 

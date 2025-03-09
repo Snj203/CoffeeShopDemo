@@ -1,11 +1,11 @@
 package kg.devcats.coffee_shop.repository.api;
 
-import kg.devcats.coffee_shop.entity.City;
-import kg.devcats.coffee_shop.entity.State;
+import kg.devcats.coffee_shop.entity.postgres.City;
+import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.city.request.CityRequest;
 import kg.devcats.coffee_shop.payload.city.request.CityRequestMVC;
-import kg.devcats.coffee_shop.repository.jpa.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.jpa.StateServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
 import kg.devcats.coffee_shop.service.CityService;
 import org.springframework.stereotype.Repository;
 

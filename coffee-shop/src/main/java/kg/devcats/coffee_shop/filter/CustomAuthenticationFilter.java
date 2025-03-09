@@ -63,7 +63,23 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         jwtCookie.setMaxAge(60 * 60);
         response.addCookie(jwtCookie);
 
-        if (isBrowserRequest(request)) {
+        handleResponseSuccess(request,response, access_token);
+    }
+
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
+
+        handleResponseFail(request,response);
+    }
+
+    private void handleResponseSuccess(HttpServletRequest request,HttpServletResponse response,String access_token  ) throws IOException {
+        String acceptHeader = request.getHeader("Accept");
+        String userAgent = request.getHeader("User-Agent");
+
+        if ((acceptHeader != null && acceptHeader.contains("text/html")) ||
+                (userAgent != null && userAgent.contains("Mozilla"))){
             response.sendRedirect("/login-success");
         } else {
             Map<String, String> token = new HashMap<>();
@@ -74,24 +90,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         }
     }
 
-    protected void unsuccessfulAuthentication(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            AuthenticationException failed) throws IOException, ServletException {
-
-        String access_token = "Unsuccessful Authentication";
-        Map<String, String> token = new HashMap<>();
-        token.put("accessToken", access_token);
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), token);
-
-    }
-
-    private boolean isBrowserRequest(HttpServletRequest request) {
+    private void handleResponseFail(HttpServletRequest request,HttpServletResponse response ) throws IOException {
         String acceptHeader = request.getHeader("Accept");
         String userAgent = request.getHeader("User-Agent");
 
-        return (acceptHeader != null && acceptHeader.contains("text/html")) ||
-                (userAgent != null && userAgent.contains("Mozilla"));
+        if ((acceptHeader != null && acceptHeader.contains("text/html")) ||
+                (userAgent != null && userAgent.contains("Mozilla"))){
+            response.sendRedirect("/login-fail");
+        } else {
+            Map<String, String> token = new HashMap<>();
+            token.put("Something wrong with username or password", "Authentication Failed");
+            response.setContentType(APPLICATION_JSON_VALUE);
+            response.addHeader("Authorization", "Bearer " + token);
+            new ObjectMapper().writeValue(response.getOutputStream(), token);
+        }
     }
 }

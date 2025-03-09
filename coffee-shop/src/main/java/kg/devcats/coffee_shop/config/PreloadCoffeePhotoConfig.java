@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.config;
 
-import kg.devcats.coffee_shop.entity.Coffee;
-import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageException;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageProperties;
 import org.springframework.beans.factory.annotation.Value;

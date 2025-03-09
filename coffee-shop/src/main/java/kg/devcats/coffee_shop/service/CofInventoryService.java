@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.service;
 
-import kg.devcats.coffee_shop.entity.CofInventory;
+import kg.devcats.coffee_shop.entity.postgres.CofInventory;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;

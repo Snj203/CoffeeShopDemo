@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.controller.api;
 
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.City;
+import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.mapper.CityMapper;
 import kg.devcats.coffee_shop.payload.city.request.CityRequest;
 import kg.devcats.coffee_shop.payload.city.response.CityResponse;

@@ -2,7 +2,7 @@ package kg.devcats.coffee_shop.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
-import kg.devcats.coffee_shop.entity.Coffee;
+import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.mapper.CoffeeMapper;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
 import kg.devcats.coffee_shop.payload.coffee.response.CoffeeResponse;
@@ -66,13 +66,13 @@ public class CoffeeControllerAPI {
         try{
             CoffeeRequest request = objectMapper.readValue(requestJson, CoffeeRequest.class);
             if(coffeeService.save(request, photo)){
-                return new ResponseEntity<>("Coffee created", HttpStatus.CREATED);
+                return new ResponseEntity<>("coffee created", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>("Failed to create Coffee", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Failed to create coffee", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             log.error("createCoffee|CoffeeControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Failed to create Coffee, Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to create coffee, Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -86,13 +86,13 @@ public class CoffeeControllerAPI {
             if(coffee.isPresent()) {
 
                 coffeeService.update(request,photo);
-                return new ResponseEntity<>("Coffee was updated successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("coffee was updated successfully.", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Cannot find Coffee", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Cannot find coffee", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             log.error("updateCoffee|CoffeeControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Cannot update Coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cannot update coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -102,14 +102,14 @@ public class CoffeeControllerAPI {
             @RequestParam String id) {
         try {
             if (coffeeService.deleteByIdCoffee(id)) {
-                return new ResponseEntity<>("Coffee was deleted successfully.", HttpStatus.OK);
+                return new ResponseEntity<>("coffee was deleted successfully.", HttpStatus.OK);
             }
 
-            return new ResponseEntity<>("Cannot find Coffee", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Cannot find coffee", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
             log.error("deleteCoffee|CoffeeControllerAPI: " + e.getMessage());
-            return new ResponseEntity<>("Cannot delete Coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cannot delete coffee.", HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
