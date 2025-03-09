@@ -57,7 +57,7 @@ public class CofInventoryControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createCofInventory(
-            @Valid @RequestBody CofInventoryRequest request
+            @RequestBody @Valid CofInventoryRequest request
     ) {
         try{
             if(cofInventoryService.save(request)){
@@ -73,7 +73,7 @@ public class CofInventoryControllerAPI {
 
     @PutMapping("/replenish")
     public ResponseEntity<String> replenishCofInventory(
-            @Valid @RequestBody CofInventoryReplenishRequest request,
+            @RequestBody @Valid CofInventoryReplenishRequest request,
             @RequestParam Long id) {
         try{
             Optional<CofInventory> cofInventory = cofInventoryService.findById(id);
@@ -93,7 +93,7 @@ public class CofInventoryControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCofInventory(
-            @Valid @RequestBody CofInventoryUpdateRequest request,
+            @RequestBody @Valid CofInventoryUpdateRequest request,
             @RequestParam Long id) {
         try{
             Optional<CofInventory> cofInventory = cofInventoryService.findById(id);

@@ -57,7 +57,7 @@ public class MerchControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createMerch(
-            @Valid @RequestBody MerchRequest request
+            @RequestBody @Valid MerchRequest request
     ) {
         try{
             if(merchService.save(request)){
@@ -73,7 +73,7 @@ public class MerchControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateMerch(
-            @Valid @RequestBody MerchUpdateRequest request,
+            @RequestBody @Valid MerchUpdateRequest request,
             @RequestParam Long id) {
         try{
             Optional<Merch> merch = merchService.findById(id);

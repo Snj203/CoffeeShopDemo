@@ -56,7 +56,7 @@ public class StateControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createState(
-            @Valid @RequestBody StateRequest request
+            @RequestBody @Valid StateRequest request
     ) {
         try{
             if(!stateService.save(request)){

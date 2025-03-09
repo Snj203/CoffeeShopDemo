@@ -55,7 +55,7 @@ public class CoffeeHouseControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createCoffeeHouse(
-            @Valid @RequestBody CoffeeHouseRequest request
+            @RequestBody @Valid CoffeeHouseRequest request
     ) {
         try{
             if(coffeeService.save(request)){
@@ -71,7 +71,7 @@ public class CoffeeHouseControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCoffeeHouse(
-            @Valid @RequestBody CoffeeHouseRequest request,
+            @RequestBody @Valid CoffeeHouseRequest request,
             @RequestParam Long id) {
         try{
             Optional<CoffeeHouse> coffeeHouse = coffeeService.findById(id);

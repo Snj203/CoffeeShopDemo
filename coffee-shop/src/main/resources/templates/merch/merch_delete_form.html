@@ -10,20 +10,13 @@
 
 <h1>Delete Merch</h1>
 
-<div class="warning-container">
-  <div class="warning-text">
-    Attention! If you delete any element with relations
-    it will also affect all elements!
-    Any Child elements will be deleted!!!
+<form th:action="@{/merch/delete}" method="post">
+  <div class="form-group">
+    <label for="idMerch">Merch Id:</label>
+    <input type="text" id="idMerch" name="idMerch" required>
   </div>
-  <form th:action="@{/merch/delete}" method="post">
-    <div class="form-group">
-      <label for="idMerch">Merch Id:</label>
-      <input type="text" id="idMerch" name="idMerch" required>
-    </div>
-    <button type="submit">Submit</button>
-  </form>
-</div>
+  <button type="submit">Submit</button>
+</form>
 
 
 

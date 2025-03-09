@@ -1,7 +1,15 @@
 package kg.devcats.coffee_shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
@@ -91,5 +99,17 @@ public class CofInventory {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "CofInventory{" +
+                "id=" + id +
+                ", warehouseId=" + warehouseId +
+                ", coffee=" + coffee +
+                ", supplier=" + supplier +
+                ", quantity=" + quantity +
+                ", time=" + time +
+                '}';
     }
 }

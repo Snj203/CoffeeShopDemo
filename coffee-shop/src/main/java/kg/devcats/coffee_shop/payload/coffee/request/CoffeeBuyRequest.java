@@ -1,7 +1,10 @@
 package kg.devcats.coffee_shop.payload.coffee.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
 
 public class CoffeeBuyRequest{
     @NotNull

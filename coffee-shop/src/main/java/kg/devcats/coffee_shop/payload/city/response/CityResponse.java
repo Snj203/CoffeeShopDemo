@@ -1,6 +1,7 @@
 package kg.devcats.coffee_shop.payload.city.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CityResponse {
     @JsonProperty("name")
     private String name;

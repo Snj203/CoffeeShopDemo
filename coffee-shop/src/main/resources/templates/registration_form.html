@@ -1,0 +1,44 @@
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
+          integrity="sha384-oOE/3m0LUMPub4kaC09mrdEhIc+e3exm4xOGxAmuFXhBNF4hcg/6MiAXAf5p0P56" crossorigin="anonymous">
+    <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" action="#" th:action="@{/registration}">
+        <h3 class="form-signin-heading">Registration Form:</h3>
+        <p>
+            <input type="text" id="userName" name="userName" class="form-control" placeholder="Username" required="true"
+                   autofocus="" value="Username">
+        </p>
+        <p>
+            <input type="text" id="password" name="password" class="form-control" placeholder="Password"
+                   required="true" value="Password">
+        </p>
+
+        <p>
+            <label for="role">Select Roles:</label>
+            <select id="role" name="role" class="form-control" multiple required>
+                <option value="ROLE_ADMIN">ADMIN</option>
+                <option value="ROLE_USER">USER</option>
+                <option value="ROLE_VIEWER">VIEWER</option>
+            </select>
+        </p>
+
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+    </form>
+
+
+</div>
+</body>
+</html>

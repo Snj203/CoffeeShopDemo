@@ -3,13 +3,13 @@ package kg.devcats.coffee_shop.repository.api;
 import kg.devcats.coffee_shop.entity.Coffee;
 import kg.devcats.coffee_shop.entity.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
-import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequestMVC;
 import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.api.CoffeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +23,9 @@ public class CoffeeRepository implements CoffeeService {
     private final CoffeeServiceJPA coffeeServiceJPA;
     private final SupplierServiceJPA supplierServiceJPA;
     private final StorageService storageService;
+
+    @Value("${spring.storage.default-photo-name}")
+    private String defaultPhotoName;
 
     public CoffeeRepository(CoffeeServiceJPA coffeeServiceJPA, SupplierServiceJPA supplierServiceJPA, StorageService storageService) {
         this.coffeeServiceJPA = coffeeServiceJPA;
@@ -87,10 +90,14 @@ public class CoffeeRepository implements CoffeeService {
         coffee.setPrice(request.price());
         coffee.setSupplier(optionalSupplier.get());
 
-        if(!storageService.update(coffee.getPhoto(), photo)) {
+
+        if(coffee.getPhoto().equals(defaultPhotoName)) {
+            coffee.setPhoto(storageService.store(photo).toString());
+        } else if(!storageService.update(coffee.getPhoto(), photo)) {
             storageService.delete(coffee.getPhoto());
             coffee.setPhoto(storageService.store(photo).toString());
         }
+
 
         coffeeServiceJPA.save(coffee);
         return true;

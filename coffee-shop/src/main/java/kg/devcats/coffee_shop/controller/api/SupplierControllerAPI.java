@@ -55,7 +55,7 @@ public class SupplierControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createSupplier(
-            @Valid @RequestBody SupplierRequest request
+            @RequestBody @Valid SupplierRequest request
     ) {
         try{
             if(supplierService.save(request)){
@@ -71,7 +71,7 @@ public class SupplierControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateSupplier(
-            @Valid @RequestBody SupplierRequest request,
+            @RequestBody @Valid SupplierRequest request,
             @RequestParam Long id) {
         try{
             Optional<Supplier> supplier = supplierService.findById(id);

@@ -10,6 +10,7 @@ import kg.devcats.coffee_shop.repository.jpa.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.jpa.SupplierServiceJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.mvc.CoffeeServiceMVC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -20,6 +21,9 @@ public class CoffeeRepositoryMVC implements CoffeeServiceMVC {
     private final SupplierServiceJPA supplierService;
     private final StorageService storageService;
     private final CoffeeHouseServiceJPA coffeeHouseService;
+
+    @Value("${spring.storage.default-photo-name}")
+    private String defaultPhotoName;
 
     public CoffeeRepositoryMVC(CoffeeServiceJPA coffeeService, SupplierServiceJPA supplierService, StorageService storageService, CoffeeHouseServiceJPA coffeeHouseService) {
         this.coffeeService = coffeeService;
@@ -62,7 +66,9 @@ public class CoffeeRepositoryMVC implements CoffeeServiceMVC {
         coffee.setPrice(request.getPrice());
         coffee.setSupplier(optionalSupplier.get());
 
-        if(!storageService.update(coffee.getPhoto(), request.getPhoto())) {
+        if(coffee.getPhoto().equals(defaultPhotoName)) {
+            coffee.setPhoto(storageService.store(request.getPhoto()).toString());
+        } else if(!storageService.update(coffee.getPhoto(), request.getPhoto())) {
             storageService.delete(coffee.getPhoto());
             coffee.setPhoto(storageService.store(request.getPhoto()).toString());
         }

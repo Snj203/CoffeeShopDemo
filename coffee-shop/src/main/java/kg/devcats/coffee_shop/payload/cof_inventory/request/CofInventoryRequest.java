@@ -23,6 +23,5 @@ public record CofInventoryRequest(
         @JsonProperty("quantity")
         int quantity
 
-
 ){
 }

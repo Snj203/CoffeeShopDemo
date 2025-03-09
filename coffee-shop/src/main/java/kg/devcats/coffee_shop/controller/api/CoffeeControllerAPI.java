@@ -78,7 +78,7 @@ public class CoffeeControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCoffee(
-            @Valid @RequestBody CoffeeRequest request,
+            @RequestBody @Valid CoffeeRequest request,
             @RequestPart @MultipartFileSizeValid MultipartFile photo) {
         try{
             Optional<Coffee> coffee = coffeeService.findById(request.name());

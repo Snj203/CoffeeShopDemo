@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>No Data Found</title>
+  <title>Success</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <style>
     body {
@@ -11,8 +11,8 @@
       text-align: center;
       padding: 50px;
     }
-    .no-data-message {
-      background-color: #ff9800;
+    .success-message {
+      background-color: #4CAF50;
       color: white;
       padding: 20px;
       border-radius: 5px;
@@ -31,9 +31,10 @@
   </style>
 </head>
 <body>
-<div class="no-data-message">
-  <h2>No Data Found</h2>
-  <p>Your request was successful, but no data was found in the database.</p>
+<div class="success-message">
+  <h2>Logged in!</h2>
+  <p>You are logged in!.</p>
+  <p>Welcome!.</p>
   <a class = "home-link" href="/">Home Page</a>
 </div>
 <br>

@@ -56,7 +56,7 @@ public class CityControllerAPI {
 
     @PostMapping
     public ResponseEntity<String> createCity(
-            @Valid @RequestBody CityRequest request
+            @RequestBody @Valid CityRequest request
     ) {
         try{
             if(!cityService.save(request)){
