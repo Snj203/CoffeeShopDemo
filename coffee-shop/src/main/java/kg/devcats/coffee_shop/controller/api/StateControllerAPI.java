@@ -60,7 +60,7 @@ public class StateControllerAPI {
     ) {
         try{
             if(!stateService.save(request)){
-                return new ResponseEntity<>("Failed to create State", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Failed to create State", HttpStatus.BAD_REQUEST);
             } else{
                 return new ResponseEntity<>("State created", HttpStatus.CREATED);
             }

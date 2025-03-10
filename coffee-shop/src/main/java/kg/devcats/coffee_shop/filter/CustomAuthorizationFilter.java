@@ -38,6 +38,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 || request.getServletPath().equals("/registration")
                 || request.getServletPath().equals("/not-enough-permissions")
                 || request.getServletPath().equals("/coffee/buy")
+                || request.getServletPath().equals("/coffee/view")
                 || request.getServletPath().startsWith("/css")
                 || request.getServletPath().startsWith("/h2-console")
                 || request.getServletPath().startsWith("/images")) {

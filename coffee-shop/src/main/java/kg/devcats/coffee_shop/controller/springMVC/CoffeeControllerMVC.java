@@ -81,6 +81,20 @@ public class CoffeeControllerMVC {
         }
     }
 
+    @GetMapping("/view")
+    public String getViewForm(Model model) {
+        try{
+            List<Coffee> coffeeList = coffeeServiceJPA.findAll();
+            if(coffeeList.isEmpty()) {
+                return "general/general_empty_form";
+            }
+            model.addAttribute("coffeeList", coffeeList);
+            return "coffee/coffee_view_form";
+        } catch (Exception e){
+            return "general/general_error_form";
+        }
+    }
+
     @GetMapping("/find/{cofName}")
     public String getFindByNameForm(
             Model model,

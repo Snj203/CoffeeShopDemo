@@ -44,7 +44,7 @@ public class Merch {
     private Timestamp time;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "mer_sup_id", nullable = false)
     @JsonProperty("supplier")
     private Supplier supplier;

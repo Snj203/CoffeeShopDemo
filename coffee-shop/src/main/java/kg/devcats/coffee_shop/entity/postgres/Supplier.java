@@ -49,13 +49,13 @@ public class Supplier {
     @JsonProperty("zip-code")
     private Integer zip;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "sup_city")
     @NotNull
     @JsonProperty("city")
     private City city;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "sup_state")
     @NotNull
     @JsonProperty("state")

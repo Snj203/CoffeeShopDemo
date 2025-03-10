@@ -48,3 +48,5 @@ SELECT 'default-user', 'ROLE_USER'
 INSERT INTO authorities (username, authority)
 SELECT 'default-viewer', 'ROLE_VIEWER'
     WHERE NOT EXISTS(SELECT FROM authorities WHERE username = 'default-viewer' AND authority = 'ROLE_VIEWER');
+-- _________
+

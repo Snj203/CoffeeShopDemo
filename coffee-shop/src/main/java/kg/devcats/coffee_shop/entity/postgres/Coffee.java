@@ -48,7 +48,7 @@ public class Coffee {
     private String photo;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "cof_sup_id", nullable = false)
     @JsonProperty("supplier")
     private Supplier supplier;

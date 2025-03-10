@@ -34,7 +34,7 @@ public class PreloadCoffeePhotoConfig {
         return (args) -> {
             if(deleteOnStart) {
                 for(Coffee coffee : coffeeServiceJPA.findAll()){
-                    coffee.setPhoto(rootLocation.resolve(defaultPhotoName).normalize().toAbsolutePath().toString().toString());
+                    coffee.setPhoto(rootLocation.resolve(defaultPhotoName).normalize().toAbsolutePath().toString());
                     coffeeServiceJPA.save(coffee);
                 }
             }

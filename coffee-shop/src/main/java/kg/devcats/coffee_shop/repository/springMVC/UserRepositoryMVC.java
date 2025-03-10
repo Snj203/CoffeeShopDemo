@@ -32,7 +32,7 @@ public class UserRepositoryMVC implements UserService {
         for(String role : request.role()){
             authority = new Authority();
             authority.setUsername(request.userName());
-            authority.setAuthority("ROLE_" + role);
+            authority.setAuthority(role);
             authority.setUser(user);
             authorities.add(authority);
         }

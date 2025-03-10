@@ -78,14 +78,14 @@ public class CoffeeControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCoffee(
-            @RequestBody @Valid CoffeeRequest request,
+            @RequestPart @Valid CoffeeRequest requestJson,
             @RequestPart @MultipartFileSizeValid MultipartFile photo) {
         try{
-            Optional<Coffee> coffee = coffeeService.findById(request.name());
+            Optional<Coffee> coffee = coffeeService.findById(requestJson.name());
 
             if(coffee.isPresent()) {
 
-                coffeeService.update(request,photo);
+                coffeeService.update(requestJson,photo);
                 return new ResponseEntity<>("coffee was updated successfully.", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Cannot find coffee", HttpStatus.NOT_FOUND);

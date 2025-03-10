@@ -25,7 +25,7 @@ public class City {
     @JsonProperty("name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "city_state")
     @NotNull
     @JsonProperty("state")

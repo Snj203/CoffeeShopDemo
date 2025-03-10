@@ -29,13 +29,13 @@ public class CofInventory {
     private Long warehouseId;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ci_coffee_name")
     @JsonProperty("coffee-name")
     private Coffee coffee;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ci_sup_id")
     @JsonProperty("supplier-id")
     private Supplier supplier;

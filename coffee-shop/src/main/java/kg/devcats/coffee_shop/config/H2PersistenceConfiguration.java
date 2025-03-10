@@ -67,7 +67,7 @@ public class H2PersistenceConfiguration {
         return dataSource;
     }
 
-    @Bean("h2PlatformTransactionManager")
+    @Bean("h2TransactionManager")
     public PlatformTransactionManager h2TransactionManager() {
 
         JpaTransactionManager transactionManager
