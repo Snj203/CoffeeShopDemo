@@ -31,7 +31,7 @@ public class H2PersistenceConfiguration {
     @Autowired
     private Environment env;
 
-    @Bean
+    @Bean("h2EntityManager")
     public LocalContainerEntityManagerFactoryBean h2EntityManager() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
@@ -53,7 +53,7 @@ public class H2PersistenceConfiguration {
         return em;
     }
 
-    @Bean
+    @Bean("h2DataSource")
     public DataSource h2DataSource() {
 
         DriverManagerDataSource dataSource
@@ -67,7 +67,7 @@ public class H2PersistenceConfiguration {
         return dataSource;
     }
 
-    @Bean
+    @Bean("h2PlatformTransactionManager")
     public PlatformTransactionManager h2TransactionManager() {
 
         JpaTransactionManager transactionManager
@@ -77,7 +77,7 @@ public class H2PersistenceConfiguration {
         return transactionManager;
     }
 
-    @Bean
+    @Bean("h2DataSourceInitializer")
     public DataSourceInitializer h2DataSourceInitializer() {
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
         resourceDatabasePopulator.addScript(new ClassPathResource("/sql/data-h2.sql"));

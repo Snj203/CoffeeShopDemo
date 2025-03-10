@@ -3,6 +3,7 @@ package kg.devcats.coffee_shop.security;
 import kg.devcats.coffee_shop.filter.CustomAccessDeniedHandler;
 import kg.devcats.coffee_shop.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.filter.CustomAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,7 +33,7 @@ public class WebSecurityApplicationConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
+    public UserDetailsService userDetailsService(@Qualifier("h2DataSource") DataSource dataSource) {
 
         JdbcUserDetailsManager provider = new JdbcUserDetailsManager(dataSource);
 
