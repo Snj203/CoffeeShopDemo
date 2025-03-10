@@ -1,9 +1,9 @@
 package kg.devcats.coffee_shop.entity.h2;
 
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 @Table(name = "authorities")
 @IdClass(AuthorityId.class)
 public class Authority {
-
     @Id
     @Column(name = "username", length = 50, nullable = false)
     private String username;
@@ -25,7 +24,8 @@ public class Authority {
     @JoinColumn(name = "username", insertable = false, updatable = false)
     private User user;
 
-    public Authority() {}
+    public Authority() {
+    }
 
     public String getUsername() {
         return username;

@@ -1,9 +1,9 @@
 package kg.devcats.coffee_shop.service;
 
 import kg.devcats.coffee_shop.entity.postgres.CofInventory;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
-import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 
 import java.util.List;
 import java.util.Optional;
