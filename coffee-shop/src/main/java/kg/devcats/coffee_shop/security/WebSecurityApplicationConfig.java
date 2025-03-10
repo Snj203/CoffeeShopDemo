@@ -57,16 +57,16 @@ public class WebSecurityApplicationConfig {
         http.authorizeHttpRequests(request -> request
 
 
-                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**", "/coffee/view","/coffee/buy").permitAll()
+                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 
-                        .requestMatchers("/api/coffee/buy","coffee/buy").hasAnyRole("ADMIN","USER","VIEWER")
-                        .requestMatchers(RegexRequestMatcher.regexMatcher("/api/[A-Za-z0-9]+/delete")).hasRole("ADMIN")
-                        .requestMatchers(RegexRequestMatcher.regexMatcher("/[A-Za-z0-9]+/delete")).hasRole("ADMIN")
+                        .requestMatchers("/api/coffee/buy","/coffee/view","/coffee/buy").hasAnyRole("ADMIN","USER","VIEWER")
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/api/[A-Za-z0-9-]+/delete")).hasRole("ADMIN")
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/[A-Za-z0-9-]+/delete")).hasRole("ADMIN")
                         .requestMatchers("/api/city/**","/city/**","/api/state/**","/state/**").hasRole("ADMIN")
-                        .requestMatchers(RegexRequestMatcher.regexMatcher("/api/[A-Za-z0-9]+/.*")).hasAnyRole("ADMIN","USER")
-                        .requestMatchers(RegexRequestMatcher.regexMatcher("/[A-Za-z0-9]+/.*")).hasAnyRole("ADMIN","USER")
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/api/[A-Za-z0-9-]+/.*")).hasAnyRole("ADMIN","USER")
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/[A-Za-z0-9-]+/.*")).hasAnyRole("ADMIN","USER")
 
                         .anyRequest().authenticated()
                 );
