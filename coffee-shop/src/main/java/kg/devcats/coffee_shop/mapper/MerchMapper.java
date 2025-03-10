@@ -11,13 +11,13 @@ import java.util.List;
 public class MerchMapper {
 
     public MerchResponse toResponse(Merch merch) {
-        MerchResponse merchResponse = new MerchResponse();
-        merchResponse.setName(merch.getName());
-        merchResponse.setItemId(merch.getItemId());
-        merchResponse.setQuantity(merch.getQuantity());
-        merchResponse.setTime(merch.getTime());
-        merchResponse.setSupplier(merch.getSupplier().getId());
-
+        MerchResponse merchResponse = new MerchResponse(
+                merch.getItemId(),
+                merch.getName(),
+                merch.getQuantity(),
+                merch.getTime(),
+                merch.getSupplier().getId()
+        );
         return merchResponse;
     }
 

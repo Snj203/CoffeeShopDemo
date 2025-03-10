@@ -11,13 +11,15 @@ import java.util.List;
 public class CofInventoryMapper {
 
     public CofInventoryResponse toResponse(CofInventory cofInventory) {
-         CofInventoryResponse cofInventoryResponse = new CofInventoryResponse();
-         cofInventoryResponse.setId(cofInventory.getId());
-         cofInventoryResponse.setQuantity(cofInventory.getQuantity());
-         cofInventoryResponse.setTime(cofInventory.getTime());
-         cofInventoryResponse.setCoffeeName(cofInventory.getCoffee().getName());
-         cofInventoryResponse.setSupplierId(cofInventory.getSupplier().getId());
-         cofInventoryResponse.setWarehouseId(cofInventory.getWarehouseId());
+         CofInventoryResponse cofInventoryResponse = new CofInventoryResponse(
+
+                 cofInventory.getId(),
+                 cofInventory.getWarehouseId(),
+                 cofInventory.getCoffee().getName(),
+                 cofInventory.getSupplier().getId(),
+                 cofInventory.getQuantity(),
+                 cofInventory.getTime()
+         );
 
          return cofInventoryResponse;
     }

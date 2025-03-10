@@ -1,6 +1,6 @@
 package kg.devcats.coffee_shop.controller.springMVC;
 
-import kg.devcats.coffee_shop.payload.user.UserRequest;
+import kg.devcats.coffee_shop.payload.user.request.UserRequest;
 import kg.devcats.coffee_shop.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -10,9 +10,11 @@ import java.util.List;
 @Component
 public class CityMapper {
     public CityResponse toResponse(City city) {
-        CityResponse response = new CityResponse();
-        response.setName(city.getName());
-        response.setState(city.getState().getName());
+        CityResponse response = new CityResponse(
+            city.getName(),
+            city.getState().getName()
+        );
+
         return response;
     }
 

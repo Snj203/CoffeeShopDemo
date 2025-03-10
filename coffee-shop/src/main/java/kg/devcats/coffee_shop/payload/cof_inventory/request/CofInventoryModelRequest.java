@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class CofInventoryUpdateRequest {
+public class CofInventoryModelRequest {
     @NotNull
     @JsonProperty("warehouse-id")
     private Long warehouseId;
@@ -22,7 +22,7 @@ public class CofInventoryUpdateRequest {
     @JsonProperty("quantity")
     private Integer quantity;
 
-    public CofInventoryUpdateRequest() {
+    public CofInventoryModelRequest() {
     }
 
     public Long getWarehouseId() {

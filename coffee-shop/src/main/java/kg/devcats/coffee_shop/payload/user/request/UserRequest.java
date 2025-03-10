@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.payload.user;
+package kg.devcats.coffee_shop.payload.user.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

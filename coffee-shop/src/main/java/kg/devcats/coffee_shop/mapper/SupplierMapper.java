@@ -12,14 +12,14 @@ public class SupplierMapper {
 
 
     public SupplierResponse toResponse(Supplier supplier) {
-        SupplierResponse response = new SupplierResponse();
-        response.setId(supplier.getId());
-        response.setName(supplier.getName());
-        response.setZip(supplier.getZip());
-        response.setStreet(supplier.getStreet());
-        response.setCity(supplier.getCity().getName());
-        response.setState(supplier.getState().getName());
-
+        SupplierResponse response = new SupplierResponse(
+            supplier.getId(),
+            supplier.getName(),
+            supplier.getStreet(),
+            supplier.getCity().getName(),
+            supplier.getZip(),
+            supplier.getState().getName()
+        );
         return response;
     }
 

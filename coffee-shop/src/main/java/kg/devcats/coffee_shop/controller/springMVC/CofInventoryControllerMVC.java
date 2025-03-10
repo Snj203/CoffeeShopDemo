@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.controller.springMVC;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.CofInventory;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
-import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 import kg.devcats.coffee_shop.service.CofInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +34,13 @@ public class CofInventoryControllerMVC {
 
     @GetMapping("/add")
     public String getForm(Model model) {
-        model.addAttribute("cofInventoryUpdateRequest", new CofInventoryUpdateRequest());
+        model.addAttribute("cofInventoryUpdateRequest", new CofInventoryModelRequest());
         return "cof_inventory/cof_inventory_form";
     }
 
     @PostMapping("/add")
     public String saveForm(
-            @ModelAttribute @Valid CofInventoryUpdateRequest request,
+            @ModelAttribute @Valid CofInventoryModelRequest request,
             BindingResult bindingResult
     ) {
         try{
@@ -95,7 +95,7 @@ public class CofInventoryControllerMVC {
             @PathVariable Long idStorage,
             Model model) {
 
-        model.addAttribute("cofInventoryUpdateRequest", new CofInventoryUpdateRequest());
+        model.addAttribute("cofInventoryUpdateRequest", new CofInventoryModelRequest());
         model.addAttribute("idStorage", idStorage);
         return "cof_inventory/cof_inventory_update_form";
     }
@@ -103,7 +103,7 @@ public class CofInventoryControllerMVC {
     @PostMapping("/update/{idStorage}")
     public String saveUpdateForm(
             @PathVariable Long idStorage,
-            @ModelAttribute @Valid CofInventoryUpdateRequest request,
+            @ModelAttribute @Valid CofInventoryModelRequest request,
             BindingResult bindingResult
     ){
         try{

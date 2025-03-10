@@ -2,7 +2,7 @@ package kg.devcats.coffee_shop.repository.springMVC;
 
 import kg.devcats.coffee_shop.entity.h2.Authority;
 import kg.devcats.coffee_shop.entity.h2.User;
-import kg.devcats.coffee_shop.payload.user.UserRequest;
+import kg.devcats.coffee_shop.payload.user.request.UserRequest;
 import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
 import kg.devcats.coffee_shop.service.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

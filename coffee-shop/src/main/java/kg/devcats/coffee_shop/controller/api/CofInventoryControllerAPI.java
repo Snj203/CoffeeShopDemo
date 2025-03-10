@@ -5,7 +5,7 @@ import kg.devcats.coffee_shop.entity.postgres.CofInventory;
 import kg.devcats.coffee_shop.mapper.CofInventoryMapper;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
-import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.response.CofInventoryResponse;
 import kg.devcats.coffee_shop.service.CofInventoryService;
 import org.slf4j.Logger;
@@ -93,7 +93,7 @@ public class CofInventoryControllerAPI {
 
     @PutMapping
     public ResponseEntity<String> updateCofInventory(
-            @RequestBody @Valid CofInventoryUpdateRequest request,
+            @RequestBody @Valid CofInventoryModelRequest request,
             @RequestParam Long id) {
         try{
             Optional<CofInventory> cofInventory = cofInventoryService.findById(id);

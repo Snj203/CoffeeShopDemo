@@ -10,12 +10,14 @@ import java.util.List;
 @Component
 public class CoffeeHouseMapper {
     public CoffeeHouseResponse toResponse(CoffeeHouse coffee) {
-        CoffeeHouseResponse response = new CoffeeHouseResponse();
-        response.setId(coffee.getId());
-        response.setCity(coffee.getCity().getName());
-        response.setSoldCoffee(coffee.getSoldCoffee());
-        response.setSoldMerch(coffee.getSoldMerch());
-        response.setTotalSold(coffee.getTotalSold());
+        CoffeeHouseResponse response = new CoffeeHouseResponse(
+            coffee.getId(),
+            coffee.getCity().getName(),
+            coffee.getSoldCoffee(),
+            coffee.getSoldMerch(),
+            coffee.getTotalSold()
+        );
+
 
         return response;
     }

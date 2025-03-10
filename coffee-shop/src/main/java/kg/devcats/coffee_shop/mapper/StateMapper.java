@@ -10,9 +10,11 @@ import java.util.List;
 @Component
 public class StateMapper {
     public StateResponse toResponse(State state) {
-         StateResponse response = new StateResponse();
-         response.setName(state.getName());
-         response.setPrefix(state.getPrefix());
+         StateResponse response = new StateResponse(
+             state.getName(),
+             state.getPrefix()
+         );
+
          return response;
     }
 

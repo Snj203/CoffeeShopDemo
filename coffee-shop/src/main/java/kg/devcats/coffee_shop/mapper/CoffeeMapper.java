@@ -11,13 +11,14 @@ import java.util.List;
 public class CoffeeMapper {
 
     public CoffeeResponse toResponse(Coffee coffee) {
-        CoffeeResponse coffeeResponse = new CoffeeResponse();
-        coffeeResponse.setName(coffee.getName());
-        coffeeResponse.setPrice(coffee.getPrice());
-        coffeeResponse.setSupplierId(coffee.getSupplier().getId());
-        coffeeResponse.setSold(coffee.getSold());
-        coffeeResponse.setTotal(coffee.getTotal());
-        coffeeResponse.setPhoto(coffee.getPhoto());
+        CoffeeResponse coffeeResponse = new CoffeeResponse(
+                coffee.getName(),
+                coffee.getPrice(),
+                coffee.getSold(),
+                coffee.getTotal(),
+                coffee.getSupplier().getId(),
+                coffee.getPhoto()
+        );
 
         return coffeeResponse;
     }

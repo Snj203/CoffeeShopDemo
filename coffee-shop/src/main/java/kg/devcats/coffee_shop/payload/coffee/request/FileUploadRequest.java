@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.payload;
+package kg.devcats.coffee_shop.payload.coffee.request;
 
 import jakarta.validation.constraints.NotNull;
 import kg.devcats.coffee_shop.validation.MultipartFileSizeValid;

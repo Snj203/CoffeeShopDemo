@@ -5,7 +5,7 @@ import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
-import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryUpdateRequest;
+import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 import kg.devcats.coffee_shop.repository.postgres.CofInventoryServiceJPA;
 import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
 import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
@@ -85,7 +85,7 @@ public class CofInventoryRepository implements CofInventoryService {
     }
 
     @Override
-    public boolean update(Long id, CofInventoryUpdateRequest request) {
+    public boolean update(Long id, CofInventoryModelRequest request) {
         Optional<CofInventory> optionalCofInventory = cofInventoryService.findById(id);
         Optional<Coffee> optionalCoffee = coffeeService.findById(request.getCoffeeName());
         Optional<Supplier> optionalSupplier = supplierService.findById(request.getSupplierId());
@@ -105,7 +105,7 @@ public class CofInventoryRepository implements CofInventoryService {
     }
 
     @Override
-    public boolean save(CofInventoryUpdateRequest request) {
+    public boolean save(CofInventoryModelRequest request) {
         Optional<Supplier> supplier = supplierService.findById(request.getSupplierId());
         Optional<Coffee> coffee = coffeeService.findById(request.getCoffeeName());
         if(!coffee.isPresent() || !supplier.isPresent()) {
