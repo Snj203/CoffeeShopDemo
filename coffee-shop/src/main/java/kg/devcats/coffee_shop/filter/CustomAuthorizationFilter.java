@@ -37,8 +37,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 || request.getServletPath().equals("/login-fail")
                 || request.getServletPath().equals("/registration")
                 || request.getServletPath().equals("/not-enough-permissions")
-                || request.getServletPath().equals("/coffee/buy")
-                || request.getServletPath().equals("/coffee/view")
                 || request.getServletPath().startsWith("/css")
                 || request.getServletPath().startsWith("/h2-console")
                 || request.getServletPath().startsWith("/images")) {
@@ -94,6 +92,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             }
         }
         if(request.getServletPath().startsWith("/api" )){
+            filterChain.doFilter(request, response);
+            return;
+        } else if(SecurityContextHolder.getContext().getAuthentication() == null) {
             filterChain.doFilter(request, response);
             return;
         }
