@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+input[text]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+}
+
+span {
+    color: #dc3545;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+label{
+    color: blue;
+    padding: 8px;
+}
+
+.warning-container {
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #ff4444;
+    border: 2px solid #cc0000;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.warning-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 650px;
+    height: 450px;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/753/753345.png');
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.warning-text {
+    position: relative;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 2;
+}
