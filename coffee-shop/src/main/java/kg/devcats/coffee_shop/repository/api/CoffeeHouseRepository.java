@@ -37,6 +37,7 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
         coffee.setSoldMerch(0);
         coffee.setTotalSold(0);
         coffee.setPrefixState(city.getState().getPrefix());
+
         coffeeHouseServiceJPA.save(coffee);
 
         return true;
