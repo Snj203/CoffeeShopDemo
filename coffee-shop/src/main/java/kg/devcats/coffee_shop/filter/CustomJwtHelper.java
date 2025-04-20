@@ -2,6 +2,8 @@ package kg.devcats.coffee_shop.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +24,12 @@ import java.util.Map;
 @Component
 public class CustomJwtHelper {
     @Value("${jwt.accessToken.expiration}")
-    private long accessTokenExpiration;
+    private Long accessTokenExpiration;
 
     @Value("${jwt.refreshToken.expiration}")
-    private long refreshTokenExpiration;
+    private Long refreshTokenExpiration;
 
+    private final Logger log = LoggerFactory.getLogger(CustomJwtHelper.class);
     private final UserDetailsService userDetailsService;
 
     public CustomJwtHelper( UserDetailsService userDetailsService) {
@@ -41,6 +44,7 @@ public class CustomJwtHelper {
 
             return header + "." + payload + "." + signature;
         } catch (Exception e) {
+            log.error("Error while creating token: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -64,7 +68,11 @@ public class CustomJwtHelper {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String,Object> claims = objectMapper.readValue(payloadJson, Map.class);
 
-        if((Long) claims.get("exp") > System.currentTimeMillis()) {
+        long exp = ((Number) claims.get("exp")).longValue();
+
+        System.out.println(exp);
+        System.out.println(System.currentTimeMillis() / 1000);
+        if(exp < System.currentTimeMillis() / 1000) {
             throw new RuntimeException("Expired JWT token");
         }
 
@@ -73,20 +81,15 @@ public class CustomJwtHelper {
 
     public Map<String, String> validateToken(String token) throws Exception {
         Map<String, Object> claims = verifyToken(token);
-        String access_token = createToken(getUsernameFromToken(token), claims, accessTokenExpiration);
-        String refresh_token = createToken(getUsernameFromToken(token), claims, refreshTokenExpiration);
+        String access_token = createToken((String) claims.get("sub"), claims, accessTokenExpiration);
+        String refresh_token = createToken((String) claims.get("sub"), claims, refreshTokenExpiration);
 
         Map<String, String> res = new HashMap<>();
         res.put("access_token", access_token);
-        res.put("Expires in : ", accessTokenExpiration / 60 / 60 + " hours");
+        res.put("Access token Expires in : ", accessTokenExpiration / 60L / 60L + " hours");
         res.put("refresh_token", refresh_token);
-        res.put("Expires in : ", refreshTokenExpiration / 60 / 60 / 24 + " days");
+        res.put("Refresh Token Expires in : ", refreshTokenExpiration / 60L / 60L / 24L + " days");
         return res;
-    }
-
-    public String getUsernameFromToken(String token) throws Exception {
-        Map<String, Object> claims = verifyToken(token);
-        return  (String) claims.get("sub");
     }
 
     private String initHeader() throws Exception{
@@ -98,8 +101,8 @@ public class CustomJwtHelper {
 
     private String initPayload(String username, Map<String, Object> claims, Long exp) throws Exception{
         claims.put("sub", username);
-        claims.put("exp", System.currentTimeMillis() / 1000 + exp);
-        claims.put("iat", System.currentTimeMillis() / 1000);
+        claims.put("exp", System.currentTimeMillis() / 1000L + exp);
+        claims.put("iat", System.currentTimeMillis() / 1000L);
         return encodeToString(claims);
     }
 

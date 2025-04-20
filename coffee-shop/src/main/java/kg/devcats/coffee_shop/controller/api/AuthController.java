@@ -29,7 +29,7 @@ public class AuthController {
         try {
             return new ResponseEntity<>(jwtHelper.validateToken(refreshToken), HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error while refresh" + e.getMessage());
+            log.error("Error while refresh: " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

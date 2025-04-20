@@ -25,16 +25,14 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Value("${jwt.accessToken.expiration}")
-    private long accessTokenExpiration;
-
-    @Value("${jwt.refreshToken.expiration}")
-    private long refreshTokenExpiration;
-
+    private final Long accessTokenExpiration;
+    private final Long refreshTokenExpiration;
     private final AuthenticationManager authenticationManager;
     private final CustomJwtHelper customJwtHelper;
 
-    public CustomAuthenticationFilter(AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper) throws Exception {
+    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper) throws Exception {
+        this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.customJwtHelper = customJwtHelper;
     }

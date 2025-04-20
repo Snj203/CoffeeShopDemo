@@ -5,6 +5,7 @@ import kg.devcats.coffee_shop.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.filter.CustomAuthorizationFilter;
 import kg.devcats.coffee_shop.filter.CustomJwtHelper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -25,6 +26,11 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityApplicationConfig {
+    @Value("${jwt.accessToken.expiration}")
+    private Long accessTokenExpiration;
+
+    @Value("${jwt.refreshToken.expiration}")
+    private Long refreshTokenExpiration;
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomAccessDeniedHandler accessDeniedHandler;
@@ -49,7 +55,7 @@ public class WebSecurityApplicationConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationConfiguration, jwtHelper);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(accessTokenExpiration, refreshTokenExpiration, authenticationConfiguration, jwtHelper);
         CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter(jwtHelper);
 
         http.csrf(csrf -> csrf
