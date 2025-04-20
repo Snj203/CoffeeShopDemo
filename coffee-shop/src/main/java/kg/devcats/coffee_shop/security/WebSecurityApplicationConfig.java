@@ -3,9 +3,11 @@ package kg.devcats.coffee_shop.security;
 import kg.devcats.coffee_shop.filter.CustomAccessDeniedHandler;
 import kg.devcats.coffee_shop.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.filter.CustomAuthorizationFilter;
+import kg.devcats.coffee_shop.filter.CustomJwtHelper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,10 +28,14 @@ public class WebSecurityApplicationConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final    CustomJwtHelper jwtHelper;
 
-    public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration, CustomAccessDeniedHandler accessDeniedHandler) {
+    public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration,
+                                        CustomAccessDeniedHandler accessDeniedHandler,
+                                        @Lazy CustomJwtHelper jwtHelper) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.accessDeniedHandler = accessDeniedHandler;
+        this.jwtHelper = jwtHelper;
     }
 
     @Bean
@@ -43,8 +49,8 @@ public class WebSecurityApplicationConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationConfiguration);
-        CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter();
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationConfiguration, jwtHelper);
+        CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter(jwtHelper);
 
         http.csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/**","/login")
@@ -57,7 +63,8 @@ public class WebSecurityApplicationConfig {
         http.authorizeHttpRequests(request -> request
 
 
-                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**").permitAll()
+                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**",
+                                "/api/auth/**").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 

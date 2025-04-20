@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,10 +25,18 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
+    @Value("${jwt.accessToken.expiration}")
+    private long accessTokenExpiration;
 
-    public CustomAuthenticationFilter(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    @Value("${jwt.refreshToken.expiration}")
+    private long refreshTokenExpiration;
+
+    private final AuthenticationManager authenticationManager;
+    private final CustomJwtHelper customJwtHelper;
+
+    public CustomAuthenticationFilter(AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
+        this.customJwtHelper = customJwtHelper;
     }
 
 
@@ -56,7 +65,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
 
-        String access_token = CustomJwtHelper.createToken(user.getUsername(), claims);
+        String access_token = customJwtHelper.createToken(user.getUsername(), claims, accessTokenExpiration);
+        String refresh_token = customJwtHelper.createToken(user.getUsername(), claims, refreshTokenExpiration);
 
         Cookie jwtCookie = new Cookie("jwt", access_token);
         jwtCookie.setHttpOnly(true);
@@ -64,7 +74,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         jwtCookie.setMaxAge(60 * 60);
         response.addCookie(jwtCookie);
 
-        handleResponseSuccess(request,response, access_token);
+        handleResponseSuccess(request,response, access_token, refresh_token);
     }
 
     protected void unsuccessfulAuthentication(
@@ -75,7 +85,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         handleResponseFail(request,response);
     }
 
-    private void handleResponseSuccess(HttpServletRequest request,HttpServletResponse response,String access_token  ) throws IOException {
+    private void handleResponseSuccess(HttpServletRequest request,HttpServletResponse response,String access_token,String refresh_token  ) throws IOException {
         String acceptHeader = request.getHeader("Accept");
         String userAgent = request.getHeader("User-Agent");
 
@@ -84,7 +94,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             response.sendRedirect("/login-success");
         } else {
             Map<String, String> token = new HashMap<>();
-            token.put("accessToken", access_token);
+            token.put("access_token", access_token);
+            token.put("Expires in : ", accessTokenExpiration / 60 / 60 + " hours");
+            token.put("refresh_token", refresh_token);
+            token.put("Expires in : ", refreshTokenExpiration / 60 / 60 / 24 + " days");
+
             response.setContentType(APPLICATION_JSON_VALUE);
             response.addHeader("Authorization", "Bearer " + token);
             new ObjectMapper().writeValue(response.getOutputStream(), token);
