@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -29,12 +31,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private final Long refreshTokenExpiration;
     private final AuthenticationManager authenticationManager;
     private final CustomJwtHelper customJwtHelper;
+    private final UserServiceJPA userService;
 
-    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper) throws Exception {
+    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper, UserServiceJPA userService) throws Exception {
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.customJwtHelper = customJwtHelper;
+        this.userService = userService;
     }
 
 
@@ -65,6 +69,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         String access_token = customJwtHelper.createToken(user.getUsername(), claims, accessTokenExpiration);
         String refresh_token = customJwtHelper.createToken(user.getUsername(), claims, refreshTokenExpiration);
+
+        kg.devcats.coffee_shop.entity.h2.User dbuser = userService.findById(user.getUsername()).get();
+        dbuser.setRefreshToken(refresh_token);
+        userService.save(dbuser);
 
         Cookie jwtCookie = new Cookie("jwt", access_token);
         jwtCookie.setHttpOnly(true);

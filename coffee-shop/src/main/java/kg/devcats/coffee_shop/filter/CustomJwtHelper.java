@@ -1,6 +1,8 @@
 package kg.devcats.coffee_shop.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kg.devcats.coffee_shop.entity.h2.User;
+import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 @Component
 public class CustomJwtHelper {
+    private final UserServiceJPA userServiceJPA;
     @Value("${jwt.accessToken.expiration}")
     private Long accessTokenExpiration;
 
@@ -32,8 +35,9 @@ public class CustomJwtHelper {
     private final Logger log = LoggerFactory.getLogger(CustomJwtHelper.class);
     private final UserDetailsService userDetailsService;
 
-    public CustomJwtHelper( UserDetailsService userDetailsService) {
+    public CustomJwtHelper(UserDetailsService userDetailsService, UserServiceJPA userServiceJPA) {
         this.userDetailsService = userDetailsService;
+        this.userServiceJPA = userServiceJPA;
     }
 
     public  String createToken(String subject, Map<String, Object> claims, Long exp) {
@@ -81,8 +85,17 @@ public class CustomJwtHelper {
 
     public Map<String, String> validateToken(String token) throws Exception {
         Map<String, Object> claims = verifyToken(token);
+
+        User user = userServiceJPA.findById((String)claims.get("sub")).get();
+        if(!user.getRefreshToken().equals(token)) {
+            throw new SecurityException("Invalid JWT token");
+        }
+
         String access_token = createToken((String) claims.get("sub"), claims, accessTokenExpiration);
         String refresh_token = createToken((String) claims.get("sub"), claims, refreshTokenExpiration);
+
+        user.setRefreshToken(refresh_token);
+        userServiceJPA.save(user);
 
         Map<String, String> res = new HashMap<>();
         res.put("access_token", access_token);

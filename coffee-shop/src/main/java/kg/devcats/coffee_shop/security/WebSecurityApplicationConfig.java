@@ -4,6 +4,7 @@ import kg.devcats.coffee_shop.filter.CustomAccessDeniedHandler;
 import kg.devcats.coffee_shop.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.filter.CustomAuthorizationFilter;
 import kg.devcats.coffee_shop.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,13 +36,15 @@ public class WebSecurityApplicationConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final    CustomJwtHelper jwtHelper;
+    private final UserServiceJPA userService;
 
     public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration,
                                         CustomAccessDeniedHandler accessDeniedHandler,
-                                        @Lazy CustomJwtHelper jwtHelper) {
+                                        @Lazy CustomJwtHelper jwtHelper, UserServiceJPA userService) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.accessDeniedHandler = accessDeniedHandler;
         this.jwtHelper = jwtHelper;
+        this.userService = userService;
     }
 
     @Bean
@@ -55,7 +58,8 @@ public class WebSecurityApplicationConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(accessTokenExpiration, refreshTokenExpiration, authenticationConfiguration, jwtHelper);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(accessTokenExpiration,
+                refreshTokenExpiration, authenticationConfiguration, jwtHelper, userService);
         CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter(jwtHelper);
 
         http.csrf(csrf -> csrf
