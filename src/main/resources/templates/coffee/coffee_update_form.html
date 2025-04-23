@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Coffee</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<h1>Edit Coffee</h1>
+<form th:action="@{/coffee/update}" th:object="${coffeeRequestMVC}" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+  </div>
+  <div class="form-group">
+    <label for="price">Price:</label>
+    <input type="number" id="price" th:field="*{price}"  step="0.01" required/>
+    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</span>
+  </div>
+  <div class="form-group">
+    <label for="sold">Sold:</label>
+    <input type="number" id="sold" th:field="*{sold}" required/>
+    <span th:if="${#fields.hasErrors('sold')}" th:errors="*{sold}">Sold Error</span>
+  </div>
+  <div class="form-group">
+    <label for="total">Total Sold:</label>
+    <input type="number" id="total" th:field="*{total}" required/>
+    <span th:if="${#fields.hasErrors('total')}" th:errors="*{total}">Total Sold Error</span>
+  </div>
+  <div class="form-group">
+    <label for="supplierId">Supplier Id:</label>
+    <input type="number" id="supplierId" th:field="*{supplierId}" required/>
+    <span th:if="${#fields.hasErrors('supplierId')}" th:errors="*{supplierId}">Supplier Id Error</span>
+  </div>
+  <div class="form-group">
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" accept="image/*" th:field="*{photo}"/>
+    <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}">Photo Error</span>
+  </div>
+
+  <div class="form-group">
+    <button type="submit">Save</button>
+  </div>
+</form>
+</body>
+</html>

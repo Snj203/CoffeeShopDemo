@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Storage</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<h1>Add Storage</h1>
+<form th:action="@{/storage/add}" th:object="${cofInventoryUpdateRequest}" method="post" >
+    <div class="form-group">
+        <label for="warehouseId">Warehouse Id:</label>
+        <input type="number" id="warehouseId" th:field="*{warehouseId}" required/>
+        <span th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}">Warehouse Id Error</span>
+    </div>
+    <div class="form-group">
+        <label for="coffeeName">Coffee Name:</label>
+        <input type="text" id="coffeeName" th:field="*{coffeeName}" required/>
+        <span th:if="${#fields.hasErrors('coffeeName')}" th:errors="*{coffeeName}">Coffee Name Error</span>
+    </div>
+    <div class="form-group">
+        <label for="supplierId">Supplier Id:</label>
+        <input type="number" id="supplierId" th:field="*{supplierId}" required/>
+        <span th:if="${#fields.hasErrors('supplierId')}" th:errors="*{supplierId}">Supplier Id Error</span>
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" th:field="*{quantity}" required/>
+        <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Quantity Error</span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>

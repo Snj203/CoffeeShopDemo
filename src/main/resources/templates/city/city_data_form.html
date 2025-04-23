@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>City Details</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<h1>City Info</h1>
+
+<div th:if="${city}">
+  <p th:text="'City Name ' + ${city.name}" />
+  <p th:text="'State Name: ' + ${city.state.name}" />
+</div>
+
+<div th:unless="${city}">
+  <h1>City not found!</h1>
+</div>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  h1 {
+    color: #4A4A4A;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .city-details p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 10px 0;
+  }
+
+  .city-details p strong {
+    color: #333;
+  }
+
+  .city-details img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .not-found h1 {
+    color: #d9534f;
+    font-size: 2rem;
+  }
+
+  .return-home {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .return-home a {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .return-home a:hover {
+    background-color: #45a049;
+  }
+  img{
+    border-radius: 50%;
+  }
+</style>
+</body>
+</html>

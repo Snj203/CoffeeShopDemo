@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Supplier</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<h1>Update Supplier</h1>
+<form th:action="@{/supplier/update/{idSupplier}(idSupplier=${idSupplier})}" th:object="${supplierRequestMVC}" method="post" >
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+  </div>
+  <div class="form-group">
+    <label for="street">Street Name:</label>
+    <input type="text" id="street" th:field="*{street}" required/>
+    <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Street Name Error</span>
+  </div>
+  <div class="form-group">
+    <label for="cityName">City:</label>
+    <input type="text" id="cityName" th:field="*{cityName}" required/>
+    <span th:if="${#fields.hasErrors('cityName')}" th:errors="*{cityName}">City Name Error</span>
+  </div>
+  <div class="form-group">
+    <label for="stateName">State Code</label>
+    <input type="text" id="stateName" th:field="*{stateName}" required/>
+    <span th:if="${#fields.hasErrors('stateName')}" th:errors="*{stateName}">State Name Error</span>
+  </div>
+  <div class="form-group">
+    <label for="zip">Zip Code</label>
+    <input type="number" id="zip" th:field="*{zip}" required/>
+    <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip Code  Error</span>
+  </div>
+
+  <div class="form-group">
+    <button type="submit">Save</button>
+  </div>
+</form>
+</body>
+</html>

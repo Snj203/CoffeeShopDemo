@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete supplier</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<h1>Delete Supplier</h1>
+
+
+<div class="warning-container">
+  <div class="warning-text">
+    Attention! If you delete any element with relations
+    it will also affect all elements!
+    Any Child elements will be deleted!!!
+  </div>
+  <form th:action="@{/supplier/delete}" method="post">
+    <div class="form-group">
+      <label for="idSupplier">Supplier Id:</label>
+      <input type="number" id="idSupplier" name="idSupplier" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>

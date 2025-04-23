@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>500 - Internal Server Error</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    .error-message {
+      background-color: #f44336;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    .login-link {
+      margin-top: 20px;
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .login-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="error-message">
+  <h2>Something gone wrong,try again</h2>
+  <a class = "login-link" href="/login">Login</a>
+</div>
+<br>
+</body>
+</html>

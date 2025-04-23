@@ -3,24 +3,16 @@ package kg.devcats.coffee_shop.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.devcats.coffee_shop.entity.h2.User;
 import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -33,10 +25,8 @@ public class CustomJwtHelper {
     private Long refreshTokenExpiration;
 
     private final Logger log = LoggerFactory.getLogger(CustomJwtHelper.class);
-    private final UserDetailsService userDetailsService;
 
-    public CustomJwtHelper(UserDetailsService userDetailsService, UserServiceJPA userServiceJPA) {
-        this.userDetailsService = userDetailsService;
+    public CustomJwtHelper(UserServiceJPA userServiceJPA) {
         this.userServiceJPA = userServiceJPA;
     }
 
@@ -74,10 +64,13 @@ public class CustomJwtHelper {
 
         long exp = ((Number) claims.get("exp")).longValue();
 
-        System.out.println(exp);
-        System.out.println(System.currentTimeMillis() / 1000);
         if(exp < System.currentTimeMillis() / 1000) {
             throw new RuntimeException("Expired JWT token");
+        }
+
+        User user = userServiceJPA.findById((String)claims.get("sub")).get();
+        if(!user.getEmailVerified()){
+            throw new RuntimeException("User email is not verified");
         }
 
         return claims;

@@ -1,15 +1,11 @@
 package kg.devcats.coffee_shop.entity.h2;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.sql.Timestamp;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -30,10 +26,42 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
-    @Column
+    @Column(name = "refresh_token")
     private String refreshToken;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "is_email_verified")
+    private Boolean isEmailVerified;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "verification_code_expiration")
+    private Timestamp verificationCodeExpiration;
+
     public User() {}
+
+    public User(String username) {
+        this.username = username;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public Timestamp getVerificationCodeExpiration() {
+        return verificationCodeExpiration;
+    }
+
+    public void setVerificationCodeExpiration(Timestamp verificationCodeExpiration) {
+        this.verificationCodeExpiration = verificationCodeExpiration;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
 
     public String getRefreshToken() {
         return refreshToken;
@@ -41,6 +69,22 @@ public class User {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setEmailVerified(Boolean emailVerified) {
+        isEmailVerified = emailVerified;
     }
 
     public String getUsername() {
