@@ -1,9 +1,9 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.state.request.StateRequest;
 import kg.devcats.coffee_shop.payload.state.request.StateRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateRepositoryJPA;
 import kg.devcats.coffee_shop.service.StateService;
 import org.springframework.stereotype.Repository;
 
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class StateRepository implements StateService {
+public class StateServiceImpl implements StateService {
 
-    private final StateServiceJPA stateService;
+    private final StateRepositoryJPA stateService;
 
-    public StateRepository(StateServiceJPA stateService) {
+    public StateServiceImpl(StateRepositoryJPA stateService) {
         this.stateService = stateService;
     }
 

@@ -1,13 +1,13 @@
-package kg.devcats.coffee_shop.repository.springMVC;
+package kg.devcats.coffee_shop.service.impl.springMVC;
 
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeBuyRequest;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.mvc.CoffeeServiceMVC;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,16 +16,16 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class CoffeeRepositoryMVC implements CoffeeServiceMVC {
-    private final CoffeeServiceJPA coffeeService;
-    private final SupplierServiceJPA supplierService;
+public class CoffeeServiceImplMVC implements CoffeeServiceMVC {
+    private final CoffeeRepositoryJPA coffeeService;
+    private final SupplierRepositoryJPA supplierService;
     private final StorageService storageService;
-    private final CoffeeHouseServiceJPA coffeeHouseService;
+    private final CoffeeHouseRepositoryJPA coffeeHouseService;
 
     @Value("${spring.storage.default-photo-name}")
     private String defaultPhotoName;
 
-    public CoffeeRepositoryMVC(CoffeeServiceJPA coffeeService, SupplierServiceJPA supplierService, StorageService storageService, CoffeeHouseServiceJPA coffeeHouseService) {
+    public CoffeeServiceImplMVC(CoffeeRepositoryJPA coffeeService, SupplierRepositoryJPA supplierService, StorageService storageService, CoffeeHouseRepositoryJPA coffeeHouseService) {
         this.coffeeService = coffeeService;
         this.supplierService = supplierService;
         this.storageService = storageService;

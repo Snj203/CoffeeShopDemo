@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.controller.springMVC;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.CoffeeHouseServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +17,11 @@ import java.util.Optional;
 @RequestMapping("/coffee-house")
 public class CoffeeHouseControllerMVC {
     private final CoffeeHouseServiceMVC coffeeHouseService;
-    private final CoffeeHouseServiceJPA coffeeHouseServiceJPA;
+    private final CoffeeHouseRepositoryJPA coffeeHouseRepositoryJPA;
 
-    public CoffeeHouseControllerMVC(CoffeeHouseServiceMVC coffeeHouseService, CoffeeHouseServiceJPA coffeeHouseServiceJPA) {
+    public CoffeeHouseControllerMVC(CoffeeHouseServiceMVC coffeeHouseService, CoffeeHouseRepositoryJPA coffeeHouseRepositoryJPA) {
         this.coffeeHouseService = coffeeHouseService;
-        this.coffeeHouseServiceJPA = coffeeHouseServiceJPA;
+        this.coffeeHouseRepositoryJPA = coffeeHouseRepositoryJPA;
     }
 
     @GetMapping
@@ -58,7 +58,7 @@ public class CoffeeHouseControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<CoffeeHouse> coffeeHouseList = coffeeHouseServiceJPA.findAll();
+            List<CoffeeHouse> coffeeHouseList = coffeeHouseRepositoryJPA.findAll();
             if(coffeeHouseList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -74,7 +74,7 @@ public class CoffeeHouseControllerMVC {
             Model model,
             @PathVariable("idCoffeeHouse") Long id) {
         try{
-            Optional<CoffeeHouse> optionalCoffeeHouse = coffeeHouseServiceJPA.findById(id);
+            Optional<CoffeeHouse> optionalCoffeeHouse = coffeeHouseRepositoryJPA.findById(id);
 
             if(optionalCoffeeHouse.isPresent()) {
                 CoffeeHouse coffeeHouse = optionalCoffeeHouse.get();
@@ -127,12 +127,12 @@ public class CoffeeHouseControllerMVC {
     public String saveDeleteForm(
             @RequestParam("idCoffeeHouse") Long id) {
         try{
-            Optional<CoffeeHouse> optionalCoffeeHouse = coffeeHouseServiceJPA.findById(id);
+            Optional<CoffeeHouse> optionalCoffeeHouse = coffeeHouseRepositoryJPA.findById(id);
 
             if(!optionalCoffeeHouse.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            coffeeHouseServiceJPA.deleteById(id);
+            coffeeHouseRepositoryJPA.deleteById(id);
             return "general/general_success_form";
 
         } catch(Exception e){

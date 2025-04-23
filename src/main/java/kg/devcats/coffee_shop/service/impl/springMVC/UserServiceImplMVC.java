@@ -1,9 +1,9 @@
-package kg.devcats.coffee_shop.repository.springMVC;
+package kg.devcats.coffee_shop.service.impl.springMVC;
 
 import kg.devcats.coffee_shop.entity.h2.Authority;
 import kg.devcats.coffee_shop.entity.h2.User;
 import kg.devcats.coffee_shop.payload.user.request.UserRequest;
-import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.service.EmailService;
 import kg.devcats.coffee_shop.service.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,12 +16,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public class UserRepositoryMVC implements UserService {
-    private final UserServiceJPA userService;
+public class UserServiceImplMVC implements UserService {
+    private final UserRepositoryJPA userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailService emailService;
 
-    public UserRepositoryMVC(UserServiceJPA userService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService) {
+    public UserServiceImplMVC(UserRepositoryJPA userService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.emailService = emailService;

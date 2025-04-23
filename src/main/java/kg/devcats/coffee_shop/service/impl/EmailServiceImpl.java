@@ -2,7 +2,7 @@ package kg.devcats.coffee_shop.service.impl;
 
 import kg.devcats.coffee_shop.entity.h2.User;
 import kg.devcats.coffee_shop.exceptions.EmailTokenExpiredException;
-import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,9 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender emailSender;
 
     private final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
-    private final UserServiceJPA userRepository;
+    private final UserRepositoryJPA userRepository;
 
-    public EmailServiceImpl(UserServiceJPA userRepository) {
+    public EmailServiceImpl(UserRepositoryJPA userRepository) {
         this.userRepository = userRepository;
     }
 

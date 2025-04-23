@@ -1,11 +1,11 @@
-package kg.devcats.coffee_shop.repository.springMVC;
+package kg.devcats.coffee_shop.service.impl.springMVC;
 
 import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.merch.request.MerchReplenishRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.MerchServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.MerchRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.MerchServiceMVC;
 import org.springframework.stereotype.Repository;
 
@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-public class MerchRepositoryMVC implements MerchServiceMVC {
-    private final MerchServiceJPA merchService;
-    private final SupplierServiceJPA supplierService;
+public class MerchServiceImplMVC implements MerchServiceMVC {
+    private final MerchRepositoryJPA merchService;
+    private final SupplierRepositoryJPA supplierService;
 
-    public MerchRepositoryMVC(MerchServiceJPA merchService, SupplierServiceJPA supplierService) {
+    public MerchServiceImplMVC(MerchRepositoryJPA merchService, SupplierRepositoryJPA supplierService) {
         this.merchService = merchService;
         this.supplierService = supplierService;
     }

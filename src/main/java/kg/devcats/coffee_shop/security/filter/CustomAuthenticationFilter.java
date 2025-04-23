@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.filter;
+package kg.devcats.coffee_shop.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -6,7 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,9 +29,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private final Long refreshTokenExpiration;
     private final AuthenticationManager authenticationManager;
     private final CustomJwtHelper customJwtHelper;
-    private final UserServiceJPA userService;
+    private final UserRepositoryJPA userService;
 
-    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper, UserServiceJPA userService) throws Exception {
+    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper, UserRepositoryJPA userService) throws Exception {
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();

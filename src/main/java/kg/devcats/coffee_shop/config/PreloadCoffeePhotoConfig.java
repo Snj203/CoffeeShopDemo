@@ -1,7 +1,7 @@
 package kg.devcats.coffee_shop.config;
 
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeRepositoryJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageException;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageProperties;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,12 +30,12 @@ public class PreloadCoffeePhotoConfig {
     }
 
     @Bean
-    public CommandLineRunner initPhoto(CoffeeServiceJPA coffeeServiceJPA) {
+    public CommandLineRunner initPhoto(CoffeeRepositoryJPA coffeeRepositoryJPA) {
         return (args) -> {
             if(deleteOnStart) {
-                for(Coffee coffee : coffeeServiceJPA.findAll()){
+                for(Coffee coffee : coffeeRepositoryJPA.findAll()){
                     coffee.setPhoto(rootLocation.resolve(defaultPhotoName).normalize().toAbsolutePath().toString());
-                    coffeeServiceJPA.save(coffee);
+                    coffeeRepositoryJPA.save(coffee);
                 }
             }
         };

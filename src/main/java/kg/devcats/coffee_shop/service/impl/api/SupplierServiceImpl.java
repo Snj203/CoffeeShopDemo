@@ -1,12 +1,12 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequest;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.api.SupplierService;
 import org.springframework.stereotype.Repository;
 
@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class SupplierRepository implements SupplierService {
-    private final SupplierServiceJPA supplierServiceJPA;
-    private final CityServiceJPA cityServiceJPA;
-    private final StateServiceJPA stateServiceJPA;
+public class SupplierServiceImpl implements SupplierService {
+    private final SupplierRepositoryJPA supplierRepositoryJPA;
+    private final CityRepositoryJPA cityRepositoryJPA;
+    private final StateRepositoryJPA stateRepositoryJPA;
 
-    public SupplierRepository(SupplierServiceJPA supplierServiceJPA, CityServiceJPA cityServiceJPA, StateServiceJPA stateServiceJPA) {
-        this.supplierServiceJPA = supplierServiceJPA;
-        this.cityServiceJPA = cityServiceJPA;
-        this.stateServiceJPA = stateServiceJPA;
+    public SupplierServiceImpl(SupplierRepositoryJPA supplierRepositoryJPA, CityRepositoryJPA cityRepositoryJPA, StateRepositoryJPA stateRepositoryJPA) {
+        this.supplierRepositoryJPA = supplierRepositoryJPA;
+        this.cityRepositoryJPA = cityRepositoryJPA;
+        this.stateRepositoryJPA = stateRepositoryJPA;
     }
 
 
@@ -34,20 +34,20 @@ public class SupplierRepository implements SupplierService {
 
     @Override
     public Optional<Supplier> findById(Long id) {
-        return supplierServiceJPA.findById(id);
+        return supplierRepositoryJPA.findById(id);
     }
 
     @Override
     public List<Supplier> findAll() {
-        return  supplierServiceJPA.findAll();
+        return  supplierRepositoryJPA.findAll();
     }
 
     @Override
     public boolean deleteById(Long id) {
         try {
-            Optional<Supplier> supplier = supplierServiceJPA.findById(id);
+            Optional<Supplier> supplier = supplierRepositoryJPA.findById(id);
             if(supplier.isPresent()) {
-                supplierServiceJPA.deleteById(id);
+                supplierRepositoryJPA.deleteById(id);
             }
             return true;
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class SupplierRepository implements SupplierService {
 
     @Override
     public boolean update(Long id, SupplierRequest request) {
-        Optional<Supplier> optionalSupplier= supplierServiceJPA.findById(id);
+        Optional<Supplier> optionalSupplier= supplierRepositoryJPA.findById(id);
         if(!optionalSupplier.isPresent()) {
             return false;
         }
@@ -70,14 +70,14 @@ public class SupplierRepository implements SupplierService {
         supplier.setStreet(request.street());
         supplier.setZip(request.zip());
 
-        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
-        Optional<State> optionalState = stateServiceJPA.findById(request.state());
+        Optional<City> optionalCity = cityRepositoryJPA.findById(request.city());
+        Optional<State> optionalState = stateRepositoryJPA.findById(request.state());
         if(!optionalCity.isPresent() || !optionalState.isPresent()) {
             return false;
         }
         supplier.setCity(optionalCity.get());
         supplier.setState(optionalState.get());
-        supplierServiceJPA.save(supplier);
+        supplierRepositoryJPA.save(supplier);
         return true;
     }
 }

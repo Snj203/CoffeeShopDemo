@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.payload.merch.request.MerchReplenishRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.MerchServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.MerchRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.MerchServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +18,11 @@ import java.util.Optional;
 @RequestMapping("/merch")
 public class MerchControllerMVC {
     private final MerchServiceMVC merchService;
-    private final MerchServiceJPA merchServiceJPA;
+    private final MerchRepositoryJPA merchRepositoryJPA;
 
-    public MerchControllerMVC(MerchServiceMVC merchService, MerchServiceJPA merchServiceJPA) {
+    public MerchControllerMVC(MerchServiceMVC merchService, MerchRepositoryJPA merchRepositoryJPA) {
         this.merchService = merchService;
-        this.merchServiceJPA = merchServiceJPA;
+        this.merchRepositoryJPA = merchRepositoryJPA;
     }
 
     @GetMapping
@@ -59,7 +59,7 @@ public class MerchControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<Merch> merchList = merchServiceJPA.findAll();
+            List<Merch> merchList = merchRepositoryJPA.findAll();
             if(merchList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -75,7 +75,7 @@ public class MerchControllerMVC {
             Model model,
             @PathVariable("idMerch") Long id) {
         try{
-            Optional<Merch> optionalMerch = merchServiceJPA.findById(id);
+            Optional<Merch> optionalMerch = merchRepositoryJPA.findById(id);
 
             if(optionalMerch.isPresent()) {
                 Merch merch = optionalMerch.get();
@@ -159,12 +159,12 @@ public class MerchControllerMVC {
     public String saveDeleteForm(
             @RequestParam("idMerch") Long id) {
         try{
-            Optional<Merch> optionalMerch = merchServiceJPA.findById(id);
+            Optional<Merch> optionalMerch = merchRepositoryJPA.findById(id);
 
             if(!optionalMerch.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            merchServiceJPA.deleteById(id);
+            merchRepositoryJPA.deleteById(id);
             return "general/general_success_form";
 
         } catch(Exception e){

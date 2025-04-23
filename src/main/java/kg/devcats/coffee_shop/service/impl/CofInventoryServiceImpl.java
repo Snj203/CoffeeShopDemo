@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.repository;
+package kg.devcats.coffee_shop.service.impl;
 
 import kg.devcats.coffee_shop.entity.postgres.CofInventory;
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
@@ -6,9 +6,9 @@ import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryModelRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryReplenishRequest;
 import kg.devcats.coffee_shop.payload.cof_inventory.request.CofInventoryRequest;
-import kg.devcats.coffee_shop.repository.postgres.CofInventoryServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CofInventoryRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.CofInventoryService;
 import org.springframework.stereotype.Repository;
 
@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CofInventoryRepository implements CofInventoryService {
-    private final CofInventoryServiceJPA cofInventoryService;
-    private final SupplierServiceJPA supplierService;
-    private final CoffeeServiceJPA coffeeService;
+public class CofInventoryServiceImpl implements CofInventoryService {
+    private final CofInventoryRepositoryJPA cofInventoryService;
+    private final SupplierRepositoryJPA supplierService;
+    private final CoffeeRepositoryJPA coffeeService;
 
-    public CofInventoryRepository(CofInventoryServiceJPA cofInventoryService, SupplierServiceJPA supplierService, CoffeeServiceJPA coffeeService) {
+    public CofInventoryServiceImpl(CofInventoryRepositoryJPA cofInventoryService, SupplierRepositoryJPA supplierService, CoffeeRepositoryJPA coffeeService) {
         this.cofInventoryService = cofInventoryService;
         this.supplierService = supplierService;
         this.coffeeService = coffeeService;

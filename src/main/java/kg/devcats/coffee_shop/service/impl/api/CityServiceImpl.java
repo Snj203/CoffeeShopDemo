@@ -1,11 +1,11 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.city.request.CityRequest;
 import kg.devcats.coffee_shop.payload.city.request.CityRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateRepositoryJPA;
 import kg.devcats.coffee_shop.service.CityService;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CityRepository implements CityService {
+public class CityServiceImpl implements CityService {
 
-    private final CityServiceJPA cityService;
-    private final StateServiceJPA stateService;
+    private final CityRepositoryJPA cityService;
+    private final StateRepositoryJPA stateService;
 
-    public CityRepository(CityServiceJPA cityService, StateServiceJPA stateService) {
+    public CityServiceImpl(CityRepositoryJPA cityService, StateRepositoryJPA stateService) {
         this.cityService = cityService;
         this.stateService = stateService;
     }

@@ -1,10 +1,10 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.api.CoffeeService;
 import org.slf4j.Logger;
@@ -17,26 +17,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CoffeeRepository implements CoffeeService {
+public class CoffeeServiceImpl implements CoffeeService {
 
-    private static final Logger log = LoggerFactory.getLogger(CoffeeRepository.class);
-    private final CoffeeServiceJPA coffeeServiceJPA;
-    private final SupplierServiceJPA supplierServiceJPA;
+    private static final Logger log = LoggerFactory.getLogger(CoffeeServiceImpl.class);
+    private final CoffeeRepositoryJPA coffeeRepositoryJPA;
+    private final SupplierRepositoryJPA supplierRepositoryJPA;
     private final StorageService storageService;
 
     @Value("${spring.storage.default-photo-name}")
     private String defaultPhotoName;
 
-    public CoffeeRepository(CoffeeServiceJPA coffeeServiceJPA, SupplierServiceJPA supplierServiceJPA, StorageService storageService) {
-        this.coffeeServiceJPA = coffeeServiceJPA;
-        this.supplierServiceJPA = supplierServiceJPA;
+    public CoffeeServiceImpl(CoffeeRepositoryJPA coffeeRepositoryJPA, SupplierRepositoryJPA supplierRepositoryJPA, StorageService storageService) {
+        this.coffeeRepositoryJPA = coffeeRepositoryJPA;
+        this.supplierRepositoryJPA = supplierRepositoryJPA;
         this.storageService = storageService;
     }
 
     @Override
     public boolean save(CoffeeRequest request, MultipartFile photo) {
         Optional<Supplier> optionalSupplier;
-        optionalSupplier = supplierServiceJPA.findById(request.supplierId());
+        optionalSupplier = supplierRepositoryJPA.findById(request.supplierId());
         if(!optionalSupplier.isPresent()) {
             return false;
         }
@@ -50,26 +50,26 @@ public class CoffeeRepository implements CoffeeService {
         coffee.setSupplier(optionalSupplier.get());
         coffee.setPhoto(fileName);
 
-        coffeeServiceJPA.save(coffee);
+        coffeeRepositoryJPA.save(coffee);
         return true;
     }
 
     @Override
     public Optional<Coffee> findById(String id) {
-        return coffeeServiceJPA.findById(id);
+        return coffeeRepositoryJPA.findById(id);
     }
 
     @Override
     public List<Coffee> findAll() {
-        return coffeeServiceJPA.findAll();
+        return coffeeRepositoryJPA.findAll();
     }
 
     @Override
     public boolean deleteByIdCoffee(String id) {
         try {
-            Optional<Coffee> coffee = coffeeServiceJPA.findById(id);
+            Optional<Coffee> coffee = coffeeRepositoryJPA.findById(id);
             if(coffee.isPresent()) {
-                coffeeServiceJPA.deleteById(id);
+                coffeeRepositoryJPA.deleteById(id);
             }
             return true;
         } catch (Exception e) {
@@ -80,8 +80,8 @@ public class CoffeeRepository implements CoffeeService {
 
     @Override
     public boolean update(CoffeeRequest request, MultipartFile photo) {
-        Optional<Coffee> optionalCoffee= coffeeServiceJPA.findById(request.name());
-        Optional<Supplier> optionalSupplier = supplierServiceJPA.findById(request.supplierId());
+        Optional<Coffee> optionalCoffee= coffeeRepositoryJPA.findById(request.name());
+        Optional<Supplier> optionalSupplier = supplierRepositoryJPA.findById(request.supplierId());
         if(!optionalCoffee.isPresent() || !optionalSupplier.isPresent()) {
             return false;
         }
@@ -99,7 +99,7 @@ public class CoffeeRepository implements CoffeeService {
         }
 
 
-        coffeeServiceJPA.save(coffee);
+        coffeeRepositoryJPA.save(coffee);
         return true;
     }
 

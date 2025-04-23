@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.controller.springMVC;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.payload.state.request.StateRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateRepositoryJPA;
 import kg.devcats.coffee_shop.service.StateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/state")
 public class StateControllerMVC {
-    private final StateServiceJPA stateServiceJPA;
+    private final StateRepositoryJPA stateRepositoryJPA;
     private final StateService stateService;
 
-    public StateControllerMVC(StateServiceJPA stateServiceJPA, StateService stateService) {
-        this.stateServiceJPA = stateServiceJPA;
+    public StateControllerMVC(StateRepositoryJPA stateRepositoryJPA, StateService stateService) {
+        this.stateRepositoryJPA = stateRepositoryJPA;
         this.stateService = stateService;
     }
 
@@ -58,7 +58,7 @@ public class StateControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<State> stateList = stateServiceJPA.findAll();
+            List<State> stateList = stateRepositoryJPA.findAll();
             if(stateList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -74,7 +74,7 @@ public class StateControllerMVC {
             Model model,
             @PathVariable("idState") String id) {
         try{
-            Optional<State> optionalState = stateServiceJPA.findById(id);
+            Optional<State> optionalState = stateRepositoryJPA.findById(id);
 
             if(optionalState.isPresent()) {
                 State state = optionalState.get();
@@ -96,12 +96,12 @@ public class StateControllerMVC {
     public String saveDeleteForm(
             @RequestParam("idState") String id) {
         try{
-            Optional<State> optionalState = stateServiceJPA.findById(id);
+            Optional<State> optionalState = stateRepositoryJPA.findById(id);
 
             if(!optionalState.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            stateServiceJPA.deleteById(id);
+            stateRepositoryJPA.deleteById(id);
             return "general/general_success_form";
 
         } catch(Exception e){

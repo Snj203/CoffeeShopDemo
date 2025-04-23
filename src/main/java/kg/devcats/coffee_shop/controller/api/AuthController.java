@@ -1,11 +1,9 @@
 package kg.devcats.coffee_shop.controller.api;
 
 import kg.devcats.coffee_shop.exceptions.EmailTokenExpiredException;
-import kg.devcats.coffee_shop.filter.CustomJwtHelper;
-import kg.devcats.coffee_shop.payload.user.request.UserRequest;
+import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
 import kg.devcats.coffee_shop.service.EmailService;
 import kg.devcats.coffee_shop.service.UserService;
-import kg.devcats.coffee_shop.service.impl.EmailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

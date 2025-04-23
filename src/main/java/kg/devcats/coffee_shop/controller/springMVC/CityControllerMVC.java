@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.controller.springMVC;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.payload.city.request.CityRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
 import kg.devcats.coffee_shop.service.CityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/city")
 public class CityControllerMVC {
-    private final CityServiceJPA cityServiceJPA;
+    private final CityRepositoryJPA cityRepositoryJPA;
     private final CityService cityService;
 
-    public CityControllerMVC(CityServiceJPA cityServiceJPA, CityService cityService) {
-        this.cityServiceJPA = cityServiceJPA;
+    public CityControllerMVC(CityRepositoryJPA cityRepositoryJPA, CityService cityService) {
+        this.cityRepositoryJPA = cityRepositoryJPA;
         this.cityService = cityService;
     }
 
@@ -58,7 +58,7 @@ public class CityControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<City> cityList = cityServiceJPA.findAll();
+            List<City> cityList = cityRepositoryJPA.findAll();
             if(cityList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -74,7 +74,7 @@ public class CityControllerMVC {
             Model model,
             @PathVariable("idCity") String id) {
         try{
-            Optional<City> optionalCity = cityServiceJPA.findById(id);
+            Optional<City> optionalCity = cityRepositoryJPA.findById(id);
 
             if(optionalCity.isPresent()) {
                 City city = optionalCity.get();
@@ -96,12 +96,12 @@ public class CityControllerMVC {
     public String saveDeleteForm(
             @RequestParam("idCity") String id) {
         try{
-            Optional<City> optionalCity = cityServiceJPA.findById(id);
+            Optional<City> optionalCity = cityRepositoryJPA.findById(id);
 
             if(!optionalCity.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            cityServiceJPA.deleteById(id);
+            cityRepositoryJPA.deleteById(id);
             return "general/general_success_form";
 
         } catch(Exception e){

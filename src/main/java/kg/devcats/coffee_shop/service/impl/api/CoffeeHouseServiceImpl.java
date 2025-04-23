@@ -1,10 +1,10 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequest;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseRepositoryJPA;
 import kg.devcats.coffee_shop.service.api.CoffeeHouseService;
 import org.springframework.stereotype.Repository;
 
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CoffeeHouseRepository implements CoffeeHouseService {
-    private final CoffeeHouseServiceJPA coffeeHouseServiceJPA;
-    private final CityServiceJPA cityServiceJPA;
+public class CoffeeHouseServiceImpl implements CoffeeHouseService {
+    private final CoffeeHouseRepositoryJPA coffeeHouseRepositoryJPA;
+    private final CityRepositoryJPA cityRepositoryJPA;
 
-    public CoffeeHouseRepository(CoffeeHouseServiceJPA coffeeHouseServiceJPA, CityServiceJPA cityServiceJPA) {
-        this.coffeeHouseServiceJPA = coffeeHouseServiceJPA;
-        this.cityServiceJPA = cityServiceJPA;
+    public CoffeeHouseServiceImpl(CoffeeHouseRepositoryJPA coffeeHouseRepositoryJPA, CityRepositoryJPA cityRepositoryJPA) {
+        this.coffeeHouseRepositoryJPA = coffeeHouseRepositoryJPA;
+        this.cityRepositoryJPA = cityRepositoryJPA;
     }
 
 
@@ -26,7 +26,7 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
     public boolean save(CoffeeHouseRequest request) {
         CoffeeHouse coffee = new CoffeeHouse();
 
-        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        Optional<City> optionalCity = cityRepositoryJPA.findById(request.city());
         if (!optionalCity.isPresent()) {
             return false;
         }
@@ -37,27 +37,27 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
         coffee.setSoldMerch(0);
         coffee.setTotalSold(0);
         coffee.setPrefixState(city.getState().getPrefix());
-        coffeeHouseServiceJPA.save(coffee);
+        coffeeHouseRepositoryJPA.save(coffee);
 
         return true;
     }
 
     @Override
     public Optional<CoffeeHouse> findById(Long id) {
-        return coffeeHouseServiceJPA.findById(id);
+        return coffeeHouseRepositoryJPA.findById(id);
     }
 
     @Override
     public List<CoffeeHouse> findAll() {
-        return coffeeHouseServiceJPA.findAll();
+        return coffeeHouseRepositoryJPA.findAll();
     }
 
     @Override
     public boolean deleteByIdCoffee(Long id) {
         try {
-            Optional<CoffeeHouse> coffee = coffeeHouseServiceJPA.findById(id);
+            Optional<CoffeeHouse> coffee = coffeeHouseRepositoryJPA.findById(id);
             if(coffee.isPresent()) {
-                coffeeHouseServiceJPA.deleteById(id);
+                coffeeHouseRepositoryJPA.deleteById(id);
             }
             return true;
         } catch (Exception e) {
@@ -67,18 +67,18 @@ public class CoffeeHouseRepository implements CoffeeHouseService {
 
     @Override
     public boolean update(Long id, CoffeeHouseRequest request) {
-        Optional<CoffeeHouse> optionalCoffeeHouse= coffeeHouseServiceJPA.findById(id);
+        Optional<CoffeeHouse> optionalCoffeeHouse= coffeeHouseRepositoryJPA.findById(id);
         if(!optionalCoffeeHouse.isPresent()) {
             return false;
         }
-        Optional<City> optionalCity = cityServiceJPA.findById(request.city());
+        Optional<City> optionalCity = cityRepositoryJPA.findById(request.city());
         if (!optionalCity.isPresent()) {
             return false;
         }
         CoffeeHouse coffee = optionalCoffeeHouse.get();
         coffee.setCity(optionalCity.get());
         coffee.setPrefixState(coffee.getCity().getState().getPrefix());
-        coffeeHouseServiceJPA.save(coffee);
+        coffeeHouseRepositoryJPA.save(coffee);
         return true;
     }
 }

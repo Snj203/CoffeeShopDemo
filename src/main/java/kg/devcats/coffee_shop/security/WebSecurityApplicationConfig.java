@@ -1,10 +1,10 @@
 package kg.devcats.coffee_shop.security;
 
-import kg.devcats.coffee_shop.filter.CustomAccessDeniedHandler;
-import kg.devcats.coffee_shop.filter.CustomAuthenticationFilter;
-import kg.devcats.coffee_shop.filter.CustomAuthorizationFilter;
-import kg.devcats.coffee_shop.filter.CustomJwtHelper;
-import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
+import kg.devcats.coffee_shop.security.filter.CustomAccessDeniedHandler;
+import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
+import kg.devcats.coffee_shop.security.filter.CustomAuthorizationFilter;
+import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,11 +36,11 @@ public class WebSecurityApplicationConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final    CustomJwtHelper jwtHelper;
-    private final UserServiceJPA userService;
+    private final UserRepositoryJPA userService;
 
     public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration,
                                         CustomAccessDeniedHandler accessDeniedHandler,
-                                        @Lazy CustomJwtHelper jwtHelper, UserServiceJPA userService) {
+                                        @Lazy CustomJwtHelper jwtHelper, UserRepositoryJPA userService) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.accessDeniedHandler = accessDeniedHandler;
         this.jwtHelper = jwtHelper;

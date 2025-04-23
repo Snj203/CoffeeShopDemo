@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeBuyRequest;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeRepositoryJPA;
 import kg.devcats.coffee_shop.repository.storage_to_file_system.StorageService;
 import kg.devcats.coffee_shop.service.mvc.CoffeeServiceMVC;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -27,12 +27,12 @@ import java.util.Optional;
 public class CoffeeControllerMVC {
     private static final Logger log = LoggerFactory.getLogger(CoffeeControllerMVC.class);
     private final CoffeeServiceMVC coffeeService;
-    private final CoffeeServiceJPA coffeeServiceJPA;
+    private final CoffeeRepositoryJPA coffeeRepositoryJPA;
     private final StorageService storageService;
 
-    public CoffeeControllerMVC(CoffeeServiceMVC coffeeService, CoffeeServiceJPA coffeeServiceJPA, StorageService storageService) {
+    public CoffeeControllerMVC(CoffeeServiceMVC coffeeService, CoffeeRepositoryJPA coffeeRepositoryJPA, StorageService storageService) {
         this.coffeeService = coffeeService;
-        this.coffeeServiceJPA = coffeeServiceJPA;
+        this.coffeeRepositoryJPA = coffeeRepositoryJPA;
         this.storageService = storageService;
     }
 
@@ -70,7 +70,7 @@ public class CoffeeControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<Coffee> coffeeList = coffeeServiceJPA.findAll();
+            List<Coffee> coffeeList = coffeeRepositoryJPA.findAll();
             if(coffeeList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -84,7 +84,7 @@ public class CoffeeControllerMVC {
     @GetMapping("/view")
     public String getViewForm(Model model) {
         try{
-            List<Coffee> coffeeList = coffeeServiceJPA.findAll();
+            List<Coffee> coffeeList = coffeeRepositoryJPA.findAll();
             if(coffeeList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -100,7 +100,7 @@ public class CoffeeControllerMVC {
             Model model,
             @PathVariable("cofName") String cofName) {
         try{
-            Optional<Coffee> optionalCoffee = coffeeServiceJPA.findById(cofName);
+            Optional<Coffee> optionalCoffee = coffeeRepositoryJPA.findById(cofName);
 
             if(optionalCoffee.isPresent()) {
                 Coffee coffee = optionalCoffee.get();
@@ -149,7 +149,7 @@ public class CoffeeControllerMVC {
         response.setContentType("image/png");
 
         try{
-            Optional<Coffee> optionalCoffee = coffeeServiceJPA.findById(cofName);
+            Optional<Coffee> optionalCoffee = coffeeRepositoryJPA.findById(cofName);
             if(optionalCoffee.isPresent()) {
                 Coffee coffee = optionalCoffee.get();
                 Resource resource = storageService.loadAsResource(coffee.getPhoto());
@@ -171,12 +171,12 @@ public class CoffeeControllerMVC {
     public String saveDeleteForm(
             @RequestParam("name") String name) {
         try{
-            Optional<Coffee> optionalCoffee = coffeeServiceJPA.findById(name);
+            Optional<Coffee> optionalCoffee = coffeeRepositoryJPA.findById(name);
 
             if(!optionalCoffee.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            coffeeServiceJPA.deleteById(name);
+            coffeeRepositoryJPA.deleteById(name);
             return "general/general_success_form";
 
         } catch(Exception e){

@@ -1,11 +1,11 @@
-package kg.devcats.coffee_shop.repository.api;
+package kg.devcats.coffee_shop.service.impl.api;
 
 import kg.devcats.coffee_shop.entity.postgres.Merch;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.merch.request.MerchRequest;
 import kg.devcats.coffee_shop.payload.merch.request.MerchUpdateRequest;
-import kg.devcats.coffee_shop.repository.postgres.MerchServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.MerchRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.api.MerchService;
 import org.springframework.stereotype.Repository;
 
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MerchRepository implements MerchService {
-    private final MerchServiceJPA merchService;
-    private final SupplierServiceJPA supplierService;
+public class MerchServiceImpl implements MerchService {
+    private final MerchRepositoryJPA merchService;
+    private final SupplierRepositoryJPA supplierService;
 
 
-    public MerchRepository(MerchServiceJPA merchService, SupplierServiceJPA supplierService) {
+    public MerchServiceImpl(MerchRepositoryJPA merchService, SupplierRepositoryJPA supplierService) {
         this.merchService = merchService;
         this.supplierService = supplierService;
     }

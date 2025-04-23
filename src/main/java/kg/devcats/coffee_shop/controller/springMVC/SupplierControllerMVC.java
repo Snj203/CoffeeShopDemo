@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.controller.springMVC;
 import jakarta.validation.Valid;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.SupplierServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/supplier")
 public class SupplierControllerMVC {
-    private final SupplierServiceJPA supplierServiceJPA;
+    private final SupplierRepositoryJPA supplierRepositoryJPA;
     private final SupplierServiceMVC supplierService;
 
-    public SupplierControllerMVC(SupplierServiceJPA supplierServiceJPA, SupplierServiceMVC supplierService) {
-        this.supplierServiceJPA = supplierServiceJPA;
+    public SupplierControllerMVC(SupplierRepositoryJPA supplierRepositoryJPA, SupplierServiceMVC supplierService) {
+        this.supplierRepositoryJPA = supplierRepositoryJPA;
         this.supplierService = supplierService;
     }
 
@@ -58,7 +58,7 @@ public class SupplierControllerMVC {
     @GetMapping("/find")
     public String getFindForm(Model model) {
         try{
-            List<Supplier> supplierList = supplierServiceJPA.findAll();
+            List<Supplier> supplierList = supplierRepositoryJPA.findAll();
             if(supplierList.isEmpty()) {
                 return "general/general_empty_form";
             }
@@ -74,7 +74,7 @@ public class SupplierControllerMVC {
             Model model,
             @PathVariable("idSupplier") Long id) {
         try{
-            Optional<Supplier> optionalSupplier = supplierServiceJPA.findById(id);
+            Optional<Supplier> optionalSupplier = supplierRepositoryJPA.findById(id);
 
             if(optionalSupplier.isPresent()) {
                 Supplier supplier = optionalSupplier.get();
@@ -127,12 +127,12 @@ public class SupplierControllerMVC {
     public String saveDeleteForm(
             @RequestParam("idSupplier") Long id) {
         try{
-            Optional<Supplier> optionalSupplier = supplierServiceJPA.findById(id);
+            Optional<Supplier> optionalSupplier = supplierRepositoryJPA.findById(id);
 
             if(!optionalSupplier.isPresent()) {
                 return "general/general_bad_request_form";
             }
-            supplierServiceJPA.deleteById(id);
+            supplierRepositoryJPA.deleteById(id);
             return "general/general_success_form";
 
         } catch(Exception e){

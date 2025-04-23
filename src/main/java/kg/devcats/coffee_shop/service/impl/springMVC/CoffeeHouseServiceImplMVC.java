@@ -1,21 +1,21 @@
-package kg.devcats.coffee_shop.repository.springMVC;
+package kg.devcats.coffee_shop.service.impl.springMVC;
 
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.entity.postgres.CoffeeHouse;
 import kg.devcats.coffee_shop.payload.coffeehouse.request.CoffeeHouseRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.CoffeeHouseRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.CoffeeHouseServiceMVC;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public class CoffeeHouseRepositoryMVC implements CoffeeHouseServiceMVC {
-    private final CityServiceJPA cityService;
-    private final CoffeeHouseServiceJPA cofHouseService;
+public class CoffeeHouseServiceImplMVC implements CoffeeHouseServiceMVC {
+    private final CityRepositoryJPA cityService;
+    private final CoffeeHouseRepositoryJPA cofHouseService;
 
-    public CoffeeHouseRepositoryMVC(CityServiceJPA cityService, CoffeeHouseServiceJPA cofHouseService) {
+    public CoffeeHouseServiceImplMVC(CityRepositoryJPA cityService, CoffeeHouseRepositoryJPA cofHouseService) {
         this.cityService = cityService;
         this.cofHouseService = cofHouseService;
     }

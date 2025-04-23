@@ -1,24 +1,24 @@
-package kg.devcats.coffee_shop.repository.springMVC;
+package kg.devcats.coffee_shop.service.impl.springMVC;
 
 import kg.devcats.coffee_shop.entity.postgres.City;
 import kg.devcats.coffee_shop.entity.postgres.State;
 import kg.devcats.coffee_shop.entity.postgres.Supplier;
 import kg.devcats.coffee_shop.payload.supplier.request.SupplierRequestMVC;
-import kg.devcats.coffee_shop.repository.postgres.CityServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.StateServiceJPA;
-import kg.devcats.coffee_shop.repository.postgres.SupplierServiceJPA;
+import kg.devcats.coffee_shop.repository.postgres.CityRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.StateRepositoryJPA;
+import kg.devcats.coffee_shop.repository.postgres.SupplierRepositoryJPA;
 import kg.devcats.coffee_shop.service.mvc.SupplierServiceMVC;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public class SupplierRepositoryMVC implements SupplierServiceMVC {
-    private final SupplierServiceJPA supplierService;
-    private final CityServiceJPA cityService;
-    private final StateServiceJPA stateService;
+public class SupplierServiceImplMVC implements SupplierServiceMVC {
+    private final SupplierRepositoryJPA supplierService;
+    private final CityRepositoryJPA cityService;
+    private final StateRepositoryJPA stateService;
 
-    public SupplierRepositoryMVC(SupplierServiceJPA supplierService, CityServiceJPA cityService, StateServiceJPA stateService) {
+    public SupplierServiceImplMVC(SupplierRepositoryJPA supplierService, CityRepositoryJPA cityService, StateRepositoryJPA stateService) {
         this.supplierService = supplierService;
         this.cityService = cityService;
         this.stateService = stateService;

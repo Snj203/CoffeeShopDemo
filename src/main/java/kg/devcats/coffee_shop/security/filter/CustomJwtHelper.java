@@ -1,8 +1,8 @@
-package kg.devcats.coffee_shop.filter;
+package kg.devcats.coffee_shop.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.devcats.coffee_shop.entity.h2.User;
-import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Component
 public class CustomJwtHelper {
-    private final UserServiceJPA userServiceJPA;
+    private final UserRepositoryJPA userRepositoryJPA;
     @Value("${jwt.accessToken.expiration}")
     private Long accessTokenExpiration;
 
@@ -26,8 +26,8 @@ public class CustomJwtHelper {
 
     private final Logger log = LoggerFactory.getLogger(CustomJwtHelper.class);
 
-    public CustomJwtHelper(UserServiceJPA userServiceJPA) {
-        this.userServiceJPA = userServiceJPA;
+    public CustomJwtHelper(UserRepositoryJPA userRepositoryJPA) {
+        this.userRepositoryJPA = userRepositoryJPA;
     }
 
     public  String createToken(String subject, Map<String, Object> claims, Long exp) {
@@ -68,7 +68,7 @@ public class CustomJwtHelper {
             throw new RuntimeException("Expired JWT token");
         }
 
-        User user = userServiceJPA.findById((String)claims.get("sub")).get();
+        User user = userRepositoryJPA.findById((String)claims.get("sub")).get();
         if(!user.getEmailVerified()){
             throw new RuntimeException("User email is not verified");
         }
@@ -79,7 +79,7 @@ public class CustomJwtHelper {
     public Map<String, String> validateToken(String token) throws Exception {
         Map<String, Object> claims = verifyToken(token);
 
-        User user = userServiceJPA.findById((String)claims.get("sub")).get();
+        User user = userRepositoryJPA.findById((String)claims.get("sub")).get();
         if(!user.getRefreshToken().equals(token)) {
             throw new SecurityException("Invalid JWT token");
         }
@@ -88,7 +88,7 @@ public class CustomJwtHelper {
         String refresh_token = createToken((String) claims.get("sub"), claims, refreshTokenExpiration);
 
         user.setRefreshToken(refresh_token);
-        userServiceJPA.save(user);
+        userRepositoryJPA.save(user);
 
         Map<String, String> res = new HashMap<>();
         res.put("access_token", access_token);
