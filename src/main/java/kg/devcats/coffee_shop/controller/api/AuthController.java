@@ -39,19 +39,6 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRequest request) {
-        try{
-            if(userService.register(request)){
-                return new ResponseEntity<>("User registered", HttpStatus.OK);
-            } else{
-                return new ResponseEntity<>("User not registered", HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e){
-            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @PostMapping("/verify")
     public ResponseEntity<String> verifyUser(@RequestParam String token) {
         try{
@@ -63,6 +50,7 @@ public class AuthController {
         } catch (EmailTokenExpiredException etee) {
             return new ResponseEntity<>("Email token expired, new code was sent via email", HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
+            log.error("Error while verify: " + e.getMessage());
             return new ResponseEntity<>("Errror while verifying token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

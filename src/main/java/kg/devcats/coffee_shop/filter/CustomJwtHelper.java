@@ -6,7 +6,6 @@ import kg.devcats.coffee_shop.repository.h2.UserServiceJPA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
@@ -26,10 +25,8 @@ public class CustomJwtHelper {
     private Long refreshTokenExpiration;
 
     private final Logger log = LoggerFactory.getLogger(CustomJwtHelper.class);
-    private final UserDetailsService userDetailsService;
 
-    public CustomJwtHelper(UserDetailsService userDetailsService, UserServiceJPA userServiceJPA) {
-        this.userDetailsService = userDetailsService;
+    public CustomJwtHelper(UserServiceJPA userServiceJPA) {
         this.userServiceJPA = userServiceJPA;
     }
 
@@ -67,8 +64,6 @@ public class CustomJwtHelper {
 
         long exp = ((Number) claims.get("exp")).longValue();
 
-        System.out.println(exp);
-        System.out.println(System.currentTimeMillis() / 1000);
         if(exp < System.currentTimeMillis() / 1000) {
             throw new RuntimeException("Expired JWT token");
         }

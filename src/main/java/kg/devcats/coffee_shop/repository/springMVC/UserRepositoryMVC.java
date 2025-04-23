@@ -29,8 +29,7 @@ public class UserRepositoryMVC implements UserService {
 
     @Override
     public boolean register(UserRequest request) {
-        User user = new User();
-        user.setUsername(request.userName());
+        User user = new User(request.userName());
         user.setPassword(bCryptPasswordEncoder.encode(request.password()));
         user.setEmail(request.email());
         user.setEmailVerified(false);
