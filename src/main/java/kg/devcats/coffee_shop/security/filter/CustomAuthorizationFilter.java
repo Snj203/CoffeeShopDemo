@@ -32,8 +32,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws IOException, ServletException {
 
-
-        System.out.println(request.getRequestURL().toString());
         String token = null;
 
         if(request.getServletPath().equals("/login")

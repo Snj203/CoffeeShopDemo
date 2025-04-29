@@ -53,10 +53,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     }
 
 
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication authentication) throws IOException, ServletException {
+    public void successfulAuthentication(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         FilterChain chain,
+                                         Authentication authentication) throws IOException, ServletException {
 
         User user = (User) authentication.getPrincipal();
 
@@ -81,7 +81,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         handleResponseSuccess(request,response, access_token, refresh_token);
     }
 
-    protected void unsuccessfulAuthentication(
+    public void unsuccessfulAuthentication(
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
@@ -89,7 +89,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         handleResponseFail(request,response);
     }
 
-    private void handleResponseSuccess(HttpServletRequest request,HttpServletResponse response,String access_token,String refresh_token  ) throws IOException {
+    public void handleResponseSuccess(HttpServletRequest request, HttpServletResponse response, String access_token, String refresh_token) throws IOException {
         String acceptHeader = request.getHeader("Accept");
         String userAgent = request.getHeader("User-Agent");
 
