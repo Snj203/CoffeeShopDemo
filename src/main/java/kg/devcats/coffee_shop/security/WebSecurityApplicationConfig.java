@@ -94,8 +94,16 @@ public class WebSecurityApplicationConfig {
                         .anyRequest().authenticated()
                 );
 
-        http.oauth2Login(Customizer.withDefaults());
-        http.formLogin(Customizer.withDefaults());
+//        http.oauth2Login(Customizer.withDefaults());
+        http.oauth2Login(oauth2 -> oauth2
+                .loginPage("/login")
+                .authorizationEndpoint(authorization -> authorization
+                        .baseUri("/oauth2/authorization"))
+                .redirectionEndpoint(redirection -> redirection
+                        .baseUri("/login/oauth2/code/*")
+                )
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error"));
 
         http.exceptionHandling(exception -> exception
                 .accessDeniedHandler(accessDeniedHandler));

@@ -60,7 +60,38 @@ public class UserServiceImplMVC implements UserService {
     }
 
     @Override
-    public User register(OAuth2User user) {
-        return null;
+    public User register(OAuth2User oauthUser) {
+        User user = new User(oauthUser.getAttribute("given_name") + " " + oauthUser.getAttribute("family_name"));
+        UUID password = UUID.randomUUID();
+        String message = "Password: " + password;
+        user.setPassword(bCryptPasswordEncoder.encode(password.toString()));
+        user.setEmail(oauthUser.getAttribute("email"));
+        if(oauthUser.getAttribute("email_verified") != null && ((Boolean)oauthUser.getAttribute("email_verified"))){
+            user.setEmailVerified(true);
+        } else{
+            user.setEmailVerified(false);
+            user.setVerificationCode(UUID.randomUUID().toString());
+            user.setVerificationCodeExpiration(Timestamp.valueOf(LocalDateTime.now().plusHours(2)));
+            message = message +
+                    "\n Verification code: " + user.getVerificationCode().toString() +
+                    "\n Link/Postman request: POST http://localhost:4445/api/auth/verify?token=" + user.getVerificationCode();
+        }
+
+        Set<Authority> authorities = new HashSet<>();
+        Authority authority;
+        authority = new Authority();
+        authority.setUsername(user.getUsername());
+        authority.setAuthority("ROLE_USER");
+        authority.setUser(user);
+        authorities.add(authority);
+        user.setAuthorities(authorities);
+
+        user.setEnabled(true);
+
+        userService.save(user);
+
+        emailService.sendSimpleMail(user.getEmail(), "Verification",
+                message);
+        return user;
     }
 }
