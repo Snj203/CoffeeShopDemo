@@ -72,12 +72,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         dbuser.setRefreshToken(refresh_token);
         userService.save(dbuser);
 
-        Cookie jwtCookie = new Cookie("jwt", access_token);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(60 * 60);
-        response.addCookie(jwtCookie);
-
         handleResponseSuccess(request,response, access_token, refresh_token);
     }
 
@@ -95,6 +89,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         if ((acceptHeader != null && acceptHeader.contains("text/html")) ||
                 (userAgent != null && userAgent.contains("Mozilla"))){
+
+            Cookie jwtCookie = new Cookie("jwt", access_token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(60 * 60);
+            response.addCookie(jwtCookie);
+
             response.sendRedirect("/login-success");
         } else {
             Map<String, String> token = new HashMap<>();

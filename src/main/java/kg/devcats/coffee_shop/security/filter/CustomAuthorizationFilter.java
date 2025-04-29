@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     private final CustomJwtHelper customJwtHelper;
+    private final Logger log = LoggerFactory.getLogger(CustomAuthorizationFilter.class);
 
     public CustomAuthorizationFilter(CustomJwtHelper customJwtHelper) {
         this.customJwtHelper = customJwtHelper;
@@ -33,13 +36,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws IOException, ServletException {
 
         String token = null;
+        log.info(request.getRequestURI());
 
-        if(request.getServletPath().equals("/login")
-                || request.getServletPath().equals("/")
+        if(request.getServletPath().equals("/")
                 || request.getServletPath().equals("/login-fail")
                 || request.getServletPath().equals("/registration")
                 || request.getServletPath().equals("/not-enough-permissions")
                 || request.getServletPath().startsWith("/css")
+                || request.getServletPath().startsWith("/login")
+                || request.getServletPath().startsWith("/oauth2")
                 || request.getServletPath().startsWith("/api/auth")
                 || request.getServletPath().startsWith("/h2-console")
                 || request.getServletPath().startsWith("/images")) {

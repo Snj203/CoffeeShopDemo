@@ -20,6 +20,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
+
         if (request.getServletPath().startsWith("/api")) {
             response.setHeader("error","Not Enough Permissions");
             response.setStatus(HttpStatus.FORBIDDEN.value());

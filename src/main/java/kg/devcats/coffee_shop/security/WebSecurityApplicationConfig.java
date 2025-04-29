@@ -1,5 +1,7 @@
 package kg.devcats.coffee_shop.security;
 
+import jakarta.servlet.http.Cookie;
+import kg.devcats.coffee_shop.aoauth.CustomOauth2UserService;
 import kg.devcats.coffee_shop.security.filter.CustomAccessDeniedHandler;
 import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.security.filter.CustomAuthorizationFilter;
@@ -10,12 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,14 +41,16 @@ public class WebSecurityApplicationConfig {
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final    CustomJwtHelper jwtHelper;
     private final UserRepositoryJPA userService;
+    private final CustomOauth2UserService oauth2UserService;
 
     public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration,
                                         CustomAccessDeniedHandler accessDeniedHandler,
-                                        @Lazy CustomJwtHelper jwtHelper, UserRepositoryJPA userService) {
+                                        @Lazy CustomJwtHelper jwtHelper, UserRepositoryJPA userService, CustomOauth2UserService oauth2UserService) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.accessDeniedHandler = accessDeniedHandler;
         this.jwtHelper = jwtHelper;
         this.userService = userService;
+        this.oauth2UserService = oauth2UserService;
     }
 
     @Bean
@@ -74,7 +80,7 @@ public class WebSecurityApplicationConfig {
 
 
                         .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**",
-                                "/api/auth/**").permitAll()
+                                "/api/auth/**", "/login/**", "/oauth2/**").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 
@@ -87,6 +93,10 @@ public class WebSecurityApplicationConfig {
 
                         .anyRequest().authenticated()
                 );
+
+        http.oauth2Login(Customizer.withDefaults());
+        http.formLogin(Customizer.withDefaults());
+
         http.exceptionHandling(exception -> exception
                 .accessDeniedHandler(accessDeniedHandler));
 

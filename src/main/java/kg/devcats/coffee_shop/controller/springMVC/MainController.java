@@ -18,11 +18,6 @@ public class MainController {
     }
 
     @GetMapping
-    public void verify(){
-
-    }
-
-    @GetMapping
     public String mainPage(){
         return "main_page_form";
     }

@@ -7,11 +7,13 @@ import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.service.EmailService;
 import kg.devcats.coffee_shop.service.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -55,5 +57,10 @@ public class UserServiceImplMVC implements UserService {
                 "Verification code: " + user.getVerificationCode().toString() +
                         "\n Link/Postman request: POST http://localhost:4445/api/auth/verify?token=" + user.getVerificationCode());
         return true;
+    }
+
+    @Override
+    public User register(OAuth2User user) {
+        return null;
     }
 }
