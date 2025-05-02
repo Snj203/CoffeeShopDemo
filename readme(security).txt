@@ -89,3 +89,8 @@ Should receive verification code
 Verify with correct/incorrect codes
 Check time-based expiration of codes
 
+Premade users/passwords
+agai Qwerty123^%$
+sanjar qwerty
+default-viewer 123
+default-user 123

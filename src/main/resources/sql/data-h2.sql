@@ -4,8 +4,8 @@ INSERT INTO users (username, password, enabled,  is_email_verified, is_two_facto
 SELECT 'agai', '$2a$14$aD/89GEqrTVyN.JWm1PW0OcjACrNO/qs0JspHnNO3zLAF7AkeUpp.', true, true,false
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'agai');
 
-INSERT INTO users (username,email, password, enabled, is_email_verified,is_two_factor_auth_enabled)
-SELECT 'sanjar','snjmbj099@gmail.com', '$2a$10$VGtKxeBB2jpv7tBg9z185O/4UYJNJPR1zbx59yGe1gCSYMBLrKu3K', true, true,true
+INSERT INTO users (username, password, enabled, is_email_verified,is_two_factor_auth_enabled)
+SELECT 'sanjar', '$2a$10$VGtKxeBB2jpv7tBg9z185O/4UYJNJPR1zbx59yGe1gCSYMBLrKu3K', true, true,true
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'sanjar');
 
 INSERT INTO users (username, password, enabled,  is_email_verified,is_two_factor_auth_enabled)
