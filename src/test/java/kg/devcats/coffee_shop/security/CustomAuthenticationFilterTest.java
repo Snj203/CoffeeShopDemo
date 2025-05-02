@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
+import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,9 @@ public class CustomAuthenticationFilterTest {
     @Mock
     private HttpServletResponse response;
 
+    @Mock
+    private TwoFactorAuthService twoFactorAuthService;
+
     @BeforeEach
     void setUp() throws Exception {
 
@@ -49,7 +53,8 @@ public class CustomAuthenticationFilterTest {
                 86400L, // refreshTokenExpiration
                 authConfig,
                 jwtHelper,
-                userRepo
+                userRepo,
+                twoFactorAuthService
         );
     }
 

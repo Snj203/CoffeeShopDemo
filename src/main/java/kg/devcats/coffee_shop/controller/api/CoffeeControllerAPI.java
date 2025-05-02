@@ -2,12 +2,12 @@ package kg.devcats.coffee_shop.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import kg.devcats.coffee_shop.annotations.validation.MultipartFileSizeValid;
 import kg.devcats.coffee_shop.entity.postgres.Coffee;
 import kg.devcats.coffee_shop.mapper.CoffeeMapper;
 import kg.devcats.coffee_shop.payload.coffee.request.CoffeeRequest;
 import kg.devcats.coffee_shop.payload.coffee.response.CoffeeResponse;
 import kg.devcats.coffee_shop.service.api.CoffeeService;
-import kg.devcats.coffee_shop.annotations.validation.MultipartFileSizeValid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
