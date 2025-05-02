@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")

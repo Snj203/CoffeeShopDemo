@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import kg.devcats.coffee_shop.validation.MultipartFileSizeValid;
+import kg.devcats.coffee_shop.annotations.validation.MultipartFileSizeValid;
 import org.springframework.web.multipart.MultipartFile;
 
 

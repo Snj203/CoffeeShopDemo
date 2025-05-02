@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -2,10 +2,11 @@ package kg.devcats.coffee_shop.controller.springMVC;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kg.devcats.coffee_shop.annotations.rate_limiting.RateLimiter;
 import kg.devcats.coffee_shop.entity.h2.User;
 import kg.devcats.coffee_shop.payload.user.request.UserRequest;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import kg.devcats.coffee_shop.service.UserService;
 import kg.devcats.coffee_shop.service.security.CookieService;
 import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -35,6 +36,7 @@ public class MainController {
         return "main_page_form";
     }
 
+    @RateLimiter(upperBound = 2, refillTokens = 2, duration = 120L)
     @GetMapping("/login")
     public String login() {
         return "login_form";
@@ -111,5 +113,10 @@ public class MainController {
         User user = userRepositoryJPA.findById((String)request.getSession().getAttribute("tmpusrnm")).get();
         twoFactorAuthService.generateAndSend2faCode(user);
         return "redirect:/verify/2fa?resent=true";
+    }
+
+    @GetMapping("/too-many-requests")
+    public String tooManuRequests() {
+        return "too_many_requests";
     }
 }

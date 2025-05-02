@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.security.filter;
+package kg.devcats.coffee_shop.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

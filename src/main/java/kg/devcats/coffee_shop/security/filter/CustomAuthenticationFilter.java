@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -3,7 +3,7 @@ package kg.devcats.coffee_shop.service.security;
 import jakarta.servlet.http.Cookie;
 import kg.devcats.coffee_shop.entity.h2.Authority;
 import kg.devcats.coffee_shop.entity.h2.User;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

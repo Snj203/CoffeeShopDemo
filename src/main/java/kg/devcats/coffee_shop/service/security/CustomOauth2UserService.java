@@ -1,17 +1,12 @@
 package kg.devcats.coffee_shop.service.security;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import kg.devcats.coffee_shop.entity.h2.Authority;
 import kg.devcats.coffee_shop.entity.h2.User;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
 import kg.devcats.coffee_shop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -22,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CustomOauth2UserService extends DefaultOAuth2UserService {

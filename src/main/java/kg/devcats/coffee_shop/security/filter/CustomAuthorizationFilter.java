@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 || request.getServletPath().equals("/login-fail")
                 || request.getServletPath().equals("/registration")
                 || request.getServletPath().equals("/not-enough-permissions")
+                || request.getServletPath().equals("/too-many-requests")
                 || request.getServletPath().startsWith("/css")
                 || request.getServletPath().startsWith("/login")
                 || request.getServletPath().startsWith("/verify")

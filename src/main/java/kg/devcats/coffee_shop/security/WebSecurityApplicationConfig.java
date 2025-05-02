@@ -1,11 +1,10 @@
 package kg.devcats.coffee_shop.security;
 
-import kg.devcats.coffee_shop.service.security.CustomOauth2UserService;
-import kg.devcats.coffee_shop.security.filter.CustomAccessDeniedHandler;
+import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
+import kg.devcats.coffee_shop.security.component.CustomAccessDeniedHandler;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.security.filter.CustomAuthorizationFilter;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
-import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
 import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +76,7 @@ public class WebSecurityApplicationConfig {
         http.authorizeHttpRequests(request -> request
 
 
-                        .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**",
+                        .requestMatchers("/","/login-fail","/registration","/too-many-requests","/not-enough-permissions","/css/**", "/images/**",
                                 "/api/auth/**", "/login/**", "/oauth2/**", "/verify/**").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()

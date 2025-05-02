@@ -1,16 +1,13 @@
 package kg.devcats.coffee_shop.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.devcats.coffee_shop.security.filter.CustomAuthorizationFilter;
-import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
+import kg.devcats.coffee_shop.security.component.CustomJwtHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.DelegatingServletOutputStream;
 import org.springframework.security.core.context.SecurityContextHolder;

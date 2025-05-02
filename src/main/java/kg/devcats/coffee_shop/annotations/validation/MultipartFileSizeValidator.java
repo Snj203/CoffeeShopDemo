@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.validation;
+package kg.devcats.coffee_shop.annotations.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
