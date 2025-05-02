@@ -94,3 +94,9 @@ agai Qwerty123^%$
 sanjar qwerty
 default-viewer 123
 default-user 123
+
+Other:
+MAIL_USERNAME:minbsanj900@gmail.com
+MAIL_PASSWORD:fbyrkdltawifadlx
+client-id=175312784689-abf0fv23hfcvsbta8enfpggkgflqvuh8.apps.googleusercontent.com
+client-secret=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
