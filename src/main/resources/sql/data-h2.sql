@@ -1,19 +1,19 @@
 
 -- Users Table Insert --------------------------------------------------------------------------
-INSERT INTO users (username, password, enabled,  is_email_verified)
-SELECT 'agai', '$2a$14$aD/89GEqrTVyN.JWm1PW0OcjACrNO/qs0JspHnNO3zLAF7AkeUpp.', true, true
+INSERT INTO users (username, password, enabled,  is_email_verified, is_two_factor_auth_enabled)
+SELECT 'agai', '$2a$14$aD/89GEqrTVyN.JWm1PW0OcjACrNO/qs0JspHnNO3zLAF7AkeUpp.', true, true,false
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'agai');
 
-INSERT INTO users (username, password, enabled, is_email_verified)
-SELECT 'sanjar', '$2a$10$VGtKxeBB2jpv7tBg9z185O/4UYJNJPR1zbx59yGe1gCSYMBLrKu3K', true, true
+INSERT INTO users (username,email, password, enabled, is_email_verified,is_two_factor_auth_enabled)
+SELECT 'sanjar','snjmbj099@gmail.com', '$2a$10$VGtKxeBB2jpv7tBg9z185O/4UYJNJPR1zbx59yGe1gCSYMBLrKu3K', true, true,true
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'sanjar');
 
-INSERT INTO users (username, password, enabled,  is_email_verified)
-SELECT 'default-user', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true, true
+INSERT INTO users (username, password, enabled,  is_email_verified,is_two_factor_auth_enabled)
+SELECT 'default-user', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true, true,false
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'default-user');
 
-INSERT INTO users (username, password, enabled,  is_email_verified)
-SELECT 'default-viewer', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true, true
+INSERT INTO users (username, password, enabled,  is_email_verified,is_two_factor_auth_enabled)
+SELECT 'default-viewer', '$2a$14$OrjmmCvJ4OLSvtvVCjSe.uUT3.shR6y7UNgaoL6uGCH690dS4dEEG', true, true,false
     WHERE NOT EXISTS(SELECT FROM users WHERE username = 'default-viewer');
 
 -- Authorities Table Insert --------------------------------------------------------------------------

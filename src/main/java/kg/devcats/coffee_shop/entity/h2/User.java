@@ -41,6 +41,15 @@ public class User {
     @Column(name = "verification_code_expiration")
     private Timestamp verificationCodeExpiration;
 
+    @Column(name = "is_two_factor_auth_enabled")
+    private Boolean isTwoFactorAuthEnabled;
+
+    @Column(name = "two_factor_code_expiration")
+    private Timestamp twoFactorCodeExpiration;
+
+    @Column(name = "two_factor_code")
+    private String twoFactorCode;
+
     public User() {}
 
     public User(String username) {
@@ -113,6 +122,30 @@ public class User {
 
     public Set<Authority> getAuthorities() {
         return authorities;
+    }
+
+    public Boolean isTwoFactorAuthEnabled() {
+        return isTwoFactorAuthEnabled;
+    }
+
+    public void setTwoFactorAuthEnabled(Boolean twoFactorAuthEnabled) {
+        isTwoFactorAuthEnabled = twoFactorAuthEnabled;
+    }
+
+    public Timestamp getTwoFactorCodeExpiration() {
+        return twoFactorCodeExpiration;
+    }
+
+    public void setTwoFactorCodeExpiration(Timestamp twoFactorCodeExpiration) {
+        this.twoFactorCodeExpiration = twoFactorCodeExpiration;
+    }
+
+    public String getTwoFactorCode() {
+        return twoFactorCode;
+    }
+
+    public void setTwoFactorCode(String twoFactorCode) {
+        this.twoFactorCode = twoFactorCode;
     }
 
     public void setAuthorities(Set<Authority> authorities) {

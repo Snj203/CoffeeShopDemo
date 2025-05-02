@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
+import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -30,13 +31,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private final AuthenticationManager authenticationManager;
     private final CustomJwtHelper customJwtHelper;
     private final UserRepositoryJPA userService;
+    private final TwoFactorAuthService twoFactorAuthService;
 
-    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper, UserRepositoryJPA userService) throws Exception {
+    public CustomAuthenticationFilter(Long accessTokenExpiration, Long refreshTokenExpiration, AuthenticationConfiguration authenticationConfiguration, CustomJwtHelper customJwtHelper, UserRepositoryJPA userService, TwoFactorAuthService twoFactorAuthService) throws Exception {
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.customJwtHelper = customJwtHelper;
         this.userService = userService;
+        this.twoFactorAuthService = twoFactorAuthService;
     }
 
 
@@ -72,7 +75,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         dbuser.setRefreshToken(refresh_token);
         userService.save(dbuser);
 
-        handleResponseSuccess(request,response, access_token, refresh_token);
+        handleResponseSuccess(request,response, access_token, refresh_token,dbuser);
     }
 
     public void unsuccessfulAuthentication(
@@ -83,12 +86,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         handleResponseFail(request,response);
     }
 
-    public void handleResponseSuccess(HttpServletRequest request, HttpServletResponse response, String access_token, String refresh_token) throws IOException {
+    public void handleResponseSuccess(HttpServletRequest request, HttpServletResponse response, String access_token, String refresh_token, kg.devcats.coffee_shop.entity.h2.User dbuser) throws IOException {
         String acceptHeader = request.getHeader("Accept");
         String userAgent = request.getHeader("User-Agent");
 
         if ((acceptHeader != null && acceptHeader.contains("text/html")) ||
                 (userAgent != null && userAgent.contains("Mozilla"))){
+
+            if(dbuser.isTwoFactorAuthEnabled()){
+                twoFactorAuthService.generateAndSend2faCode(dbuser);
+                request.getSession().setAttribute("tmpusrnm", dbuser.getUsername());
+                response.sendRedirect("/verify/2fa");
+                return;
+            }
 
             Cookie jwtCookie = new Cookie("jwt", access_token);
             jwtCookie.setHttpOnly(true);

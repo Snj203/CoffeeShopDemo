@@ -47,6 +47,7 @@ public class UserServiceImplMVC implements UserService {
         }
         user.setAuthorities(authorities);
         user.setEnabled(true);
+        user.setTwoFactorAuthEnabled(false);
 
         user.setVerificationCode(UUID.randomUUID().toString());
         user.setVerificationCodeExpiration(Timestamp.valueOf(LocalDateTime.now().plusHours(2)));
@@ -85,6 +86,7 @@ public class UserServiceImplMVC implements UserService {
         authority.setUser(user);
         authorities.add(authority);
         user.setAuthorities(authorities);
+        user.setTwoFactorAuthEnabled(false);
 
         user.setEnabled(true);
 

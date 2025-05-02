@@ -44,6 +44,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 || request.getServletPath().equals("/not-enough-permissions")
                 || request.getServletPath().startsWith("/css")
                 || request.getServletPath().startsWith("/login")
+                || request.getServletPath().startsWith("/verify")
                 || request.getServletPath().startsWith("/oauth2")
                 || request.getServletPath().startsWith("/api/auth")
                 || request.getServletPath().startsWith("/h2-console")

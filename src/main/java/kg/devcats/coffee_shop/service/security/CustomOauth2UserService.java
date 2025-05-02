@@ -1,4 +1,4 @@
-package kg.devcats.coffee_shop.aoauth;
+package kg.devcats.coffee_shop.service.security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,16 +30,14 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 
     private final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
     private final UserRepositoryJPA userRepositoryJPA;
-    private final CustomJwtHelper customJwtHelper;
     private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(CustomOauth2UserService.class);
+    private final CookieService cookieService;
 
-    @Value("${jwt.accessToken.expiration}")
-    private Long accessTokenExpiration;
 
-    public CustomOauth2UserService(UserRepositoryJPA userRepositoryJPA, CustomJwtHelper customJwtHelper, @Lazy UserService userService) {
+    public CustomOauth2UserService(UserRepositoryJPA userRepositoryJPA, @Lazy UserService userService, CookieService cookieService) {
         this.userRepositoryJPA = userRepositoryJPA;
-        this.customJwtHelper = customJwtHelper;
+        this.cookieService = cookieService;
         this.userService = userService;
     }
 
@@ -61,25 +59,8 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
                 user = userOptional.get();
             }
 
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            for(Authority authority : user.getAuthorities()){
-                authorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
-            }
-
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("roles", authorities.stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList()));
-
-            String access_token = customJwtHelper.createToken(user.getUsername(), claims, accessTokenExpiration);
-
             HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-
-            Cookie jwtCookie = new Cookie("jwt", access_token);
-                        jwtCookie.setHttpOnly(true);
-                        jwtCookie.setPath("/");
-                        jwtCookie.setMaxAge(3600);
-                        response.addCookie(jwtCookie);
+            response.addCookie(cookieService.generateCoockie(user));
         }
 
         // Return a custom user implementation
@@ -91,3 +72,5 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
     }
 
 }
+
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title> 2FA</title>
+</head>
+<body>
+<h1>Enter email code</h1>
+
+<div th:if="${error}" style="color: red;">
+  <p th:text="${error}"></p>
+</div>
+
+<div th:if="${param.resent}" style="color: green;">
+  <p>New code sent to your email</p>
+</div>
+
+<form action="/verify/2fa" method="post">
+  <input type="text" name="code" placeholder="6-symbol code" required>
+  <button type="submit">Submit</button>
+</form>
+
+<form action="/resend-2fa" method="post">
+  <button type="submit">Resend</button>
+</form>
+</body>
+</html>

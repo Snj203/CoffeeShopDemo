@@ -1,25 +1,23 @@
 package kg.devcats.coffee_shop.security;
 
-import jakarta.servlet.http.Cookie;
-import kg.devcats.coffee_shop.aoauth.CustomOauth2UserService;
+import kg.devcats.coffee_shop.service.security.CustomOauth2UserService;
 import kg.devcats.coffee_shop.security.filter.CustomAccessDeniedHandler;
 import kg.devcats.coffee_shop.security.filter.CustomAuthenticationFilter;
 import kg.devcats.coffee_shop.security.filter.CustomAuthorizationFilter;
 import kg.devcats.coffee_shop.security.filter.CustomJwtHelper;
 import kg.devcats.coffee_shop.repository.h2.UserRepositoryJPA;
+import kg.devcats.coffee_shop.service.security.TwoFactorAuthService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -41,16 +39,16 @@ public class WebSecurityApplicationConfig {
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final    CustomJwtHelper jwtHelper;
     private final UserRepositoryJPA userService;
-    private final CustomOauth2UserService oauth2UserService;
+    private final TwoFactorAuthService twoFactorAuthService;
 
     public WebSecurityApplicationConfig(AuthenticationConfiguration authenticationConfiguration,
                                         CustomAccessDeniedHandler accessDeniedHandler,
-                                        @Lazy CustomJwtHelper jwtHelper, UserRepositoryJPA userService, CustomOauth2UserService oauth2UserService) {
+                                        @Lazy CustomJwtHelper jwtHelper, UserRepositoryJPA userService, TwoFactorAuthService twoFactorAuthService) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.accessDeniedHandler = accessDeniedHandler;
         this.jwtHelper = jwtHelper;
         this.userService = userService;
-        this.oauth2UserService = oauth2UserService;
+        this.twoFactorAuthService = twoFactorAuthService;
     }
 
     @Bean
@@ -62,14 +60,14 @@ public class WebSecurityApplicationConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserRepositoryJPA userRepositoryJPA) throws Exception {
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(accessTokenExpiration,
-                refreshTokenExpiration, authenticationConfiguration, jwtHelper, userService);
+                refreshTokenExpiration, authenticationConfiguration, jwtHelper, userService,twoFactorAuthService );
         CustomAuthorizationFilter customAuthorizationFilter = new CustomAuthorizationFilter(jwtHelper);
 
         http.csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**","/login")
+                .ignoringRequestMatchers("/api/**","/login","/verify/2fa")
                 .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")));
 
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
@@ -80,7 +78,7 @@ public class WebSecurityApplicationConfig {
 
 
                         .requestMatchers("/","/login-fail","/registration","/not-enough-permissions","/css/**", "/images/**",
-                                "/api/auth/**", "/login/**", "/oauth2/**").permitAll()
+                                "/api/auth/**", "/login/**", "/oauth2/**", "/verify/**").permitAll()
 
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 
@@ -110,7 +108,7 @@ public class WebSecurityApplicationConfig {
 
         http.formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/login-success")
                 .permitAll()
         );
         http.logout(logout -> logout
